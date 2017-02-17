@@ -21,6 +21,7 @@ namespace Graphics {
     }
     
     void Entity::rotate(float angle) {
+        //TODO: Update positional coordinates
         modelMatrix.Rotate(angle);
     }
     

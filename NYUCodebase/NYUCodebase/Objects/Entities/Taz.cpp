@@ -10,11 +10,10 @@
 
 namespace Graphics {
     
-    Taz::Taz(std::string imageName, Coordinates pen, Vector2D velocity): Graphics::Animal(imageName, pen, velocity) {}
+    Taz::Taz(std::string imageName, Coordinates pen, float speed): Graphics::Animal(imageName, pen, {0.0, 0.0}), speed(speed) {}
     
     void Taz::move(float elapsed) {
         angle += elapsed;
-        rotate(elapsed);
-        //TODO: Take velocity into account
+        rotate(elapsed * speed);
     }
 }

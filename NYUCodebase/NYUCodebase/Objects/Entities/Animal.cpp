@@ -22,7 +22,7 @@ namespace Graphics {
             velocity = {velocity.x, -velocity.y};
         }
         if (position.bounds().right > pen.bounds().right || position.bounds().left < pen.bounds().left) {
-            velocity = {velocity.x, -velocity.y};
+            velocity = {-velocity.x, velocity.y};
         }
     }
     

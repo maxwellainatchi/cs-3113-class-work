@@ -9,9 +9,7 @@
 #include "Game.hpp"
 
 namespace Graphics {
-    Game::Game():
-    w(640),
-    h(360) {
+    Game::Game() {
         SDL_Init(SDL_INIT_VIDEO);
         SDL_GetCurrentDisplayMode(0, &displayMode);
         w = displayMode.w;

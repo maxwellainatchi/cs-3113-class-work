@@ -14,11 +14,11 @@
 #include "Texture.hpp"
 #include "Matrix.h"
 
-namespace Graphics {
+namespace Entities {
     class Entity {
     public:
         Graphics::Coordinates position;
-        Texture texture;
+        Graphics::Texture texture;
         Matrix modelMatrix;
         
         Entity();
@@ -34,6 +34,8 @@ namespace Graphics {
         void draw(ShaderProgram* shader);
         
         virtual void update(float elapsed);
+        
+        bool isCollidingWith(Entity entity);
     };
 }
 

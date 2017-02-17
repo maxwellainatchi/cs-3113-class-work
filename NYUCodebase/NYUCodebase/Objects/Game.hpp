@@ -14,13 +14,14 @@
 #include "objects.h"
 
 namespace Graphics {
-    class Game {
-    public:
+    class Game: public EventFramework {
+    private:
         SDL_Window* displayWindow;
         SDL_GLContext context;
         SDL_DisplayMode displayMode;
+    public:
         ShaderProgram* shader;
-        std::vector<Graphics::Entity*> frame;
+        std::vector<Entities::Entity*> frame;
         int w,h;
         float lastFrameTicks;
         float thisFrameTicks;
@@ -30,6 +31,8 @@ namespace Graphics {
         Matrix viewMatrix;
         
         Game();
+        
+        ~Game();
         
         virtual void setup() = 0;
         

@@ -30,6 +30,15 @@ namespace Graphics {
         projectionMatrix.setOrthoProjection(-3.55, 3.55, -2.0f, 2.0f, -1.0f, 1.0f);
     }
     
+    Game::~Game() {
+        for (Entities::Entity* entity : frame) {
+            delete entity;
+        }
+        frame.clear();
+        delete shader;
+        SDL_Quit();
+    }
+    
     void Game::start() {
         setup();
         SDL_Event event;
@@ -38,6 +47,16 @@ namespace Graphics {
             while (SDL_PollEvent(&event)) {
                 if (event.type == SDL_QUIT || event.type == SDL_WINDOWEVENT_CLOSE) {
                     done = true;
+                } else if(event.type == SDL_KEYDOWN) {
+                    auto keycode = event.key.keysym.scancode;
+                    if (keyDownHandlers.count(keycode)) {
+                        keyDownHandlers[keycode]();
+                    }
+                } else if (event.type == SDL_KEYUP) {
+                    auto keycode = event.key.keysym.scancode;
+                    if (keyUpHandlers.count(keycode)) {
+                        keyUpHandlers[keycode]();
+                    }
                 }
             }
             
@@ -48,7 +67,6 @@ namespace Graphics {
             glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
             SDL_GL_SwapWindow(displayWindow);
         }
-        SDL_Quit();
     }
     
     void Game::render() {
@@ -59,13 +77,13 @@ namespace Graphics {
         glClear(GL_COLOR_BUFFER_BIT);
         
         // Render all the things!
-        for (Graphics::Entity* entity : frame) {
+        for (Entities::Entity* entity : frame) {
             entity->draw(shader);
         }
     }
     
     void Game::update(float elapsed) {
-        for (Graphics::Entity* entity : frame) {
+        for (Entities::Entity* entity : frame) {
             entity->update(elapsed);
         }
     }

@@ -22,5 +22,8 @@
     #include <vector>
     #include <string>
     #include <random>
+    #include <math.h>
+    #include <functional>
+    #include <map>
 
 #endif /* libraries_h */

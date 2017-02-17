@@ -9,13 +9,23 @@
 #ifndef Vector_hpp
 #define Vector_hpp
 
+#include "math.h"
+
 namespace Graphics {
     class Vector2D {
     public:
+        enum Direction: int { none, up, down, left, right };
+        static Vector2D directionVector(Direction d);
+        
         float x;
         float y;
         
-        //TODO: Add magnitude and angle
+        float magnitude();
+        
+        float angle();
+        
+        Vector2D operator*(const Vector2D& vector);
+        Vector2D operator*(float scalar);
     };
 }
 

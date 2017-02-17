@@ -12,13 +12,13 @@
 #include "libraries.h"
 #include "animal.hpp"
 
-namespace Graphics {
+namespace Entities {
     class Taz: public Animal {
     public:
         float angle;
         float speed;
         
-        Taz(std::string imageName, Coordinates pen, float speed = 1.0);
+        Taz(std::string imageName, Graphics::Coordinates pen, float speed = 1.0);
         
         // Inherited
         virtual void move(float elapsed);

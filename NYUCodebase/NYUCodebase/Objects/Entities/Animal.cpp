@@ -8,8 +8,8 @@
 
 #include "Animal.hpp"
 
-namespace Graphics {
-    Animal::Animal(std::string imageName, Coordinates pen, Vector2D velocity): Graphics::Entity(imageName), pen(pen), velocity(velocity) {}
+namespace Entities {
+    Animal::Animal(std::string imageName, Graphics::Coordinates pen, Graphics::Vector2D velocity): Entities::Entity(imageName), pen(pen), velocity(velocity) {}
     
     void Animal::update(float elapsed) {
         Entity::update(elapsed);

@@ -20,6 +20,8 @@
 		508E23A51E5770700051B33C /* Taz.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 508E23A31E5770700051B33C /* Taz.cpp */; };
 		508E23A81E5772F40051B33C /* Magician.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 508E23A61E5772F40051B33C /* Magician.cpp */; };
 		508E23AA1E5778FE0051B33C /* thirdpicture.png in Resources */ = {isa = PBXBuildFile; fileRef = 508E23A91E5778FE0051B33C /* thirdpicture.png */; };
+		50F7A8E91E579FA600C3C23F /* Player.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50F7A8E71E579FA600C3C23F /* Player.cpp */; };
+		50F7A8EC1E57ACB900C3C23F /* EventFramework.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50F7A8EA1E57ACB900C3C23F /* EventFramework.cpp */; };
 		6D5A86AE19AE5C710066C1FD /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D5A86AD19AE5C710066C1FD /* Cocoa.framework */; };
 		6D5A86B819AE5C710066C1FD /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6D5A86B619AE5C710066C1FD /* InfoPlist.strings */; };
 		6D5A86BA19AE5C710066C1FD /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6D5A86B919AE5C710066C1FD /* main.cpp */; };
@@ -65,6 +67,10 @@
 		508E23A61E5772F40051B33C /* Magician.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Magician.cpp; path = Objects/Entities/Magician.cpp; sourceTree = "<group>"; };
 		508E23A71E5772F40051B33C /* Magician.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Magician.hpp; path = Objects/Entities/Magician.hpp; sourceTree = "<group>"; };
 		508E23A91E5778FE0051B33C /* thirdpicture.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = thirdpicture.png; sourceTree = "<group>"; };
+		50F7A8E71E579FA600C3C23F /* Player.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Player.cpp; path = Objects/Entities/Player.cpp; sourceTree = "<group>"; };
+		50F7A8E81E579FA600C3C23F /* Player.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Player.hpp; path = Objects/Entities/Player.hpp; sourceTree = "<group>"; };
+		50F7A8EA1E57ACB900C3C23F /* EventFramework.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = EventFramework.cpp; path = Objects/EventFramework.cpp; sourceTree = "<group>"; };
+		50F7A8EB1E57ACB900C3C23F /* EventFramework.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = EventFramework.hpp; path = Objects/EventFramework.hpp; sourceTree = "<group>"; };
 		6D5A86AA19AE5C710066C1FD /* NYUCodebase.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NYUCodebase.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6D5A86AD19AE5C710066C1FD /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		6D5A86B019AE5C710066C1FD /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -117,6 +123,8 @@
 				508E23931E56E2EE0051B33C /* Coordinates.hpp */,
 				508E239C1E5751C20051B33C /* Vector.cpp */,
 				508E239D1E5751C20051B33C /* Vector.hpp */,
+				50F7A8EA1E57ACB900C3C23F /* EventFramework.cpp */,
+				50F7A8EB1E57ACB900C3C23F /* EventFramework.hpp */,
 			);
 			name = Objects;
 			sourceTree = "<group>";
@@ -162,6 +170,8 @@
 			children = (
 				508E23951E5741ED0051B33C /* Entity.cpp */,
 				508E23961E5741ED0051B33C /* Entity.hpp */,
+				50F7A8E71E579FA600C3C23F /* Player.cpp */,
+				50F7A8E81E579FA600C3C23F /* Player.hpp */,
 				508E23A61E5772F40051B33C /* Magician.cpp */,
 				508E23A71E5772F40051B33C /* Magician.hpp */,
 				508E23A21E5768EE0051B33C /* Animals */,
@@ -172,10 +182,10 @@
 		508E23A21E5768EE0051B33C /* Animals */ = {
 			isa = PBXGroup;
 			children = (
-				508E23991E5750250051B33C /* Sheep.cpp */,
-				508E239A1E5750250051B33C /* Sheep.hpp */,
 				508E239F1E5768E60051B33C /* Animal.cpp */,
 				508E23A01E5768E60051B33C /* Animal.hpp */,
+				508E23991E5750250051B33C /* Sheep.cpp */,
+				508E239A1E5750250051B33C /* Sheep.hpp */,
 				508E23A31E5770700051B33C /* Taz.cpp */,
 				508E23A41E5770700051B33C /* Taz.hpp */,
 			);
@@ -355,8 +365,10 @@
 				508E23941E56E2EE0051B33C /* Coordinates.cpp in Sources */,
 				508E238E1E56835F0051B33C /* Texturey.cpp in Sources */,
 				508E23801E5679B60051B33C /* Texture.cpp in Sources */,
+				50F7A8E91E579FA600C3C23F /* Player.cpp in Sources */,
 				6DEF23C21B96CC2600BCE792 /* Matrix.cpp in Sources */,
 				6D5A86BA19AE5C710066C1FD /* main.cpp in Sources */,
+				50F7A8EC1E57ACB900C3C23F /* EventFramework.cpp in Sources */,
 				508E23A81E5772F40051B33C /* Magician.cpp in Sources */,
 				508E238A1E5681330051B33C /* Game.cpp in Sources */,
 				508E239B1E5750250051B33C /* Sheep.cpp in Sources */,

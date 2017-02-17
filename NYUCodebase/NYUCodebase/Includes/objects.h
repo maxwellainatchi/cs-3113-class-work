@@ -15,5 +15,7 @@
     #include "Sheep.hpp"
     #include "Vector.hpp"
     #include "Taz.hpp"
+    #include "Player.hpp"
+    #include "EventFramework.hpp"
 
 #endif /* objects_h */

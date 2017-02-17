@@ -8,9 +8,9 @@
 
 #include "Magician.hpp"
 
-namespace Graphics {
-    Magician::Magician(std::string imageName, Coordinates pen):
-    Graphics::Entity(imageName), pen(pen), apparitionTime(2.0) {}
+namespace Entities {
+    Magician::Magician(std::string imageName, Graphics::Coordinates pen):
+    Entities::Entity(imageName), pen(pen), apparitionTime(2.0) {}
     
     void Magician::update(float elapsed) {
         Entity::update(elapsed);

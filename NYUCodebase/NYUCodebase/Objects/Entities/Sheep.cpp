@@ -8,8 +8,8 @@
 
 #include "Sheep.hpp"
 
-namespace Graphics {
-    Sheep::Sheep(std::string imageName, Coordinates pen, Vector2D velocity): Animal(imageName, pen, velocity) {}
+namespace Entities {
+    Sheep::Sheep(std::string imageName, Graphics::Coordinates pen, Graphics::Vector2D velocity): Animal(imageName, pen, velocity), speed(velocity.magnitude()) {}
     
     void Sheep::update(float elapsed) {
         millAbout(elapsed);
@@ -17,11 +17,12 @@ namespace Graphics {
     }
     
     void Sheep::millAbout(float elapsed) {
-        float timeLimit = 1.0;
+        float timeLimit = 2.0;
         timeSinceLastMove += elapsed;
         if (timeSinceLastMove > timeLimit) {
-            if (arc4random_uniform(UINT32_MAX) > (timeSinceLastMove/(timeSinceLastMove - timeLimit)/10)*UINT32_MAX) {
-                velocity = {velocity.y, velocity.x};
+            if (arc4random_uniform(UINT32_MAX) < 0.1*UINT32_MAX) {
+                auto direction = static_cast<Graphics::Vector2D::Direction>(arc4random_uniform(4));
+                velocity = Graphics::Vector2D::directionVector(direction) * speed;
                 timeSinceLastMove = 0.0;
             }
         }

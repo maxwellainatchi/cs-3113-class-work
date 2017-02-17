@@ -14,10 +14,11 @@
 #include "Coordinates.hpp"
 #include "Animal.hpp"
 
-namespace Graphics {
+namespace Entities {
     class Sheep: public Animal {
+        float speed;
     public:
-        Sheep(std::string imageName, Coordinates pen, Vector2D velocity = {0.0, 1.0});
+        Sheep(std::string imageName, Graphics::Coordinates pen, Graphics::Vector2D velocity = {0.0, 1.0});
         
         float timeSinceLastMove;
 

@@ -10,11 +10,11 @@
             ignoreCount = "500"
             continueAfterRunningActions = "No"
             filePath = "NYUCodebase/Games/Texturey.cpp"
-            timestampString = "509049056.930682"
+            timestampString = "509062628.335592"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "22"
-            endingLineNumber = "22"
+            startingLineNumber = "28"
+            endingLineNumber = "28"
             landmarkName = "Texturey::update(float elapsed)"
             landmarkType = "7">
          </BreakpointContent>

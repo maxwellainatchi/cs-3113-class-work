@@ -12,14 +12,14 @@
 #include "libraries.h"
 #include "Entity.hpp"
 
-namespace Graphics {
+namespace Entities {
     class Magician: public Entity {
     public:
         float apparitionTime;
         float timeSinceLastApparition;
-        Coordinates pen;
+        Graphics::Coordinates pen;
         
-        Magician(std::string imageName, Coordinates pen);
+        Magician(std::string imageName, Graphics::Coordinates pen);
         
         // Inherited
         virtual void update(float elapsed);

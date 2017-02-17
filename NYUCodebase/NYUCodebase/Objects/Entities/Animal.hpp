@@ -13,13 +13,13 @@
 #include "Entity.hpp"
 #include "Coordinates.hpp"
 
-namespace Graphics {
+namespace Entities {
     class Animal: public Entity {
     public:
-        Coordinates pen;
-        Vector2D velocity;
+        Graphics::Coordinates pen;
+        Graphics::Vector2D velocity;
         
-        Animal(std::string imageName, Coordinates pen, Vector2D velocity = {0.0, 1.0});
+        Animal(std::string imageName, Graphics::Coordinates pen, Graphics::Vector2D velocity = {0.0, 1.0});
         
         virtual void checkBounds(float elapsed);
         

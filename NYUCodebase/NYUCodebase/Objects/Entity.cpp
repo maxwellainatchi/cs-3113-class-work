@@ -8,11 +8,11 @@
 
 #include "Entity.hpp"
 
-namespace Graphics {
+namespace Entities {
     Entity::Entity() {}
     
     Entity::Entity(std::string imageName): Entity() {
-        texture = Texture(imageName);
+        texture = Graphics::Texture(imageName);
     }
     
     void Entity::translate(Graphics::Vector2D offset) {
@@ -38,7 +38,15 @@ namespace Graphics {
         texture.draw(shader);
     }
     
-    void Entity::update(float elapsed) {
-        
+    void Entity::update(float elapsed) {}
+    
+    bool Entity::isCollidingWith(Entity entity) {
+        auto bounds = position.bounds();
+        auto otherBounds = entity.position.bounds();
+        return !(bounds.bottom > otherBounds.top ||
+                bounds.top < otherBounds.bottom ||
+                bounds.left > otherBounds.right ||
+                bounds.right < otherBounds.left
+                );
     }
 }

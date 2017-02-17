@@ -8,9 +8,9 @@
 
 #include "Taz.hpp"
 
-namespace Graphics {
+namespace Entities {
     
-    Taz::Taz(std::string imageName, Coordinates pen, float speed): Graphics::Animal(imageName, pen, {0.0, 0.0}), speed(speed) {}
+    Taz::Taz(std::string imageName, Graphics::Coordinates pen, float speed): Entities::Animal(imageName, pen, {0.0, 0.0}), speed(speed) {}
     
     void Taz::move(float elapsed) {
         angle += elapsed;

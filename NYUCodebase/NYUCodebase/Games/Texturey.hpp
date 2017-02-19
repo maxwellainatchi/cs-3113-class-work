@@ -17,7 +17,8 @@
 namespace Games {
     class Texturey: public Graphics::Game {
     public:
-        Entities::Player* player;
+        Entities::Player* player1;
+        Entities::Player* player2;
         bool paused;
         // Inherited
         virtual void setup();

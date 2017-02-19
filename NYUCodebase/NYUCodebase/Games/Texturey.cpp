@@ -10,17 +10,30 @@
 
 namespace Games {
     void Texturey::setup() {
-        player = new Entities::Player("otherpicture.png");
-        frame.push_back(new Entities::Sheep("picture.png", Graphics::Coordinates({-2,-2},{2,2})));
-        frame.push_back(player);
-        frame.push_back(new Entities::Magician("thirdpicture.png", Graphics::Coordinates({-2,-2},{2,2})));
+        // Initialize players
+        player1 = new Entities::Player("otherpicture.png", window.uv);
+        player2 = new Entities::Player("picture.png", window.uv);
         
-        frame[0]->translate({0.5, 0.0});
-        frame[1]->translate({-0.5, 0.0});
+        // Add Entities to frame
+        frame.push_back(new Entities::Sheep("thirdpicture.png", window.uv));
+        frame.push_back(player1);
+        frame.push_back(player2);
+        
+        // Assign initial positions
+        float padding = 0.2f;
+        player1->translate({window.uv.topLeft.x + player1->position.width()/2 + padding, window.uv.topLeft.y - window.uv.height()/2});
+        player2->translate({window.uv.topRight.x - player2->position.width()/2 - padding, window.uv.topRight.y - window.uv.height()/2});
+        
+        // Add pause
         registerKeyHandler(SDL_SCANCODE_SPACE, [&] () {
             paused = !paused;
         });
-        player->registerMovementHandlers(this);
+        
+        // Register player control schemes
+        player1->controlScheme = Graphics::EventFramework::ControlSchemes::ArrowKeys;
+        player2->controlScheme = Graphics::EventFramework::ControlSchemes::WASD;
+        player1->registerMovementHandlers(this);
+        player2->registerMovementHandlers(this);
     }
     
     void Texturey::update(float elapsed) {

@@ -19,13 +19,17 @@ namespace Graphics {
         SDL_Window* displayWindow;
         SDL_GLContext context;
         SDL_DisplayMode displayMode;
+        
+        struct Window {
+            Graphics::Coordinates uv;
+            Graphics::Coordinates pixels;
+        };
     public:
         ShaderProgram* shader;
         std::vector<Entities::Entity*> frame;
-        int w,h;
+        Window window;
         float lastFrameTicks;
         float thisFrameTicks;
-        
         Matrix projectionMatrix;
         Matrix modelMatrix;
         Matrix viewMatrix;

@@ -25,5 +25,6 @@
     #include <math.h>
     #include <functional>
     #include <map>
+    #include <set>
 
 #endif /* libraries_h */

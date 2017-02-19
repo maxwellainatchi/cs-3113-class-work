@@ -17,11 +17,19 @@
 namespace Entities {
     class Player: public Entity {
     public:
+        Graphics::ControlScheme controlScheme;
+        Graphics::Coordinates pen;
+        
         Graphics::Vector2D::Direction moveDirection;
         
-        Player(std::string imageName);
+        Player(std::string imageName, Graphics::Coordinates pen);
         
-        void registerMovementHandlers(Graphics::EventFramework* g);
+        void registerMovementHandlers(Graphics::EventFramework* g, std::set<Graphics::Vector2D::Direction> directions = {
+            Graphics::Vector2D::Direction::up,
+            Graphics::Vector2D::Direction::down,
+            Graphics::Vector2D::Direction::left,
+            Graphics::Vector2D::Direction::right
+        });
         
         // Inherited
         virtual void update(float elapsed);

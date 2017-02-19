@@ -34,6 +34,10 @@ namespace Graphics {
         
         Bounds bounds();
         
+        float width();
+        
+        float height();
+        
         float* resolveCoords();
         
         Coordinates operator+(const Vector2D& offset);

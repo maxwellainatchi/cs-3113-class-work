@@ -32,6 +32,14 @@ namespace Graphics {
         };
     }
     
+    float Coordinates::width() {
+        return bounds().right - bounds().left;
+    }
+    
+    float Coordinates::height() {
+        return bounds().top - bounds().bottom;
+    }
+    
     
     float* Coordinates::resolveCoords() {
         return new float[12] {

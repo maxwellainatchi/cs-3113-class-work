@@ -6,17 +6,17 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "500"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "NYUCodebase/Games/Texturey.cpp"
-            timestampString = "509062628.335592"
+            filePath = "NYUCodebase/Objects/Game.hpp"
+            timestampString = "509210269.482161"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "28"
-            endingLineNumber = "28"
-            landmarkName = "Texturey::update(float elapsed)"
-            landmarkType = "7">
+            startingLineNumber = "27"
+            endingLineNumber = "27"
+            landmarkName = "class Game"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

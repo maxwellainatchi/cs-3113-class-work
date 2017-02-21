@@ -246,8 +246,8 @@
 		6D5A86B319AE5C710066C1FD /* NYUCodebase */ = {
 			isa = PBXGroup;
 			children = (
-				6D5A86E119AE5CAA0066C1FD /* Code */,
 				6D5A86B919AE5C710066C1FD /* main.cpp */,
+				6D5A86E119AE5CAA0066C1FD /* Code */,
 				6D5A86B419AE5C710066C1FD /* Supporting Files */,
 			);
 			path = NYUCodebase;

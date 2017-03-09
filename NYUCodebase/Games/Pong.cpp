@@ -9,6 +9,8 @@
 #include "Pong.hpp"
 
 namespace Games {
+    Pong::Pong(): Graphics::Game("Pong") {}
+    
     void Pong::checkPaddleCollision() {
         auto paddle1Bounds = player1->position.bounds();
         auto paddle2Bounds = player2->position.bounds();
@@ -109,7 +111,6 @@ namespace Games {
     void Pong::setup() {
         drawWalls();
         drawCenterLine();
-        
         resetLives();
         
         //MARK: Mechanics

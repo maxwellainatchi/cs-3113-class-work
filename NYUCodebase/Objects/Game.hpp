@@ -34,7 +34,7 @@ namespace Graphics {
         Matrix modelMatrix;
         Matrix viewMatrix;
         
-        Game();
+        Game(std::string name);
         
         ~Game();
         

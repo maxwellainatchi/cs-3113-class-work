@@ -34,6 +34,8 @@ namespace Graphics {
         
         Coordinates(XY bottomLeft, XY topRight);
         
+        Coordinates(XY bottomLeft, float w, float h);
+        
         Bounds bounds();
         
         float width();

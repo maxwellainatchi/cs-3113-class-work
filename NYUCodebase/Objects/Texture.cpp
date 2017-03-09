@@ -48,10 +48,10 @@ namespace Graphics {
     
     void Texture::fullSize() {
         // Texture coordinates are y-inverted for some reason
-        texCoords = Graphics::Coordinates({0.0,1.0},{1.0,0.0});
+        coords = Graphics::Coordinates({0.0,1.0},{1.0,0.0});
     }
     
-    void Texture::draw(ShaderProgram* shader) {
+    void Texture::draw(ShaderProgram* shader, Coordinates vertices) {
         if (!loaded) {
             std::cout << "Tried to draw an unloaded texture!" << std::endl;
             SDL_assert(false);
@@ -64,7 +64,7 @@ namespace Graphics {
         glEnableVertexAttribArray(shader->positionAttribute);
         
         // Set texture coordinates
-        glVertexAttribPointer(shader->texCoordAttribute, 2, GL_FLOAT, false, 0, texCoords.resolveCoords());
+        glVertexAttribPointer(shader->texCoordAttribute, 2, GL_FLOAT, false, 0, coords.resolveCoords());
         glEnableVertexAttribArray(shader->texCoordAttribute);
         
         // Draw

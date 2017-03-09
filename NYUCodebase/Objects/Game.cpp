@@ -8,9 +8,8 @@
 
 #include "Game.hpp"
 
-// TODO: Make system comments
 namespace Graphics {
-    Game::Game() {
+    Game::Game(std::string name) {
         // Initializes video display
         SDL_Init(SDL_INIT_VIDEO);
         
@@ -26,7 +25,7 @@ namespace Graphics {
         window.uv = Graphics::Coordinates({-ortho_width, -ortho_height}, {ortho_width, ortho_height});
         
         // Creates the window
-        displayWindow = SDL_CreateWindow("My Game", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, window.pixels.width(), window.pixels.height(), SDL_WINDOW_OPENGL);
+        displayWindow = SDL_CreateWindow(name.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, window.pixels.width(), window.pixels.height(), SDL_WINDOW_OPENGL);
         glViewport(0, 0, window.pixels.width(), window.pixels.height());
         
         // Points the stupid globals that SDL uses to this window

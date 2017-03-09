@@ -23,6 +23,12 @@ namespace Graphics {
     topLeft({bottomLeft.x, topRight.y}),
     topRight(topRight) {}
     
+    Coordinates::Coordinates(Coordinates::XY bottomLeft, float w, float h):
+    bottomLeft(bottomLeft),
+    topLeft({bottomLeft.x, bottomLeft.y + h}),
+    topRight({bottomLeft.x + w, bottomLeft.y + h}),
+    bottomRight({bottomLeft.x + w, bottomLeft.y}) {}
+    
     Coordinates::Bounds Coordinates::bounds() {
         return {
             topLeft.x,

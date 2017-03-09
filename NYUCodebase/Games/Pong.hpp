@@ -22,6 +22,8 @@ namespace Games {
         constexpr static const float ballSpeed = 2.0f;
         
         // Class
+        Pong();
+        
         Entities::Player* player1;
         Entities::Player* player2;
         Entities::Ball* ball;

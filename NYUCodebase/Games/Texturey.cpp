@@ -9,6 +9,8 @@
 #include "Texturey.hpp"
 
 namespace Games {
+    Texturey::Texturey() : Graphics::Game("Texturey") {}
+    
     void Texturey::setup() {
         //NOTE: Taz isn't working right now due to rotation being broken
         

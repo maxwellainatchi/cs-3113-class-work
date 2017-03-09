@@ -27,7 +27,6 @@ namespace Entities {
     
     void Entity::setCoordinates(Graphics::Coordinates newPosition) {
         position = newPosition;
-        texture.vertices = position;
         modelMatrix.setPosition(0, 0, 0);
     }
     
@@ -41,7 +40,7 @@ namespace Entities {
     
     void Entity::draw(ShaderProgram* shader) {
         shader->setModelMatrix(modelMatrix);
-        texture.draw(shader);
+        texture.draw(shader, position);
     }
     
     void Entity::update(float elapsed) {}

@@ -17,23 +17,24 @@
 namespace Graphics {
     class Texture {
     private:
+        Coordinates coords;
         std::string imagePath;
         int comp;
-        Coordinates texCoords;
-        bool loaded;
         
         void fullSize();
     public:
         std::string imageName;
         GLuint textureID;
-        Coordinates vertices;
         int w,h;
+        bool loaded;
         
         Texture();
         
         Texture(std::string imageName);
         
-        void draw(ShaderProgram* shader);
+        void setCoords(Coordinates newCoords);
+        
+        void draw(ShaderProgram* shader, Coordinates vertices);
         
         void rotate(float angle);
     };

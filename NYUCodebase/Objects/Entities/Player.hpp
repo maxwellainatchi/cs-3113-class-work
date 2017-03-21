@@ -11,11 +11,12 @@
 
 #include "libraries.h"
 #include "Coordinates.hpp"
-#include "Entity.hpp"
+#include "SpriteSheet.hpp"
+#include "Sprite.hpp"
 #include "EventFramework.hpp"
 
 namespace Entities {
-    class Player: public Entity {
+    class Player: public Sprite {
     public:
         Graphics::ControlScheme controlScheme;
         Graphics::Coordinates pen;
@@ -23,9 +24,9 @@ namespace Entities {
         Graphics::Vector2D::Direction moveDirection;
         float speed;
         
-        Player(std::string imageName, Graphics::Coordinates pen);
+        Player(Graphics::SpriteSheet* spriteSheet, std::string name, Graphics::Coordinates pen);
         
-        void registerMovementHandlers(Graphics::EventFramework* g, std::set<Graphics::Vector2D::Direction> directions = {
+        void registerMovementHandlers(Graphics::EventFramework* g, std::vector<std::string> states, std::set<Graphics::Vector2D::Direction> directions = {
             Graphics::Vector2D::Direction::up,
             Graphics::Vector2D::Direction::down,
             Graphics::Vector2D::Direction::left,

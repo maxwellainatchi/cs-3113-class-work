@@ -18,5 +18,10 @@
     #include "Player.hpp"
     #include "EventFramework.hpp"
     #include "Ball.hpp"
+    #include "SpriteSheet.hpp"
+    #include "Sprite.hpp"
+    #include "TitleText.hpp"
+    #include "Bullet.hpp"
+    #include "Timer.hpp"
 
 #endif /* objects_h */

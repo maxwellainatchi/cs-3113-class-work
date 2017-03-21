@@ -17,9 +17,13 @@
 namespace Entities {
     class Entity {
     public:
+        typedef std::function<void(Entity*)> Collision;
         Graphics::Coordinates position;
         Graphics::Texture texture;
         Matrix modelMatrix;
+        bool hidden = false;
+        bool intangible = false;
+        Collision onCollide;
         
         Entity();
         
@@ -29,15 +33,26 @@ namespace Entities {
         
         void rotate(float angle);
         
-        void setCoordinates(Graphics::Coordinates newPosition);
+        void setCoordinates(Graphics::Coordinates newCoordinates);
+        
+        void setOrigin(Graphics::Coordinates::XY newOrigin);
         
         void move(Graphics::Vector2D velocity, float elapsed);
         
-        void draw(ShaderProgram* shader);
+        void scale(Graphics::Coordinates::XY by);
+        
+        void scale(float by);
+        
+        Graphics::Vector2D withoutness(Graphics::Coordinates pen, bool inclusive = true);
+        
+        // TODO: Implement withinness
+        //Graphics::Vector2D withinness(Graphics::Coordinates pen);
+    
+        virtual void draw(ShaderProgram* shader);
         
         virtual void update(float elapsed);
         
-        bool isCollidingWith(Entity entity);
+        bool isCollidingWith(Entity* entity);
     };
 }
 

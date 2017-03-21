@@ -1,4 +1,4 @@
-//
+ //
 //  Game.cpp
 //  NYUCodebase
 //
@@ -9,7 +9,7 @@
 #include "Game.hpp"
 
 namespace Graphics {
-    Game::Game(std::string name) {
+    Game::Game(std::string name): pausekey(SDL_SCANCODE_SPACE) {
         // Initializes video display
         SDL_Init(SDL_INIT_VIDEO);
         
@@ -47,18 +47,39 @@ namespace Graphics {
     }
     
     Game::~Game() {
-        for (Entities::Entity* entity : frame) {
-            delete entity;
+        for (auto frame : frames) {
+            for (auto entity : frame.second) {
+                delete entity;
+            }
+            frame.second.clear();
         }
-        frame.clear();
         delete shader;
         SDL_Quit();
     }
     
+    void Game::setup() {}
+    
+    void Game::initialize() {
+        if (pausekey == SDL_SCANCODE_UNKNOWN) return;
+        registerKeyHandler(pausekey, {PAUSED, RUNNING}, [&] () {
+            if (state == RUNNING) {
+                state = PAUSED;
+            } else {
+                state = RUNNING;
+            }
+            this->render();
+        });
+    }
+    
+    void Game::willStart() {}
+    
     void Game::start() {
         setup();
+        initialize();
+        willStart();
         SDL_Event event;
         bool done = false;
+        lastFrameTicks = (float)SDL_GetTicks()/1000.0f;
         while (!done) {
             while (SDL_PollEvent(&event)) {
                 //TODO: Figure out why if 2 players try to move at the same time, it sometimes fails one.
@@ -67,13 +88,13 @@ namespace Graphics {
                     done = true;
                 } else if (event.type == SDL_KEYDOWN) {
                     auto keycode = event.key.keysym.scancode;
-                    if (keyDownHandlers.count(keycode)) {
-                        keyDownHandlers[keycode]();
+                    if (keyDownHandlers[state].count(keycode)) {
+                        keyDownHandlers[state][keycode]();
                     }
                 } else if (event.type == SDL_KEYUP) {
                     auto keycode = event.key.keysym.scancode;
-                    if (keyUpHandlers.count(keycode)) {
-                        keyUpHandlers[keycode]();
+                    if (keyUpHandlers[state].count(keycode)) {
+                        keyUpHandlers[state][keycode]();
                     }
                 }
             }
@@ -86,6 +107,16 @@ namespace Graphics {
             // swapWindow is separated so you can override render()
             swapWindow();
         }
+        willEnd();
+    }
+    
+    void Game::update(float elapsed) {
+        for (auto timer : timers[state]) {
+            timer->increment(elapsed);
+        }
+        for (auto entity : frames[state]) {
+            entity->update(elapsed);
+        }
     }
     
     void Game::render() {
@@ -96,19 +127,21 @@ namespace Graphics {
         glClear(GL_COLOR_BUFFER_BIT);
         
         // Render all the things!
-        for (Entities::Entity* entity : frame) {
+        for (Entities::Entity* entity : frames[state]) {
             entity->draw(shader);
+            for (Entities::Entity* otherEntity : frames[state]) {
+                if (entity->isCollidingWith(otherEntity)) {
+                    if (entity->onCollide)
+                        entity->onCollide(otherEntity);
+                }
+            }
         }
     }
+    
+    void Game::willEnd() {}
     
     void Game::swapWindow() {
         // Tells the window to rerender
         SDL_GL_SwapWindow(displayWindow);
-    }
-    
-    void Game::update(float elapsed) {
-        for (Entities::Entity* entity : frame) {
-            entity->update(elapsed);
-        }
     }
 }

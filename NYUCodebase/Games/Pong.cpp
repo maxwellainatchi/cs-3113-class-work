@@ -109,13 +109,14 @@ namespace Games {
     }
     
     void Pong::setup() {
+        std::vector<Entities::Entity*> frame;
         drawWalls();
         drawCenterLine();
         resetLives();
         
         //MARK: Mechanics
-        player1 = new Entities::Player("whiteLine.png", workingArea);
-        player2 = new Entities::Player("whiteLine.png", workingArea);
+        //player1 = new Entities::Player("whiteLine.png", workingArea);
+        //player2 = new Entities::Player("whiteLine.png", workingArea);
         ball = new Entities::Ball("whiteLine.png", workingArea);
         
         Graphics::Vector2D paddleSize = {0.1, 0.75};
@@ -144,16 +145,16 @@ namespace Games {
         player1->controlScheme = Graphics::EventFramework::ControlSchemes::ArrowKeys_UPDOWN;
         player2->controlScheme = Graphics::EventFramework::ControlSchemes::WASD_UPDOWN;
         
-        player1->registerMovementHandlers(this);
-        player2->registerMovementHandlers(this);
+        player1->registerMovementHandlers(this, {"running"});
+        player2->registerMovementHandlers(this, {"running"});
         
-        registerKeyHandler(SDL_SCANCODE_R, [&] () {
+        registerKeyHandler(SDL_SCANCODE_R, {"running"}, [&] () {
             ball->reset(window.uv);
             if (paused) { paused = false; }
             resetLives();
         });
         
-        registerKeyHandler(SDL_SCANCODE_SPACE, [&] () {
+        registerKeyHandler(SDL_SCANCODE_SPACE, {"running"}, [&] () {
             if (player1Lives.size() > 0 && player2Lives.size() > 0) {
                 if (ball->paused) {
                     ball->paused = false;
@@ -179,6 +180,8 @@ namespace Games {
         for (Entities::Entity* segment : midLine) {
             frame.push_back(segment);
         }
+        
+        frames["running"] = std::set<Entities::Entity*>(frame.begin(), frame.end());
         
         ball->reset(window.uv);
     }

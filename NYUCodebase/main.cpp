@@ -7,10 +7,11 @@
 // Enum value corresponds to HW number
 enum GameType: int {
     Texturey = 1,
-    Pong = 2
+    Pong = 2,
+    SpaceInvaders = 3
 };
 
-GameType current = Pong;
+GameType current = SpaceInvaders;
 
 int main(int argc, char *argv[]) {
     Graphics::Game* game;
@@ -20,6 +21,9 @@ int main(int argc, char *argv[]) {
             break;
         case Pong:
             game = new Games::Pong();
+            break;
+        case SpaceInvaders:
+            game = new Games::SpaceInvaders();
             break;
     }
     game->start();

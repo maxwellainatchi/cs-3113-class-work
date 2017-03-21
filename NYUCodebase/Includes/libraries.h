@@ -26,5 +26,6 @@
     #include <functional>
     #include <map>
     #include <set>
+    typedef std::function<void(void)> Action;
 
 #endif /* libraries_h */

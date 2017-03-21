@@ -17,8 +17,6 @@
 namespace Games {
     class Texturey: public Graphics::Game {
     public:
-        bool paused;
-        
         Texturey();
         
         // Inherited

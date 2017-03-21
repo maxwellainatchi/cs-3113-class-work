@@ -14,24 +14,22 @@ namespace Games {
     void Texturey::setup() {
         //NOTE: Taz isn't working right now due to rotation being broken
         
+        std::set<Entities::Entity*> frame;
+        
         // Add Entities to frame
-        frame.push_back(new Entities::Sheep("thirdpicture.png", window.uv));
-        frame.push_back(new Entities::Sheep("picture.png", window.uv));
-        frame.push_back(new Entities::Magician("otherpicture.png", window.uv));
+        frame.insert(new Entities::Sheep("thirdpicture.png", window.uv));
+        auto sheep = new Entities::Sheep("picture.png", window.uv);
+        frame.insert(sheep);
+        frame.insert(new Entities::Magician("otherpicture.png", window.uv));
         
         // Assign initial positions
         Graphics::Vector2D size = {1,1};
-        frame[1]->setCoordinates({window.uv.bottomLeft, window.uv.bottomLeft + size});
+        sheep->setCoordinates({window.uv.bottomLeft, window.uv.bottomLeft + size});
         
-        // Add pause
-        registerKeyHandler(SDL_SCANCODE_SPACE, [&] () {
-            paused = !paused;
-        });
+        frames["running"] = frame;
     }
     
     void Texturey::update(float elapsed) {
-        if (!paused) {
-            Graphics::Game::update(elapsed);
-        }
+        Game::update(elapsed);
     }
 }

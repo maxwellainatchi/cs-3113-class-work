@@ -17,7 +17,6 @@
 namespace Graphics {
     class Texture {
     private:
-        Coordinates coords;
         std::string imagePath;
         int comp;
         
@@ -25,14 +24,14 @@ namespace Graphics {
     public:
         std::string imageName;
         GLuint textureID;
+        Coordinates coords;
         int w,h;
         bool loaded;
         
         Texture();
         
         Texture(std::string imageName);
-        
-        void setCoords(Coordinates newCoords);
+
         
         void draw(ShaderProgram* shader, Coordinates vertices);
         

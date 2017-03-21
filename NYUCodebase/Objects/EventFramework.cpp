@@ -43,8 +43,10 @@ namespace Graphics {
 
 // Event framework
 namespace Graphics {
-    void EventFramework::registerKeyHandler(SDL_Scancode code, std::function<void()> handler, bool keyUp) {
-        if (keyUp) keyUpHandlers[code] = handler;
-        else keyDownHandlers[code] = handler;
+    void EventFramework::registerKeyHandler(SDL_Scancode code, std::vector<std::string> states, std::function<void()> handler, bool keyUp) {
+        for (auto state : states) {
+            if (keyUp) keyUpHandlers[state][code] = handler;
+            else keyDownHandlers[state][code] = handler;
+        }
     }
 }

@@ -47,6 +47,7 @@ namespace Graphics {
         float* resolveCoords();
         
         Coordinates operator+(const Vector2D& offset);
+        Coordinates operator*(const Vector2D& offset);
     };
 }
 

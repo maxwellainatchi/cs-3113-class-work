@@ -81,4 +81,12 @@ namespace Graphics {
         retVal.bottomLeft = { bottomLeft.x + offset.x, bottomLeft.y + offset.y};
         return retVal;
     }
+    
+    Coordinates Coordinates::operator*(const Graphics::Vector2D &offset) {
+        return {
+            bottomLeft,
+            width() * offset.x,
+            height() * offset.y
+        };
+    }
 }

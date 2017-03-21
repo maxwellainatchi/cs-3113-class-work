@@ -11,13 +11,25 @@
 
 #include "libraries.h"
 #include "Entity.hpp"
+#include "SpriteSheet.hpp"
+#include "Sprite.hpp"
 
-//TODO: Figure out how to render text lol
 namespace Entities {
     class TitleText: public Entity {
+    private:
+        std::string text;
+        Graphics::Coordinates bounds;
+        std::vector<Sprite*> letters;
     public:
+        Graphics::SpriteSheet* font;
+        
+        TitleText();
+        TitleText(std::string text, Graphics::Coordinates bounds);
+        
+        void setText(std::string text);
+        
         // Inherited
-        void update(float elapsed);
+        virtual void draw(ShaderProgram* shader);
     };
 }
 

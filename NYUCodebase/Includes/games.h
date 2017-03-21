@@ -11,5 +11,6 @@
 
     #include "Texturey.hpp"
     #include "Pong.hpp"
+    #include "Space Invaders.hpp"
 
 #endif /* games_h */

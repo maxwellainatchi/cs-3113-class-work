@@ -12,7 +12,7 @@ namespace Games {
     SpaceInvaders::SpaceInvaders(): Graphics::Game("Space Invaders") {}
     
     Entities::Player* SpaceInvaders::generatePlayer() {
-        auto player = new Entities::Player(spriteSheet, "ship", window.uv);
+        var player = new Entities::Player(spriteSheet, "ship", window.uv);
         // Appearance
         player->scale({0.5,0.5});
         player->setOrigin({
@@ -33,7 +33,7 @@ namespace Games {
     }
     
     Entities::Sprite* SpaceInvaders::generateEnemy(Graphics::Coordinates::XY origin, int enemyType) {
-        auto enemy = new Entities::Sprite(spriteSheet, "invader" + std::to_string(enemyType));
+        var enemy = new Entities::Sprite(spriteSheet, "invader" + std::to_string(enemyType));
         if (!enemy->texture.loaded) { return nullptr; }
         enemy->scale(enemyScale);
         enemy->setOrigin(origin);
@@ -43,7 +43,7 @@ namespace Games {
     }
     
     void SpaceInvaders::generateEnemyGrid(int numRows, int numCols) {
-        auto dummyEnemy = generateEnemy({0,0}, 1);
+        var dummyEnemy = generateEnemy({0,0}, 1);
         float padding = window.uv.width()/numRows/2 + dummyEnemy->position.width()/2;
         Graphics::Coordinates::XY origin = {
             window.uv.bounds().right - padding,
@@ -83,7 +83,7 @@ namespace Games {
             velocity.y = 3.0f;
         }
         origin.x = entity->position.center().x;
-        auto bullet = new Entities::Bullet("whiteline.png", window.uv, velocity);
+        var bullet = new Entities::Bullet("whiteline.png", window.uv, velocity);
         bullet->setCoordinates({
             origin,
             bulletSize.x,
@@ -128,7 +128,7 @@ namespace Games {
             generateEnemyGrid(numRows, numCols);
         }
         livingEnemies = numRows*numCols;
-        for (auto bullet : bullets) {
+        for (var bullet : bullets) {
             frames[RUNNING].erase(bullet);
         }
         
@@ -140,6 +140,7 @@ namespace Games {
             this->reset();
             this->state = RUNNING;
         });
+        registerKeyHandler(SDL_SCANCODE_SPACE, {WIN, LOSE}, selector(this->reset));
         
         
         playerBulletTimer->action = [&] () {
@@ -148,8 +149,8 @@ namespace Games {
         };
         enemyMovementTimer->action = [&] () {
             if (enemies.size() == 0) { return; }
-            auto offset = Graphics::Vector2D();
             auto without = enemies.back()->withoutness(window.uv);
+            var offset = Graphics::Vector2D();
             if (without.x < 0) {
                 enemyVelocity.x = -enemyVelocity.x;
                 offset.y = enemyVelocity.y;

@@ -26,6 +26,12 @@
     #include <functional>
     #include <map>
     #include <set>
+
+    // Definitions
+    #define guard(x) if (x) {}
+    #define var auto
+    #define let const auto
+    #define selector(x) [&] () {x();} 
     typedef std::function<void(void)> Action;
 
 #endif /* libraries_h */

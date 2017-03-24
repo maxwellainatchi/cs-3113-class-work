@@ -15,11 +15,31 @@
 #include "Game.hpp"
 
 namespace Games {
+    struct Assets {
+        struct Images {
+            cstatic let whiteLine = "whiteline.png";
+            cstatic let spritesheet = "invaderssheetnew.png";
+        };
+        struct Sprites {
+            cstatic let player = "ship";
+            struct Enemies {
+                cstatic let base = "invader";
+                cstatic let first = "invader1";
+                cstatic let second = "invader2";
+            };
+        };
+        struct Text {
+            cstatic let paused = " GAME   IS  PAUSED";
+            cstatic let win = "        YOU   WIN ";
+            cstatic let lose = "       DEAD  BEEF ";
+        };
+    };
+    
     class SpaceInvaders: public Graphics::Game {
     private:
         // Config
-        const int numCols = 1;
-        const int numRows = 1;
+        const int numCols = 8;
+        const int numRows = 3;
         const float enemyScale = 0.25;
         const Graphics::Vector2D bulletSize = {0.02f, 0.1f};
         Graphics::Vector2D enemyVelocity = {0.05f, -0.1f};

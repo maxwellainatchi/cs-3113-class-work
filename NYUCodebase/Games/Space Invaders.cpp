@@ -12,7 +12,7 @@ namespace Games {
     SpaceInvaders::SpaceInvaders(): Graphics::Game("Space Invaders") {}
     
     Entities::Player* SpaceInvaders::generatePlayer() {
-        var player = new Entities::Player(spriteSheet, "ship", window.uv);
+        var player = new Entities::Player(spriteSheet, Assets::Sprites::player, window.uv);
         // Appearance
         player->scale({0.5,0.5});
         player->setOrigin({
@@ -33,7 +33,7 @@ namespace Games {
     }
     
     Entities::Sprite* SpaceInvaders::generateEnemy(Graphics::Coordinates::XY origin, int enemyType) {
-        var enemy = new Entities::Sprite(spriteSheet, "invader" + std::to_string(enemyType));
+        var enemy = new Entities::Sprite(spriteSheet, Assets::Sprites::Enemies::base + std::to_string(enemyType));
         if (!enemy->texture.loaded) { return nullptr; }
         enemy->scale(enemyScale);
         enemy->setOrigin(origin);
@@ -44,7 +44,7 @@ namespace Games {
     
     void SpaceInvaders::generateEnemyGrid(int numRows, int numCols) {
         var dummyEnemy = generateEnemy({0,0}, 1);
-        float padding = window.uv.width()/numRows/2 + dummyEnemy->position.width()/2;
+        var padding = window.uv.width()/numRows/2 + dummyEnemy->position.width()/2;
         Graphics::Coordinates::XY origin = {
             window.uv.bounds().right - padding,
             window.uv.bounds().top - dummyEnemy->position.height() - 0.1f
@@ -53,9 +53,10 @@ namespace Games {
             window.uv.width() / (numCols + 1),
             dummyEnemy->position.height()
         };
+        
         frames[RUNNING].erase(dummyEnemy);
-        for (int row = 0; row < numRows; ++row) {
-            for (int col = 0; col < numCols; ++col) {
+        for (var row = 0; row < numRows; ++row) {
+            for (var col = 0; col < numCols; ++col) {
                 generateEnemy(origin, (col % 2 + row % 2) % 2 + 1);
                 origin.x -= offset.x;
                 if (origin.x < window.uv.bounds().left) {
@@ -68,14 +69,14 @@ namespace Games {
     
     void SpaceInvaders::generateBullet(bool fromEnemy) {
         Entities::Entity* entity;
-        Graphics::Coordinates::XY origin ;
+        Graphics::Coordinates::XY origin;
         Graphics::Vector2D velocity = {0,0};
         if (fromEnemy) {
             entity = enemies[arc4random_uniform((uint)enemies.size())];
             origin.y = entity->position.bounds().bottom - bulletSize.y;
             velocity.y = -2.0f;
         } else {
-            if (!playerCanFire) { return; }
+            guard(playerCanFire) else { return; }
             playerCanFire = false;
             playerBulletTimer->start();
             entity = player1;
@@ -83,42 +84,38 @@ namespace Games {
             velocity.y = 3.0f;
         }
         origin.x = entity->position.center().x;
-        var bullet = new Entities::Bullet("whiteline.png", window.uv, velocity);
+        var bullet = new Entities::Bullet(Assets::Images::whiteLine, window.uv, velocity);
         bullet->setCoordinates({
             origin,
             bulletSize.x,
             bulletSize.y
         });
         bullet->onCollide = [&, bullet, fromEnemy] (Entities::Entity* otherEntity) {
-            if (otherEntity == bullet) return;
-            if (fromEnemy && otherEntity != player1) return;
+            guard (otherEntity != bullet) else { return; }
+            guard (!fromEnemy || fromEnemy && otherEntity == player1) else { return; }
             otherEntity->hidden = true;
             otherEntity->intangible = true;
             bullet->hidden = true;
             bullet->intangible = true;
-            if (!fromEnemy) {
-                --livingEnemies;
-//                auto iter = std::find(enemies.begin(), enemies.end(), otherEntity);
-//                if (iter == enemies.end()) return;
-//                enemies.erase(iter);
-                if (!livingEnemies) {
+            guard (!fromEnemy) else {
+                this->state = LOSE;
+                return;
+            }
+            --livingEnemies;
+            guard (livingEnemies) else {
                     this->state = WIN;
                 }
-            } else {
-                this->state = LOSE;
-            }
         };
         bullets.insert(bullet);
         frames[RUNNING].insert(bullet);
     }
     
     void SpaceInvaders::reset() {
-        if (player1 != nullptr) {
-            player1->hidden = false;
-            player1->intangible = false;
-        } else {
+        guard (player1 != nullptr) else {
             player1 = generatePlayer();
         }
+        player1->hidden = false;
+        player1->intangible = false;
         if (enemies.size()) {
             for (auto enemy : enemies) {
                 enemy->hidden = false;
@@ -177,14 +174,18 @@ namespace Games {
         timers[RUNNING].insert(enemyBulletTimer);
         
         // Running frame
-        spriteSheet = new Graphics::SpriteSheet("invaderssheetnew.png", {0.33,1}, {"invader1", "invader2", "ship"});
+        spriteSheet = new Graphics::SpriteSheet(Assets::Images::spritesheet, {0.33,1}, {
+            Assets::Sprites::Enemies::first,
+            Assets::Sprites::Enemies::second,
+            Assets::Sprites::player
+        });
         reset();
         
         
         // Paused frame
-        pausedText = new Entities::TitleText(" GAME   IS  PAUSED", {});
-        frames[WIN].insert(new Entities::TitleText("        YOU   WIN ", {}));
-        frames[LOSE].insert(new Entities::TitleText("       DEAD  BEEF ", {}));
+        pausedText = new Entities::TitleText(Assets::Text::paused, {});
+        frames[WIN].insert(new Entities::TitleText(Assets::Text::win, {}));
+        frames[LOSE].insert(new Entities::TitleText(Assets::Text::lose, {}));
         frames[PAUSED].insert(pausedText);
     }
     

@@ -11,6 +11,8 @@
 
 #define RUNNING "running"
 #define PAUSED "paused"
+#define FIXED_TIMESTEP 0.0166666f
+#define MAX_TIMESTEPS 6
 
 #include "libraries.h"
 #include "resources.h"

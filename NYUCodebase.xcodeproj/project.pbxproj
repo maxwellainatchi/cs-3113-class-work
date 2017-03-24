@@ -95,6 +95,7 @@
 		50A185291E5BC20A005C16B9 /* TitleText.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = TitleText.hpp; path = Objects/Entities/TitleText.hpp; sourceTree = "<group>"; };
 		50BF88A21E7213EB0091EF3D /* SpriteSheet.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SpriteSheet.cpp; path = Objects/SpriteSheet.cpp; sourceTree = "<group>"; };
 		50BF88A31E7213EB0091EF3D /* SpriteSheet.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = SpriteSheet.hpp; path = Objects/SpriteSheet.hpp; sourceTree = "<group>"; };
+		50EF9E7D1E84748E002033B1 /* macros.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = macros.h; path = Includes/macros.h; sourceTree = "<group>"; };
 		50F7A8E71E579FA600C3C23F /* Player.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Player.cpp; path = Objects/Entities/Player.cpp; sourceTree = "<group>"; };
 		50F7A8E81E579FA600C3C23F /* Player.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Player.hpp; path = Objects/Entities/Player.hpp; sourceTree = "<group>"; };
 		50F7A8EA1E57ACB900C3C23F /* EventFramework.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = EventFramework.cpp; path = Objects/EventFramework.cpp; sourceTree = "<group>"; };
@@ -161,6 +162,7 @@
 		508E23831E567A540051B33C /* Includes */ = {
 			isa = PBXGroup;
 			children = (
+				50EF9E7D1E84748E002033B1 /* macros.h */,
 				5031ED1E1E5C849A00B65702 /* resources.h */,
 				508E23841E567A920051B33C /* libraries.h */,
 				508E23871E567B9E0051B33C /* objects.h */,

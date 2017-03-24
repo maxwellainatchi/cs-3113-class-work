@@ -47,8 +47,8 @@ namespace Graphics {
     }
     
     Game::~Game() {
-        for (auto frame : frames) {
-            for (auto entity : frame.second) {
+        for (var frame in frames) {
+            for (var entity in frame.second) {
                 delete entity;
             }
             frame.second.clear();
@@ -87,12 +87,12 @@ namespace Graphics {
                 if (event.type == SDL_QUIT || event.type == SDL_WINDOWEVENT_CLOSE) {
                     done = true;
                 } else if (event.type == SDL_KEYDOWN) {
-                    auto keycode = event.key.keysym.scancode;
+                    var keycode = event.key.keysym.scancode;
                     if (keyDownHandlers[state].count(keycode)) {
                         keyDownHandlers[state][keycode]();
                     }
                 } else if (event.type == SDL_KEYUP) {
-                    auto keycode = event.key.keysym.scancode;
+                    var keycode = event.key.keysym.scancode;
                     if (keyUpHandlers[state].count(keycode)) {
                         keyUpHandlers[state][keycode]();
                     }
@@ -111,11 +111,16 @@ namespace Graphics {
     }
     
     void Game::update(float elapsed) {
-        for (auto timer : timers[state]) {
-            timer->increment(elapsed);
-        }
-        for (auto entity : frames[state]) {
-            entity->update(elapsed);
+        var fixedElapsed = std::min(elapsed,MAX_TIMESTEPS*FIXED_TIMESTEP);
+        while (fixedElapsed > 0) {
+            let timestep = std::min(fixedElapsed, FIXED_TIMESTEP);
+            for (var timer in timers[state]) {
+                timer->increment(timestep);
+            }
+            for (var entity in frames[state]) {
+                entity->update(timestep);
+            }
+            fixedElapsed -= timestep;
         }
     }
     
@@ -127,13 +132,11 @@ namespace Graphics {
         glClear(GL_COLOR_BUFFER_BIT);
         
         // Render all the things!
-        for (Entities::Entity* entity : frames[state]) {
+        for (Entities::Entity* entity in frames[state]) {
             entity->draw(shader);
-            for (Entities::Entity* otherEntity : frames[state]) {
-                if (entity->isCollidingWith(otherEntity)) {
-                    if (entity->onCollide)
-                        entity->onCollide(otherEntity);
-                }
+            for (Entities::Entity* otherEntity in frames[state]) {
+                guard(entity->onCollide && entity->isCollidingWith(otherEntity)) else { continue; }
+                entity->onCollide(otherEntity);
             }
         }
     }

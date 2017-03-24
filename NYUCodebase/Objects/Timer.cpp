@@ -19,7 +19,7 @@ namespace Graphics {
         if (state == Timer::STOPPED) { return; }
         this->elapsed += elapsed;
         if (this->elapsed >= interval) {
-            this->elapsed = 0;
+            this->elapsed = this->elapsed - interval;
             action();
         }
     }

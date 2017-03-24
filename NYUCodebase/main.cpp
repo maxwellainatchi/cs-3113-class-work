@@ -11,9 +11,10 @@ enum GameType: int {
     SpaceInvaders = 3
 };
 
-GameType current = SpaceInvaders;
-
 int main(int argc, char *argv[]) {
+    GameType current;
+    if (argc > 1)
+        current = static_cast<GameType>(atoi(argv[1]));
     Graphics::Game* game;
     switch (current) {
         case Texturey:

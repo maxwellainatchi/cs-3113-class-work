@@ -39,11 +39,7 @@ namespace Entities {
     }
     
     void Entity::move(Graphics::Vector2D velocity, float elapsed) {
-        Graphics::Vector2D offset = {
-            velocity.x * elapsed,
-            velocity.y * elapsed
-        };
-        translate(offset);
+        translate(velocity * elapsed);
     }
     
     void Entity::scale(Graphics::Coordinates::XY by) {

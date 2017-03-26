@@ -9,22 +9,21 @@
 #include "Sheep.hpp"
 
 namespace Entities {
-    Sheep::Sheep(std::string imageName, Graphics::Coordinates pen, Graphics::Vector2D velocity): Animal(imageName, pen, velocity), speed(velocity.magnitude()) {}
-    
-    void Sheep::update(float elapsed) {
-        millAbout(elapsed);
-        Animal::update(elapsed);
+    Sheep::Sheep(std::string imageName, Position::Rectangle pen, Position::Vector2D velocity): Animal(imageName, pen, velocity), speed(velocity.magnitude()) {
+        t.action = λ() {
+            guard (arc4random_uniform(UINT32_MAX) > 0.1*UINT32_MAX) else { return; }
+            auto direction = static_cast<Position::Vector2D::Direction>(arc4random_uniform(4));
+            velocity = Position::Vector2D::directionVector(direction) * speed;
+        };
+        t.start();
     }
     
-    void Sheep::millAbout(float elapsed) {
-        float timeLimit = 2.0;
-        timeSinceLastMove += elapsed;
-        if (timeSinceLastMove > timeLimit) {
-            if (arc4random_uniform(UINT32_MAX) < 0.1*UINT32_MAX) {
-                auto direction = static_cast<Graphics::Vector2D::Direction>(arc4random_uniform(4));
-                velocity = Graphics::Vector2D::directionVector(direction) * speed;
-                timeSinceLastMove = 0.0;
-            }
-        }
+    Sheep::~Sheep() {
+        t.stop();
+    }
+    
+    void Sheep::update(float elapsed) {
+        t.increment(elapsed);
+        Animal::update(elapsed);
     }
 }

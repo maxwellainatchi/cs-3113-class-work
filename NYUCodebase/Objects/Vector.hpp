@@ -11,7 +11,7 @@
 
 #include "math.h"
 
-namespace Graphics {
+namespace Position {
     class Vector2D {
     public:
         enum Direction: int { none, up, down, left, right };
@@ -29,6 +29,7 @@ namespace Graphics {
         Vector2D operator+(const Vector2D& rhs);
         Vector2D operator-(const Vector2D& rhs);
     };
+    typedef Vector2D Point;
 }
 
 #endif /* Vector_hpp */

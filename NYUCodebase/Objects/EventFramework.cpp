@@ -11,33 +11,33 @@
 // Control Schemes
 namespace Graphics {
     const ControlScheme EventFramework::ControlSchemes::WASD = {
-        {Graphics::Vector2D::Direction::up, SDL_SCANCODE_W},
-        {Graphics::Vector2D::Direction::down, SDL_SCANCODE_S},
-        {Graphics::Vector2D::Direction::left, SDL_SCANCODE_A},
-        {Graphics::Vector2D::Direction::right, SDL_SCANCODE_D}
+        {Position::Vector2D::Direction::up, SDL_SCANCODE_W},
+        {Position::Vector2D::Direction::down, SDL_SCANCODE_S},
+        {Position::Vector2D::Direction::left, SDL_SCANCODE_A},
+        {Position::Vector2D::Direction::right, SDL_SCANCODE_D}
     };
     const ControlScheme EventFramework::ControlSchemes::WASD_UPDOWN = {
-        {Graphics::Vector2D::Direction::up, SDL_SCANCODE_W},
-        {Graphics::Vector2D::Direction::down, SDL_SCANCODE_S}
+        {Position::Vector2D::Direction::up, SDL_SCANCODE_W},
+        {Position::Vector2D::Direction::down, SDL_SCANCODE_S}
     };
     const ControlScheme EventFramework::ControlSchemes::WASD_LEFTRIGHT = {
-        {Graphics::Vector2D::Direction::left, SDL_SCANCODE_A},
-        {Graphics::Vector2D::Direction::right, SDL_SCANCODE_D}
+        {Position::Vector2D::Direction::left, SDL_SCANCODE_A},
+        {Position::Vector2D::Direction::right, SDL_SCANCODE_D}
     };
     
     const ControlScheme EventFramework::ControlSchemes::ArrowKeys = {
-        {Graphics::Vector2D::Direction::up, SDL_SCANCODE_UP},
-        {Graphics::Vector2D::Direction::down, SDL_SCANCODE_DOWN},
-        {Graphics::Vector2D::Direction::left, SDL_SCANCODE_LEFT},
-        {Graphics::Vector2D::Direction::right, SDL_SCANCODE_RIGHT}
+        {Position::Vector2D::Direction::up, SDL_SCANCODE_UP},
+        {Position::Vector2D::Direction::down, SDL_SCANCODE_DOWN},
+        {Position::Vector2D::Direction::left, SDL_SCANCODE_LEFT},
+        {Position::Vector2D::Direction::right, SDL_SCANCODE_RIGHT}
     };
     const ControlScheme EventFramework::ControlSchemes::ArrowKeys_UPDOWN = {
-        {Graphics::Vector2D::Direction::up, SDL_SCANCODE_UP},
-        {Graphics::Vector2D::Direction::down, SDL_SCANCODE_DOWN}
+        {Position::Vector2D::Direction::up, SDL_SCANCODE_UP},
+        {Position::Vector2D::Direction::down, SDL_SCANCODE_DOWN}
     };
     const ControlScheme EventFramework::ControlSchemes::ArrowKeys_LEFTRIGHT = {
-        {Graphics::Vector2D::Direction::left, SDL_SCANCODE_LEFT},
-        {Graphics::Vector2D::Direction::right, SDL_SCANCODE_RIGHT}
+        {Position::Vector2D::Direction::left, SDL_SCANCODE_LEFT},
+        {Position::Vector2D::Direction::right, SDL_SCANCODE_RIGHT}
     };
 }
 

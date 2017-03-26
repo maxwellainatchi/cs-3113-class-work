@@ -9,27 +9,15 @@
 #include "Ball.hpp"
 
 namespace Entities {
-    Ball::Ball(std::string imageName, Graphics::Coordinates pen): Animal(imageName, pen) {}
+    Ball::Ball(std::string imageName, Position::Rectangle pen): Animal(imageName, pen) {}
     
-    void Ball::reset(Graphics::Coordinates& window) {
-        paused = true;
-        setCoordinates({{
-            window.center().x - position.width()/2.0f,
-            window.center().y + position.height()/2.0f
-        }, {
-            window.center().x + position.width()/2.0f,
-            window.center().y - position.height()/2.0f
-        }});
-    }
-    
-    void Ball::update(float elapsed) {
-        if (!paused) {
-            Animal::update(elapsed);
-        }
+    void Ball::reset(Position::Rectangle& window) {
+        setOrigin(window.center());
     }
     
     void Ball::checkBounds(float elapsed) {
-        if (position.bounds().top > pen.bounds().top || position.bounds().bottom < pen.bounds().bottom) {
+        auto without = bounds.withoutness(pen);
+        if (without.y != 0) {
             velocity = {velocity.x, -velocity.y};
         }
     }

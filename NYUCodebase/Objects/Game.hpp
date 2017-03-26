@@ -26,8 +26,8 @@ namespace Graphics {
         SDL_DisplayMode displayMode;
         
         struct Window {
-            Graphics::Coordinates uv;
-            Graphics::Coordinates pixels;
+            Position::Rectangle uv;
+            Position::Rectangle pixels;
         };
     public:
         ShaderProgram* shader;

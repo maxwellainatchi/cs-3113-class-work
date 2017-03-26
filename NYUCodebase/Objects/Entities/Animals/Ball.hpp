@@ -11,19 +11,18 @@
 
 #include "libraries.h"
 #include "Animal.hpp"
-#include "Coordinates.hpp"
+#include "Rectangle.hpp"
 #include "Player.hpp"
 
 namespace Entities {
     class Ball: public Animal {
     public:
-        Ball(std::string imageName, Graphics::Coordinates pen);
+        Ball(std::string imageName, Position::Rectangle pen);
         bool paused;
         
-        void reset(Graphics::Coordinates& window);
+        void reset(Position::Rectangle& window);
         
         //Inherited
-        void update(float elapsed);
         void checkBounds(float elapsed);
     };
 }

@@ -10,19 +10,20 @@
 #define Sheep_hpp
 
 #include "libraries.h"
+#include "Timer.hpp"
 #include "Entity.hpp"
-#include "Coordinates.hpp"
+#include "Rectangle.hpp"
 #include "Animal.hpp"
 
 namespace Entities {
     class Sheep: public Animal {
+    private:
         float speed;
+        Graphics::Timer t = Graphics::Timer(2.0f);
     public:
-        Sheep(std::string imageName, Graphics::Coordinates pen, Graphics::Vector2D velocity = {0.0, 1.0});
+        Sheep(std::string imageName, Position::Rectangle pen, Position::Vector2D velocity = {0.0, 1.0});
         
-        float timeSinceLastMove;
-
-        void millAbout(float elapsed);
+        ~Sheep();
         
         // Inherited
         virtual void update(float elapsed);

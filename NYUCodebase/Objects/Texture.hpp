@@ -11,7 +11,7 @@
 
 #include "libraries.h"
 #include "resources.h"
-#include "Coordinates.hpp"
+#include "Rectangle.hpp"
 #include <string>
 
 namespace Graphics {
@@ -24,7 +24,7 @@ namespace Graphics {
     public:
         std::string imageName;
         GLuint textureID;
-        Coordinates coords;
+        Position::Rectangle coords;
         int w,h;
         bool loaded;
         
@@ -33,7 +33,7 @@ namespace Graphics {
         Texture(std::string imageName);
 
         
-        void draw(ShaderProgram* shader, Coordinates vertices);
+        void draw(ShaderProgram* shader, Position::Rectangle vertices);
         
         void rotate(float angle);
     };

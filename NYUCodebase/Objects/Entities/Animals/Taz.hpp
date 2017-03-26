@@ -18,7 +18,7 @@ namespace Entities {
         float angle;
         float speed;
         
-        Taz(std::string imageName, Graphics::Coordinates pen, float speed = 1.0);
+        Taz(std::string imageName, Position::Rectangle pen, float speed = 1.0);
         
         // Inherited
         virtual void move(float elapsed);

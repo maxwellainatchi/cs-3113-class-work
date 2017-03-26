@@ -11,18 +11,15 @@
 
 #include "libraries.h"
 #include "Entity.hpp"
+#include "Timer.hpp"
 
 namespace Entities {
     class Magician: public Entity {
     public:
-        float apparitionTime;
-        float timeSinceLastApparition;
-        Graphics::Coordinates pen;
+        Position::Rectangle pen;
+        Graphics::Timer t;
         
-        Magician(std::string imageName, Graphics::Coordinates pen);
-        
-        // Inherited
-        virtual void update(float elapsed);
+        Magician(std::string imageName, Position::Rectangle pen);
     };
 }
 

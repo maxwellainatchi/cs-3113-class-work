@@ -12,14 +12,8 @@ namespace Games {
     Pong::Pong(): Graphics::Game("Pong") {}
     
     void Pong::checkPaddleCollision() {
-        auto paddle1Bounds = player1->position.bounds();
-        auto paddle2Bounds = player2->position.bounds();
-        auto bounds = ball->position.bounds();
-        if (paddle1Bounds.right > bounds.left && paddle1Bounds.left < bounds.left && paddle1Bounds.top > bounds.top && paddle1Bounds.bottom < bounds.bottom) {
-            ball->velocity = {-ball->velocity.x, ball->velocity.y};
-        }
-        if (paddle2Bounds.left < bounds.right && paddle2Bounds.right > bounds.left && paddle2Bounds.top > bounds.top && paddle2Bounds.bottom < bounds.bottom) {
-            ball->velocity = {-ball->velocity.x, ball->velocity.y};
+        if (player1->isCollidingWith(ball) || player2->isCollidingWith(ball)) {
+            ball->velocity.x = -ball->velocity.x;
         }
     }
     
@@ -35,12 +29,12 @@ namespace Games {
             Entities::Entity* life = new Entities::Entity("whiteLine.png");
             life->setCoordinates({
                 {
-                    workingArea.bounds().left + i*(lifeSize + lifePadding) + lifeMargin,
-                    workingArea.bounds().top - lifeSize - lifePadding
+                    workingArea.left + i*(lifeSize + lifePadding) + lifeMargin,
+                    workingArea.top - lifeSize - lifePadding
                 },
                 {
-                    workingArea.bounds().left + (i+1)*lifeSize + i*lifePadding + lifeMargin,
-                    workingArea.bounds().top - lifePadding
+                    workingArea.left + (i+1)*lifeSize + i*lifePadding + lifeMargin,
+                    workingArea.top - lifePadding
                 }
             });
             player1Lives.push_back(life);
@@ -50,12 +44,12 @@ namespace Games {
             Entities::Entity* life = new Entities::Entity("whiteLine.png");
             life->setCoordinates({
                 {
-                    workingArea.bounds().right - i*(lifeSize + lifePadding) - lifeMargin,
-                    workingArea.bounds().top - lifeSize - lifePadding
+                    workingArea.right - i*(lifeSize + lifePadding) - lifeMargin,
+                    workingArea.top - lifeSize - lifePadding
                 },
                 {
-                    workingArea.bounds().right - (i+1)*lifeSize - i*lifePadding - lifeMargin,
-                    workingArea.bounds().top - lifePadding
+                    workingArea.right - (i+1)*lifeSize - i*lifePadding - lifeMargin,
+                    workingArea.top - lifePadding
                 }
             });
             player2Lives.push_back(life);
@@ -66,31 +60,32 @@ namespace Games {
         for (int i = 0; i < 2; ++i) {
             walls.push_back(new Entities::Entity("blueLine.png"));
         }
-        walls[0]->setCoordinates({window.uv.topLeft, {
-            window.uv.topRight.x,
-            window.uv.topRight.y - wallSize
+        walls[0]->setCoordinates({window.uv.topLeft(), {
+            window.uv.right,
+            window.uv.top - wallSize
         }});
-        walls[1]->setCoordinates({window.uv.bottomLeft, {
-            window.uv.bottomRight.x,
-            window.uv.bottomRight.y + wallSize
+        walls[1]->setCoordinates({window.uv.bottomLeft(), {
+            window.uv.right,
+            window.uv.bottom + wallSize
         }});
         
-        workingArea = Graphics::Coordinates({
-            {window.uv.bounds().left, window.uv.bounds().bottom + wallSize},
-            {window.uv.bounds().right, window.uv.bounds().top - wallSize}
+        workingArea = Position::Rectangle({
+            {window.uv.left, window.uv.bottom + wallSize},
+            {window.uv.right, window.uv.top - wallSize}
         });
     }
     
     void Pong::drawCenterLine() {
-        float lineLength = workingArea.height() / lineCount;      for (int i = 0; i < lineCount; ++i) {
+        float lineLength = workingArea.height() / lineCount;
+        for (int i = 0; i < lineCount; ++i) {
             Entities::Entity* segment = new Entities::Entity("blueLine.png");
             segment->setCoordinates({
                 {
                     workingArea.center().x - wallSize/2.0f,
-                    workingArea.bounds().top - i * lineLength - 0.5f*linePadding
+                    workingArea.top - i * lineLength - 0.5f*linePadding
                 }, {
                     workingArea.center().x + wallSize/2.0f,
-                    workingArea.bounds().top - (i + 1) * lineLength + 0.5f*linePadding
+                    workingArea.top - (i + 1) * lineLength + 0.5f*linePadding
                 }
             });
             midLine.push_back(segment);
@@ -98,11 +93,10 @@ namespace Games {
     }
     
     int Pong::didLose() {
-        auto ballBounds = ball->position.bounds();
-        auto windowBounds = window.uv.bounds();
-        if (ballBounds.right > windowBounds.right)
+        var without = ball->bounds.withoutness(window.uv);
+        if (without.x > 0)
             return 2;
-        else if (ballBounds.left < windowBounds.left)
+        else if (without.x < 0)
             return 1;
         else
             return 0;
@@ -115,28 +109,28 @@ namespace Games {
         resetLives();
         
         //MARK: Mechanics
-        //player1 = new Entities::Player("whiteLine.png", workingArea);
-        //player2 = new Entities::Player("whiteLine.png", workingArea);
+        player1 = new Entities::Player(spriteSheet, "whiteline", workingArea);
+        player2 = new Entities::Player(spriteSheet, "whiteLine", workingArea);
         ball = new Entities::Ball("whiteLine.png", workingArea);
         
-        Graphics::Vector2D paddleSize = {0.1, 0.75};
-        Graphics::Vector2D ballSize = {0.1, 0.1};
-        Graphics::Vector2D padding = {0.2,0};
+        Position::Vector2D paddleSize = {0.1, 0.75};
+        Position::Vector2D ballSize = {0.1, 0.1};
+        Position::Vector2D padding = {0.2,0};
         
-        Graphics::Coordinates::XY origin1 = {workingArea.bounds().left, workingArea.bounds().top - paddleSize.y};
+        Position::Point origin1 = {workingArea.left, workingArea.top - paddleSize.y};
         origin1 = origin1 + padding;
         
-        Graphics::Coordinates::XY origin2 = {workingArea.bounds().right - paddleSize.x, workingArea.bounds().top - paddleSize.y};
+        Position::Point origin2 = {workingArea.right - paddleSize.x, workingArea.top - paddleSize.y};
         origin2 = origin2 - padding;
         
-        Graphics::Coordinates::XY ballOrigin = {
+        Position::Point ballOrigin = {
             window.uv.center().x - paddleSize.x / 2,
             window.uv.center().y + paddleSize.y / 2
         };
         
-        Graphics::Coordinates bounds1 = Graphics::Coordinates(origin1, origin1 + paddleSize);
-        Graphics::Coordinates bounds2 = Graphics::Coordinates(origin2, origin2 + paddleSize);
-        Graphics::Coordinates ballBounds = Graphics::Coordinates(ballOrigin, ballOrigin + ballSize);
+        var bounds1 = Position::Rectangle(origin1, origin1 + paddleSize);
+        var bounds2 = Position::Rectangle(origin2, origin2 + paddleSize);
+        var ballBounds = Position::Rectangle(ballOrigin, ballOrigin + ballSize);
         
         player1->setCoordinates(bounds1);
         player2->setCoordinates(bounds2);
@@ -145,16 +139,16 @@ namespace Games {
         player1->controlScheme = Graphics::EventFramework::ControlSchemes::ArrowKeys_UPDOWN;
         player2->controlScheme = Graphics::EventFramework::ControlSchemes::WASD_UPDOWN;
         
-        player1->registerMovementHandlers(this, {"running"});
-        player2->registerMovementHandlers(this, {"running"});
+        player1->registerMovementHandlers(this, {RUNNING});
+        player2->registerMovementHandlers(this, {RUNNING});
         
-        registerKeyHandler(SDL_SCANCODE_R, {"running"}, [&] () {
+        registerKeyHandler(SDL_SCANCODE_R, {RUNNING}, [&] () {
             ball->reset(window.uv);
             if (paused) { paused = false; }
             resetLives();
         });
         
-        registerKeyHandler(SDL_SCANCODE_SPACE, {"running"}, [&] () {
+        registerKeyHandler(SDL_SCANCODE_SPACE, {RUNNING}, [&] () {
             if (player1Lives.size() > 0 && player2Lives.size() > 0) {
                 if (ball->paused) {
                     ball->paused = false;
@@ -181,7 +175,7 @@ namespace Games {
             frame.push_back(segment);
         }
         
-        frames["running"] = std::set<Entities::Entity*>(frame.begin(), frame.end());
+        frames[RUNNING] = std::set<Entities::Entity*>(frame.begin(), frame.end());
         
         ball->reset(window.uv);
     }

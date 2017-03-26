@@ -10,19 +10,19 @@
 #define SpriteSheet_hpp
 
 #include "libraries.h"
-#include "Coordinates.hpp"
+#include "Rectangle.hpp"
 #include "Texture.hpp"
 
 namespace Graphics {
     class SpriteSheet {
     public:
-        std::vector<Coordinates> atlas;
+        std::vector<Position::Rectangle> atlas;
         std::map<std::string, size_t> sprites;
         Graphics::Texture* sheet;
         
-        SpriteSheet(std::string imageName, Coordinates::XY spriteSize, std::vector<std::string> names);
+        SpriteSheet(std::string imageName, Position::Point spriteSize, std::vector<std::string> names);
         
-        Graphics::Coordinates getNamedSpriteCoords(std::string name);
+        Position::Rectangle getNamedSpriteCoords(std::string name);
     };
 }
 

@@ -10,7 +10,7 @@
 #define Entity_hpp
 
 #include "libraries.h"
-#include "Coordinates.hpp"
+#include "Rectangle.hpp"
 #include "Texture.hpp"
 #include "Matrix.h"
 
@@ -18,7 +18,7 @@ namespace Entities {
     class Entity {
     public:
         typedef std::function<void(Entity*)> Collision;
-        Graphics::Coordinates position;
+        Position::Rectangle bounds;
         Graphics::Texture texture;
         Matrix modelMatrix;
         bool hidden = false;
@@ -29,24 +29,24 @@ namespace Entities {
         
         Entity(std::string imageName);
         
-        void translate(Graphics::Vector2D offset);
+        void translate(Position::Vector2D offset);
         
         void rotate(float angle);
         
-        void setCoordinates(Graphics::Coordinates newCoordinates);
+        void setCoordinates(Position::Rectangle newBounds);
         
-        void setOrigin(Graphics::Coordinates::XY newOrigin);
+        void setOrigin(Position::Point newOrigin);
         
-        void move(Graphics::Vector2D velocity, float elapsed);
+        void move(Position::Vector2D velocity, float elapsed);
         
-        void scale(Graphics::Coordinates::XY by);
+        void scale(Position::Point by);
         
         void scale(float by);
         
-        Graphics::Vector2D withoutness(Graphics::Coordinates pen, bool inclusive = true);
+        bool isInBounds();
         
         // TODO: Implement withinness
-        //Graphics::Vector2D withinness(Graphics::Coordinates pen);
+        //Position::Vector2D withinness(Position::Rectangle pen);
     
         virtual void draw(ShaderProgram* shader);
         

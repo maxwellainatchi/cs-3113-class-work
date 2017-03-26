@@ -41,8 +41,8 @@ namespace Games {
         const int numCols = 8;
         const int numRows = 3;
         const float enemyScale = 0.25;
-        const Graphics::Vector2D bulletSize = {0.02f, 0.1f};
-        Graphics::Vector2D enemyVelocity = {0.05f, -0.1f};
+        const Position::Vector2D bulletSize = {0.02f, 0.1f};
+        Position::Vector2D enemyVelocity = {0.05f, -0.1f};
         const float enemyShootChance = 0.2;
         
         // Entities
@@ -67,7 +67,7 @@ namespace Games {
         Entities::Player* generatePlayer();
         
         /// Generates an enemy and adds it to the frame
-        Entities::Sprite* generateEnemy(Graphics::Coordinates::XY origin, int enemyType);
+        Entities::Sprite* generateEnemy(Position::Point origin, int enemyType);
         
         /// Generates a grid of enemies centered onscreen
         void generateEnemyGrid(int numRows, int numCols);

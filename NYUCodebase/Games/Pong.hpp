@@ -24,14 +24,16 @@ namespace Games {
         // Class
         Pong();
         
+        Graphics::SpriteSheet* spriteSheet = new Graphics::SpriteSheet("whiteline.png", {1,1}, {"whiteline"});
+        
         Entities::Player* player1;
         Entities::Player* player2;
         Entities::Ball* ball;
-        Graphics::Coordinates workingArea;
+        Position::Rectangle workingArea;
         std::vector<Entities::Entity*> walls;
         std::vector<Entities::Entity*> midLine;
         
-        Graphics::Vector2D crownSize;
+        Position::Vector2D crownSize;
         std::vector<Entities::Entity*> player1Lives;
         std::vector<Entities::Entity*> player2Lives;
         

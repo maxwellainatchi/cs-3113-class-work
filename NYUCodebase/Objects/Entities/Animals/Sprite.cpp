@@ -18,14 +18,14 @@ namespace Entities {
         }
         texture.coords = coords;
         float ratio = (texture.w*coords.width())/(texture.h*coords.height());
-        Graphics::Vector2D size;
+        Position::Vector2D size;
         if (ratio < 1) {
             size = {ratio, 1};
         } else {
             size = {1, ratio};
         }
-        Graphics::Coordinates::XY center = {0,0};
-        position = {
+        Position::Point center = {0,0};
+        bounds = {
             center - size,
             size.x,
             size.y

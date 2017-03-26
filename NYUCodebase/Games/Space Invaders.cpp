@@ -17,7 +17,7 @@ namespace Games {
         player->scale({0.5,0.5});
         player->setOrigin({
             window.uv.center().x,
-            window.uv.bounds().bottom
+            window.uv.bottom
         });
         
         // Movement
@@ -32,7 +32,7 @@ namespace Games {
         return player;
     }
     
-    Entities::Sprite* SpaceInvaders::generateEnemy(Graphics::Coordinates::XY origin, int enemyType) {
+    Entities::Sprite* SpaceInvaders::generateEnemy(Position::Point origin, int enemyType) {
         var enemy = new Entities::Sprite(spriteSheet, Assets::Sprites::Enemies::base + std::to_string(enemyType));
         if (!enemy->texture.loaded) { return nullptr; }
         enemy->scale(enemyScale);
@@ -44,14 +44,14 @@ namespace Games {
     
     void SpaceInvaders::generateEnemyGrid(int numRows, int numCols) {
         var dummyEnemy = generateEnemy({0,0}, 1);
-        var padding = window.uv.width()/numRows/2 + dummyEnemy->position.width()/2;
-        Graphics::Coordinates::XY origin = {
-            window.uv.bounds().right - padding,
-            window.uv.bounds().top - dummyEnemy->position.height() - 0.1f
+        var padding = window.uv.width()/numRows/2 + dummyEnemy->bounds.width()/2;
+        Position::Point origin = {
+            window.uv.right - padding,
+            window.uv.top - dummyEnemy->bounds.height() - 0.1f
         };
-        Graphics::Vector2D offset = {
+        Position::Vector2D offset = {
             window.uv.width() / (numCols + 1),
-            dummyEnemy->position.height()
+            dummyEnemy->bounds.height()
         };
         
         frames[RUNNING].erase(dummyEnemy);
@@ -59,8 +59,8 @@ namespace Games {
             for (var col = 0; col < numCols; ++col) {
                 generateEnemy(origin, (col % 2 + row % 2) % 2 + 1);
                 origin.x -= offset.x;
-                if (origin.x < window.uv.bounds().left) {
-                    origin.x = window.uv.bounds().right - padding;
+                if (origin.x < window.uv.left) {
+                    origin.x = window.uv.right - padding;
                     origin.y -= offset.y;
                 }
             }
@@ -69,21 +69,21 @@ namespace Games {
     
     void SpaceInvaders::generateBullet(bool fromEnemy) {
         Entities::Entity* entity;
-        Graphics::Coordinates::XY origin;
-        Graphics::Vector2D velocity = {0,0};
+        Position::Point origin;
+        Position::Vector2D velocity = {0,0};
         if (fromEnemy) {
             entity = enemies[arc4random_uniform((uint)enemies.size())];
-            origin.y = entity->position.bounds().bottom - bulletSize.y;
+            origin.y = entity->bounds.bottom - bulletSize.y;
             velocity.y = -2.0f;
         } else {
             guard(playerCanFire) else { return; }
             playerCanFire = false;
             playerBulletTimer->start();
             entity = player1;
-            origin.y = entity->position.bounds().top;
+            origin.y = entity->bounds.top;
             velocity.y = 3.0f;
         }
-        origin.x = entity->position.center().x;
+        origin.x = entity->bounds.center().x;
         var bullet = new Entities::Bullet(Assets::Images::whiteLine, window.uv, velocity);
         bullet->setCoordinates({
             origin,
@@ -146,13 +146,13 @@ namespace Games {
         };
         enemyMovementTimer->action = [&] () {
             if (enemies.size() == 0) { return; }
-            auto without = enemies.back()->withoutness(window.uv);
-            var offset = Graphics::Vector2D();
+            auto without = enemies.back()->bounds.withoutness(window.uv);
+            var offset = Position::Vector2D();
             if (without.x < 0) {
                 enemyVelocity.x = -enemyVelocity.x;
                 offset.y = enemyVelocity.y;
             }
-            without = enemies[0]->withoutness(window.uv);
+            without = enemies[0]->bounds.withoutness(window.uv);
             if (without.x > 0) {
                 enemyVelocity.x = -enemyVelocity.x;
                 offset.y = enemyVelocity.y;

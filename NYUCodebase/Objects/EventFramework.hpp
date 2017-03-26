@@ -10,10 +10,10 @@
 #define EventFramework_hpp
 
 #include "libraries.h"
-#include "Coordinates.hpp"
+#include "Rectangle.hpp"
 
 namespace Graphics {
-    typedef std::map<Graphics::Vector2D::Direction, SDL_Scancode> ControlScheme;
+    typedef std::map<Position::Vector2D::Direction, SDL_Scancode> ControlScheme;
     
     class EventFramework {
     public:

@@ -9,9 +9,9 @@
 #include "TitleText.hpp"
 
 namespace Entities {
-    TitleText::TitleText(): TitleText("", Graphics::Coordinates()) {}
+    TitleText::TitleText(): TitleText("", Position::Rectangle()) {}
     
-    TitleText::TitleText(std::string text, Graphics::Coordinates bounds): bounds(bounds) {
+    TitleText::TitleText(std::string text, Position::Rectangle bounds): bounds(bounds) {
         //if (font == nullptr) {
             std::vector<std::string> names;
             
@@ -48,8 +48,8 @@ namespace Entities {
         for (char c : text) {
             letters.push_back(new Sprite(font, std::string(1, c)));
         }
-        Graphics::Coordinates::XY origin = bounds.topLeft;
-        Graphics::Vector2D size = {1.0f/6.0f, 1.0f/4.0f};
+        Position::Point origin = bounds.topLeft();
+        Position::Vector2D size = {1.0f/6.0f, 1.0f/4.0f};
         for (Sprite* letter : letters) {
             if (letter == nullptr) { continue; }
             letter->setCoordinates({
@@ -58,8 +58,8 @@ namespace Entities {
                 size.y
             });
             origin.x += size.x;
-            if (origin.x > bounds.bounds().right) {
-                origin.x = bounds.bounds().left;
+            if (origin.x > bounds.right) {
+                origin.x = bounds.left;
                 origin.y -= size.y;
             }
         }

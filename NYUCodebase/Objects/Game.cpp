@@ -17,12 +17,12 @@ namespace Graphics {
         SDL_GetCurrentDisplayMode(0, &displayMode);
         
         // Set screen size
-        window.pixels = Graphics::Coordinates({0, 0}, {static_cast<float>(displayMode.w), static_cast<float>(displayMode.h)});
-        window.pixels = Graphics::Coordinates({0, 0}, {640 * 2, 360 * 2});
+        window.pixels = Position::Rectangle({0, 0}, {static_cast<float>(displayMode.w), static_cast<float>(displayMode.h)});
+        window.pixels = Position::Rectangle({0, 0}, {640 * 2, 360 * 2});
         float ortho_width = 3.55f;
         float ortho_height = 2.0f;
         projectionMatrix.setOrthoProjection(-ortho_width, ortho_width, -ortho_height, ortho_height, -1.0f, 1.0f);
-        window.uv = Graphics::Coordinates({-ortho_width, -ortho_height}, {ortho_width, ortho_height});
+        window.uv = Position::Rectangle({-ortho_width, -ortho_height}, {ortho_width, ortho_height});
         
         // Creates the window
         displayWindow = SDL_CreateWindow(name.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, window.pixels.width(), window.pixels.height(), SDL_WINDOW_OPENGL);

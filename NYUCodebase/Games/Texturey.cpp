@@ -23,10 +23,10 @@ namespace Games {
         frame.insert(new Entities::Magician("otherpicture.png", window.uv));
         
         // Assign initial positions
-        Graphics::Vector2D size = {1,1};
-        sheep->setCoordinates({window.uv.bottomLeft, window.uv.bottomLeft + size});
+        Position::Vector2D size = {1,1};
+        sheep->setCoordinates({window.uv.bottomLeft(), size.x, size.y});
         
-        frames["running"] = frame;
+        frames[RUNNING] = frame;
     }
     
     void Texturey::update(float elapsed) {

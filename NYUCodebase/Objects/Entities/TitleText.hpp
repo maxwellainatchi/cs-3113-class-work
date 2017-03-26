@@ -18,13 +18,13 @@ namespace Entities {
     class TitleText: public Entity {
     private:
         std::string text;
-        Graphics::Coordinates bounds;
+        Position::Rectangle bounds;
         std::vector<Sprite*> letters;
     public:
         Graphics::SpriteSheet* font;
         
         TitleText();
-        TitleText(std::string text, Graphics::Coordinates bounds);
+        TitleText(std::string text, Position::Rectangle bounds);
         
         void setText(std::string text);
         

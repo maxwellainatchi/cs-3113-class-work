@@ -8,7 +8,7 @@
 
 #include "Vector.hpp"
 
-namespace Graphics {
+namespace Position {
     Vector2D Vector2D::directionVector(Vector2D::Direction d) {
         switch (d) {
             case up:

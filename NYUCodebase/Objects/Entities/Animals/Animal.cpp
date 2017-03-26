@@ -9,7 +9,7 @@
 #include "Animal.hpp"
 
 namespace Entities {
-    Animal::Animal(std::string imageName, Graphics::Coordinates pen, Graphics::Vector2D velocity): Entities::Entity(imageName), pen(pen), velocity(velocity) {}
+    Animal::Animal(std::string imageName, Position::Rectangle pen, Position::Vector2D velocity): Entities::Entity(imageName), pen(pen), velocity(velocity) {}
     
     void Animal::update(float elapsed) {
         Entity::update(elapsed);
@@ -18,11 +18,12 @@ namespace Entities {
     }
     
     void Animal::checkBounds(float elapsed) {
-        if (position.bounds().top > pen.bounds().top || position.bounds().bottom < pen.bounds().bottom) {
-            velocity = {velocity.x, -velocity.y};
+        var without = bounds.withoutness(pen);
+        if (without.x != 0) {
+            velocity.x = -velocity.x;
         }
-        if (position.bounds().right > pen.bounds().right || position.bounds().left < pen.bounds().left) {
-            velocity = {-velocity.x, velocity.y};
+        if (without.y != 0) {
+            velocity.y = -velocity.y;
         }
     }
     

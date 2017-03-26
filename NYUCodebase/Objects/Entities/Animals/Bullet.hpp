@@ -14,7 +14,7 @@
 namespace Entities {
     class Bullet: public Animal {
     public:
-        Bullet(std::string imageName, Graphics::Coordinates pen, Graphics::Vector2D velocity = {0.0, 3.0});
+        Bullet(std::string imageName, Position::Rectangle pen, Position::Vector2D velocity = {0.0, 3.0});
         
         void kill();
         

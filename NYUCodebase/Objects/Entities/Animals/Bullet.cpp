@@ -9,7 +9,7 @@
 #include "Bullet.hpp"
 
 namespace Entities {
-    Bullet::Bullet(std::string imageName, Graphics::Coordinates pen, Graphics::Vector2D velocity): Entities::Animal(imageName, pen, velocity) {}
+    Bullet::Bullet(std::string imageName, Position::Rectangle pen, Position::Vector2D velocity): Entities::Animal(imageName, pen, velocity) {}
     
     void Bullet::kill() {
         translate({
@@ -19,10 +19,8 @@ namespace Entities {
     }
     
     void Bullet::checkBounds(float elapsed) {
-        if (position.bounds().bottom > pen.bounds().top ||
-            position.bounds().top < pen.bounds().bottom ||
-            position.bounds().left > pen.bounds().right ||
-            position.bounds().right < pen.bounds().left) {
+        var without = bounds.withoutness(pen, false);
+        guard (without.x == 0 && without.y == 0) else {
             velocity = {0,0};
         }
     }

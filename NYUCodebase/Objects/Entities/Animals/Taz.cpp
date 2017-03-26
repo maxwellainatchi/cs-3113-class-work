@@ -10,7 +10,7 @@
 
 namespace Entities {
     
-    Taz::Taz(std::string imageName, Graphics::Coordinates pen, float speed): Entities::Animal(imageName, pen, {0.0, 0.0}), speed(speed) {}
+    Taz::Taz(std::string imageName, Position::Rectangle pen, float speed): Entities::Animal(imageName, pen, {0.0, 0.0}), speed(speed) {}
     
     void Taz::move(float elapsed) {
         angle += elapsed;

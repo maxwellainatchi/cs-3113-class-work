@@ -48,10 +48,10 @@ namespace Graphics {
     
     void Texture::fullSize() {
         // Texture coordinates are y-inverted for some reason
-        coords = Graphics::Coordinates({0.0,1.0},{1.0,0.0});
+        coords = Position::Rectangle(0.0, 1.0, 0.0, 1.0);
     }
     
-    void Texture::draw(ShaderProgram* shader, Coordinates vertices) {
+    void Texture::draw(ShaderProgram* shader, Position::Rectangle vertices) {
         if (!loaded) {
             std::cout << "Tried to draw an unloaded texture!" << std::endl;
             SDL_assert(false);

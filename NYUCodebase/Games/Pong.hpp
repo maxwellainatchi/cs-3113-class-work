@@ -9,6 +9,8 @@
 #ifndef Pong_hpp
 #define Pong_hpp
 
+#define WHITE_LINE "whiteline"
+
 #include "Game.hpp"
 
 namespace Games {
@@ -24,7 +26,7 @@ namespace Games {
         // Class
         Pong();
         
-        Graphics::SpriteSheet* spriteSheet = new Graphics::SpriteSheet("whiteline.png", {1,1}, {"whiteline"});
+        Graphics::SpriteSheet* spriteSheet = new Graphics::SpriteSheet("whiteline.png", {1,1}, {WHITE_LINE});
         
         Entities::Player* player1;
         Entities::Player* player2;

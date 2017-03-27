@@ -21,38 +21,25 @@ namespace Games {
         player1Lives.clear();
         player2Lives.clear();
         
-        int numLives = 5;
-        float lifePadding = 0.1f;
-        float lifeMargin = 0.7f;
-        float lifeSize = 0.1f;
-        for (int i = 0; i < numLives; ++i) {
-            Entities::Entity* life = new Entities::Entity("whiteLine.png");
-            life->setCoordinates({
-                {
-                    workingArea.left + i*(lifeSize + lifePadding) + lifeMargin,
-                    workingArea.top - lifeSize - lifePadding
-                },
-                {
-                    workingArea.left + (i+1)*lifeSize + i*lifePadding + lifeMargin,
-                    workingArea.top - lifePadding
-                }
-            });
+        var numLives = 5;
+        var padding = 0.1f;
+        var size = 0.1f;
+        Position::Point margin = {0.7f, -0.1f - size};
+        var origin = workingArea.topLeft() + margin;
+        for (var i = 0; i < numLives; ++i) {
+            Entities::Sprite* life = new Entities::Sprite(spriteSheet, WHITE_LINE);
+            life->setCoordinates({origin, size, size});
             player1Lives.push_back(life);
+            origin += {size + padding, 0};
         }
         
-        for (int i = 0; i < numLives; ++i) {
-            Entities::Entity* life = new Entities::Entity("whiteLine.png");
-            life->setCoordinates({
-                {
-                    workingArea.right - i*(lifeSize + lifePadding) - lifeMargin,
-                    workingArea.top - lifeSize - lifePadding
-                },
-                {
-                    workingArea.right - (i+1)*lifeSize - i*lifePadding - lifeMargin,
-                    workingArea.top - lifePadding
-                }
-            });
-            player2Lives.push_back(life);
+        margin.x = -margin.x;
+        origin = workingArea.topRight() + margin;
+        for (var i = 0; i < numLives; ++i) {
+            Entities::Sprite* life = new Entities::Sprite(spriteSheet, WHITE_LINE);
+            life->setCoordinates({origin, size, size});
+            player1Lives.push_back(life);
+            origin -= {size + padding, 0};
         }
     }
     
@@ -60,14 +47,8 @@ namespace Games {
         for (int i = 0; i < 2; ++i) {
             walls.push_back(new Entities::Entity("blueLine.png"));
         }
-        walls[0]->setCoordinates({window.uv.topLeft(), {
-            window.uv.right,
-            window.uv.top - wallSize
-        }});
-        walls[1]->setCoordinates({window.uv.bottomLeft(), {
-            window.uv.right,
-            window.uv.bottom + wallSize
-        }});
+        walls[0]->setCoordinates({window.uv.topLeft(), window.uv.width(), -wallSize});
+        walls[1]->setCoordinates({window.uv.bottomLeft(), window.uv.width(), wallSize});
         
         workingArea = Position::Rectangle({
             {window.uv.left, window.uv.bottom + wallSize},
@@ -76,19 +57,20 @@ namespace Games {
     }
     
     void Pong::drawCenterLine() {
-        float lineLength = workingArea.height() / lineCount;
-        for (int i = 0; i < lineCount; ++i) {
+        var lineLength = workingArea.height() / lineCount;
+        Position::Point origin = {
+            window.uv.center().x,
+            window.uv.top
+        };
+        for (var i = 0; i < lineCount; ++i) {
             Entities::Entity* segment = new Entities::Entity("blueLine.png");
             segment->setCoordinates({
-                {
-                    workingArea.center().x - wallSize/2.0f,
-                    workingArea.top - i * lineLength - 0.5f*linePadding
-                }, {
-                    workingArea.center().x + wallSize/2.0f,
-                    workingArea.top - (i + 1) * lineLength + 0.5f*linePadding
-                }
+                origin,
+                lineLength,
+                wallSize
             });
             midLine.push_back(segment);
+            origin += {0, lineLength + linePadding};
         }
     }
     
@@ -103,25 +85,29 @@ namespace Games {
     }
     
     void Pong::setup() {
-        std::vector<Entities::Entity*> frame;
+        std::set<Entities::Entity*> frame;
         drawWalls();
         drawCenterLine();
         resetLives();
         
         //MARK: Mechanics
-        player1 = new Entities::Player(spriteSheet, "whiteline", workingArea);
-        player2 = new Entities::Player(spriteSheet, "whiteLine", workingArea);
+        player1 = new Entities::Player(spriteSheet, WHITE_LINE, workingArea);
+        player2 = new Entities::Player(spriteSheet, WHITE_LINE, workingArea);
         ball = new Entities::Ball("whiteLine.png", workingArea);
         
         Position::Vector2D paddleSize = {0.1, 0.75};
         Position::Vector2D ballSize = {0.1, 0.1};
         Position::Vector2D padding = {0.2,0};
         
+//        Position::Point origin1 = {
+//            workingArea.right - paddleSize.x,
+//            workingArea.top - paddleSize.y
+//        };
         Position::Point origin1 = {workingArea.left, workingArea.top - paddleSize.y};
-        origin1 = origin1 + padding;
+        origin1 += padding;
         
         Position::Point origin2 = {workingArea.right - paddleSize.x, workingArea.top - paddleSize.y};
-        origin2 = origin2 - padding;
+        origin2 -= padding;
         
         Position::Point ballOrigin = {
             window.uv.center().x - paddleSize.x / 2,
@@ -165,17 +151,17 @@ namespace Games {
         ball->velocity = {ballSpeed, ballSpeed};
         
         //MARK: Rendering
-        frame.push_back(player1);
-        frame.push_back(player2);
-        frame.push_back(ball);
+        frame.insert(player1);
+        frame.insert(player2);
+        frame.insert(ball);
         for (Entities::Entity* wall : walls) {
-            frame.push_back(wall);
+            frame.insert(wall);
         }
         for (Entities::Entity* segment : midLine) {
-            frame.push_back(segment);
+            frame.insert(segment);
         }
         
-        frames[RUNNING] = std::set<Entities::Entity*>(frame.begin(), frame.end());
+        frames[RUNNING] = frame;
         
         ball->reset(window.uv);
     }

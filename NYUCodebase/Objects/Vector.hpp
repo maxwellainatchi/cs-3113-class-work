@@ -27,7 +27,9 @@ namespace Position {
         Vector2D operator*(const Vector2D& rhs);
         Vector2D operator*(float scalar);
         Vector2D operator+(const Vector2D& rhs);
+        void operator+=(const Vector2D& rhs);
         Vector2D operator-(const Vector2D& rhs);
+        void operator-=(const Vector2D& rhs);
     };
     typedef Vector2D Point;
 }

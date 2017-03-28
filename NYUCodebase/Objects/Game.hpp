@@ -64,6 +64,9 @@ namespace Graphics {
         /// Updates the game
         virtual void update(float elapsed);
         
+        /// Called right before the game changes state. Returns the state it should switch to.
+        virtual std::string willChangeState(std::string newState);
+        
         /// Renders the game
         virtual void render();
         
@@ -74,6 +77,8 @@ namespace Graphics {
         
         /// Rerenders the window
         void swapWindow();
+        
+        void changeState(std::string state);
     };
 }
 

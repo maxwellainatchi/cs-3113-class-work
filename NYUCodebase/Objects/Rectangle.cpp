@@ -14,10 +14,10 @@ namespace Position {
     Rectangle::Rectangle(const Rectangle* r): Rectangle(r->left, r->right, r->bottom, r->top) {}
     
     Rectangle::Rectangle(float left, float right, float bottom, float top) {
-        this->left = left;
-        this->right = right;
-        this->bottom = bottom;
-        this->top = top;
+        this->left = std::min(left, right);
+        this->right = std::max(left, right);
+        this->bottom = std::min(bottom, top);
+        this->top = std::max(bottom, top);
     }
     
     Rectangle::Rectangle(Point bottomLeft, Point topRight):
@@ -54,33 +54,33 @@ namespace Position {
         return top - bottom;
     }
     
-    float* Rectangle::resolveCoords() {
+    float* Rectangle::resolveCoords(bool asTexture) {
         return new float[12] {
             // Lower triangle
             // Bottom Left
             left,
-            bottom,
+            asTexture ? top : bottom,
             
             // Bottom Right
             right,
-            bottom,
+            asTexture ? top : bottom,
             
             // Top Right
             right,
-            top,
+            asTexture ? bottom : top,
             
             // Upper triangle
             // Bottom Left
             left,
-            bottom,
+            asTexture ? top : bottom,
             
             // Top Right
             right,
-            top,
+            asTexture ? bottom : top,
             
             // Top Left
             left,
-            top
+            asTexture ? bottom : top
         };
     }
     

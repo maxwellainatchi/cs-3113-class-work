@@ -11,6 +11,7 @@
 
 #include "macros.h"
 #include "Vector.hpp"
+#include <algorithm>
 
 //TODO: Make coordinates contain both UV and XY
 //TODO: Use matrices bc efficiency
@@ -44,7 +45,7 @@ namespace Position {
         float width();
         float height();
         
-        float* resolveCoords();
+        float* resolveCoords(bool asTexture = false);
         
         Rectangle operator+(const Vector2D& offset);
         Rectangle operator*(const Vector2D& offset);

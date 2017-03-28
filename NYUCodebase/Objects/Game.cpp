@@ -124,6 +124,10 @@ namespace Graphics {
         }
     }
     
+    std::string Game::willChangeState(std::string newState) {
+        return state;
+    }
+    
     void Game::render() {
         shader->setProjectionMatrix(projectionMatrix);
         shader->setViewMatrix(viewMatrix);
@@ -146,5 +150,9 @@ namespace Graphics {
     void Game::swapWindow() {
         // Tells the window to rerender
         SDL_GL_SwapWindow(displayWindow);
+    }
+    
+    void Game::changeState(std::string state) {
+        this->state = willChangeState(state);
     }
 }

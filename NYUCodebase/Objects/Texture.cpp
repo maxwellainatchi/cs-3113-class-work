@@ -47,8 +47,7 @@ namespace Graphics {
     }
     
     void Texture::fullSize() {
-        // Texture coordinates are y-inverted for some reason
-        coords = Position::Rectangle(0.0, 1.0, 0.0, 1.0);
+        coords = Position::Rectangle({{0.0f, 0.0f}, 1.0f, 1.0f});
     }
     
     void Texture::draw(ShaderProgram* shader, Position::Rectangle vertices) {
@@ -64,7 +63,7 @@ namespace Graphics {
         glEnableVertexAttribArray(shader->positionAttribute);
         
         // Set texture coordinates
-        glVertexAttribPointer(shader->texCoordAttribute, 2, GL_FLOAT, false, 0, coords.resolveCoords());
+        glVertexAttribPointer(shader->texCoordAttribute, 2, GL_FLOAT, false, 0, coords.resolveCoords(true));
         glEnableVertexAttribArray(shader->texCoordAttribute);
         
         // Draw

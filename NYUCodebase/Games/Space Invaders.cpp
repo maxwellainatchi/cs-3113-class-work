@@ -44,13 +44,18 @@ namespace Games {
     
     void SpaceInvaders::generateEnemyGrid(int numRows, int numCols) {
         var dummyEnemy = generateEnemy({0,0}, 1);
-        var padding = window.uv.width()/numRows/2 + dummyEnemy->bounds.width()/2;
+        enemyBounds = {
+            window.uv.topLeft(),
+            window.uv.width() * 0.8f,
+            -dummyEnemy->bounds.height() * numRows
+        };
+        var padding = enemyBounds.width()/numCols/2 + dummyEnemy->bounds.width()/2;
         Position::Point origin = {
-            window.uv.right - padding,
-            window.uv.top - dummyEnemy->bounds.height() - 0.1f
+            enemyBounds.left + padding,
+            enemyBounds.top - dummyEnemy->bounds.height() - 0.1f
         };
         Position::Vector2D offset = {
-            window.uv.width() / (numCols + 1),
+            enemyBounds.width() / numCols,
             dummyEnemy->bounds.height()
         };
         
@@ -58,9 +63,9 @@ namespace Games {
         for (var row = 0; row < numRows; ++row) {
             for (var col = 0; col < numCols; ++col) {
                 generateEnemy(origin, (col % 2 + row % 2) % 2 + 1);
-                origin.x -= offset.x;
-                if (origin.x < window.uv.left) {
-                    origin.x = window.uv.right - padding;
+                origin.x += offset.x;
+                if (origin.x > enemyBounds.right) {
+                    origin.x = enemyBounds.left + padding;
                     origin.y -= offset.y;
                 }
             }
@@ -72,6 +77,7 @@ namespace Games {
         Position::Point origin;
         Position::Vector2D velocity = {0,0};
         if (fromEnemy) {
+            return;
             entity = enemies[arc4random_uniform((uint)enemies.size())];
             origin.y = entity->bounds.bottom - bulletSize.y;
             velocity.y = -2.0f;
@@ -111,19 +117,20 @@ namespace Games {
     }
     
     void SpaceInvaders::reset() {
-        guard (player1 != nullptr) else {
-            player1 = generatePlayer();
+        // TODO: Don't just remove things from play, reuse them
+        // or at least clean up the memory leaks
+        guard (player1 == nullptr) else {
+            frames[RUNNING].erase(player1);
         }
+        player1 = generatePlayer();
         player1->hidden = false;
         player1->intangible = false;
         if (enemies.size()) {
-            for (auto enemy : enemies) {
-                enemy->hidden = false;
-                enemy->intangible = false;
+            for (var enemy : enemies) {
+                frames[RUNNING].erase(enemy);
             }
-        } else {
-            generateEnemyGrid(numRows, numCols);
         }
+        generateEnemyGrid(numRows, numCols);
         livingEnemies = numRows*numCols;
         for (var bullet : bullets) {
             frames[RUNNING].erase(bullet);
@@ -133,11 +140,10 @@ namespace Games {
     
     void SpaceInvaders::setup() {
         pausekey = SDL_SCANCODE_P;
-        registerKeyHandler(SDL_SCANCODE_SPACE, {WIN, LOSE}, [&] () {
+        registerKeyHandler(SDL_SCANCODE_SPACE, {WIN, LOSE}, λ() {
             this->reset();
-            this->state = RUNNING;
+            this->changeState(RUNNING);
         });
-        registerKeyHandler(SDL_SCANCODE_SPACE, {WIN, LOSE}, selector(this->reset));
         
         
         playerBulletTimer->action = [&] () {
@@ -145,21 +151,23 @@ namespace Games {
             this->playerBulletTimer->stop();
         };
         enemyMovementTimer->action = [&] () {
-            if (enemies.size() == 0) { return; }
-            auto without = enemies.back()->bounds.withoutness(window.uv);
+            guard (enemies.size()) else { return; }
+            var without = enemyBounds.withoutness(window.uv);
+            guard (!without.y) else { changeState(LOSE); }
             var offset = Position::Vector2D();
-            if (without.x < 0) {
-                enemyVelocity.x = -enemyVelocity.x;
-                offset.y = enemyVelocity.y;
-            }
-            without = enemies[0]->bounds.withoutness(window.uv);
-            if (without.x > 0) {
+            if (without.x) {
                 enemyVelocity.x = -enemyVelocity.x;
                 offset.y = enemyVelocity.y;
             }
             offset.x = enemyVelocity.x;
             for (auto enemy: enemies) {
                 enemy->translate(offset);
+            }
+            enemyBounds = enemyBounds + offset;
+            // TODO: Lose if hits player
+            without = enemyBounds.withoutness(player1->bounds, false);
+            guard (without.y) else {
+                changeState(LOSE);
             }
         };
         enemyBulletTimer->action = [&] () {
@@ -193,6 +201,17 @@ namespace Games {
         enemyMovementTimer->start();
         enemyBulletTimer->start();
         playerBulletTimer->start();
-        state = RUNNING;
+        changeState(RUNNING);
+    }
+    
+    std::string SpaceInvaders::willChangeState(std::string newState) {
+        // TODO: Implement brief pause before win or lose
+//        for (var state in {WIN, LOSE}) {
+//            if (newState == state) {
+//                
+//                break;
+//            }
+//        }
+        return newState;
     }
 }

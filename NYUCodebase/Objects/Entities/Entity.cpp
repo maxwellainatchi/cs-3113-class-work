@@ -60,6 +60,6 @@ namespace Entities {
     
     bool Entity::isCollidingWith(Entity* entity) {
         guard (entity != this && !intangible && !entity->intangible) else { return false; }
-        return bounds.isWithin(entity->bounds);
+        return bounds.isWithin(entity->bounds, false);
     }
 }

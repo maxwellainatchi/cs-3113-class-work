@@ -49,6 +49,7 @@ namespace Games {
         Entities::TitleText* pausedText;
         Graphics::SpriteSheet* spriteSheet;
         Entities::Player* player1;
+        Position::Rectangle enemyBounds;
         std::vector<Entities::Sprite*> enemies;
         std::set<Entities::Bullet*> bullets;
         
@@ -81,6 +82,7 @@ namespace Games {
         // Inherited
         virtual void setup();
         virtual void willStart();
+        virtual std::string willChangeState(std::string newState);
     };
 }
 

@@ -77,7 +77,6 @@ namespace Games {
         Position::Point origin;
         Position::Vector2D velocity = {0,0};
         if (fromEnemy) {
-            return;
             entity = enemies[arc4random_uniform((uint)enemies.size())];
             origin.y = entity->bounds.bottom - bulletSize.y;
             velocity.y = -2.0f;

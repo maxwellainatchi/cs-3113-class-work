@@ -26,8 +26,15 @@
     #include <functional>
     #include <map>
     #include <set>
+    #include <algorithm>
+    #include "Utils.cpp"
 
     #include "macros.h"
-    typedef std::function<void(void)> Action;
+    typedef std::string State;
+
+    typedef std::function<void(void)> InstantAction;
+    typedef std::function<void(float)> TimedAction;
+    typedef std::function<void(ShaderProgram*)> ShaderAction;
+    typedef std::function<bool(void)> Validator;
 
 #endif /* libraries_h */

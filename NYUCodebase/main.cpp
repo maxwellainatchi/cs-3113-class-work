@@ -2,7 +2,8 @@
 #define STB_IMAGE_IMPLEMENTATION
 
 #include "Game.hpp"
-#include "games.h"
+
+#include "Texturey2.cpp"
 
 // Enum value corresponds to HW number
 enum GameType: int {
@@ -12,21 +13,13 @@ enum GameType: int {
 };
 
 int main(int argc, char *argv[]) {
-    GameType current;
-    if (argc > 1)
-        current = static_cast<GameType>(atoi(argv[1]));
-    Graphics::Game* game;
+    GameType current = Texturey;
+    if (argc > 1) current = static_cast<GameType>(atoi(argv[1]));
     switch (current) {
         case Texturey:
-            game = new Games::Texturey();
+            Games::Texturey::play();
             break;
-        case Pong:
-            game = new Games::Pong();
-            break;
-        case SpaceInvaders:
-            game = new Games::SpaceInvaders();
-            break;
+        default: SDL_assert(false);
     }
-    game->start();
     return 0;
 }

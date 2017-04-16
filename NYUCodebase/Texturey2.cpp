@@ -10,31 +10,27 @@
 #define Texturey_cpp
 
 #include "Game.hpp"
-#include "CollisionFunctions.cpp"
+#include "functionlibraries.h"
 
 namespace Games { namespace Texturey {
-    inline Point moveOffset = {0, 1.5f};
     inline let directionChangeProbability = 0.4;
+    inline let animalSpeed = 1.5f;
+    
     inline void generateAnimal(Game* g, State state) {
         var animal = new Entity();
         var movementTimer = new Timer(3.0);
         animal->willSetup = [animal, g, movementTimer]() {
             animal->texture = new Texture("picture.png");
-            animal->velocity = {1.5f, 0.0f};
+            animal->velocity = {animalSpeed, 0.0f};
             animal->bounds = {
                 {
                     arc4random_uniform(g->window.uv.width()) + g->window.uv.left,
                     arc4random_uniform(g->window.uv.height()) + g->window.uv.bottom
                 }, 1, 1
             };
-            movementTimer->action = [animal, g]() {
-                guard (arc4random() > UINT32_MAX * directionChangeProbability) else {
-                    let newDirection = static_cast<Vec2::Direction>(arc4random_uniform(4)+1);
-                    animal->velocity = Vec2::directionVector(newDirection) * animal->velocity.magnitude();
-                }
-            };
+            movementTimer->action = Movements::randomDirection(animal, g, directionChangeProbability);
         };
-        animal->onCollide = Collisions::bounce(animal, g);
+        animal->onCollide = Collisions::penCheck(animal, g);
         
         g->timers[state].insert(movementTimer);
         g->frames[state].insert(animal);
@@ -79,8 +75,9 @@ namespace Games { namespace Texturey {
     
     inline void setupGame(Game* game) {
         game->createState(RUNNING);
-        generateAnimal(game, RUNNING);
-        //generateAnimal(game, RUNNING);
+        for (var i = 0; i < 10; ++i) {
+            generateAnimal(game, RUNNING);
+        }
         generateWalls(game, RUNNING);
         game->changeState(RUNNING);
     }

@@ -24,6 +24,7 @@
 		5051469C1EA1725800776CF4 /* Vector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 505146991EA1725800776CF4 /* Vector.cpp */; };
 		5051469F1EA1736000776CF4 /* Entity.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5051469D1EA1736000776CF4 /* Entity.cpp */; };
 		505146A21EA2D38D00776CF4 /* CollisionFunctions.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 505146A11EA2D38D00776CF4 /* CollisionFunctions.cpp */; };
+		505146A51EA3AE7000776CF4 /* MovementFunctions.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 505146A41EA3AE7000776CF4 /* MovementFunctions.cpp */; };
 		6D5A86AE19AE5C710066C1FD /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D5A86AD19AE5C710066C1FD /* Cocoa.framework */; };
 		6D5A86B819AE5C710066C1FD /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6D5A86B619AE5C710066C1FD /* InfoPlist.strings */; };
 		6D5A86BA19AE5C710066C1FD /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6D5A86B919AE5C710066C1FD /* main.cpp */; };
@@ -66,6 +67,8 @@
 		5051469D1EA1736000776CF4 /* Entity.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Entity.cpp; sourceTree = "<group>"; };
 		5051469E1EA1736000776CF4 /* Entity.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Entity.hpp; sourceTree = "<group>"; };
 		505146A11EA2D38D00776CF4 /* CollisionFunctions.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CollisionFunctions.cpp; sourceTree = "<group>"; };
+		505146A31EA3AE1E00776CF4 /* functionlibraries.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = functionlibraries.h; sourceTree = "<group>"; };
+		505146A41EA3AE7000776CF4 /* MovementFunctions.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MovementFunctions.cpp; sourceTree = "<group>"; };
 		6D5A86AA19AE5C710066C1FD /* NYUCodebase.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NYUCodebase.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6D5A86AD19AE5C710066C1FD /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		6D5A86B019AE5C710066C1FD /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -102,6 +105,7 @@
 			isa = PBXGroup;
 			children = (
 				505146A11EA2D38D00776CF4 /* CollisionFunctions.cpp */,
+				505146A41EA3AE7000776CF4 /* MovementFunctions.cpp */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -137,6 +141,7 @@
 				505146881EA1721700776CF4 /* macros.h */,
 				505146891EA1721700776CF4 /* objects.h */,
 				5051468A1EA1721700776CF4 /* resources.h */,
+				505146A31EA3AE1E00776CF4 /* functionlibraries.h */,
 			);
 			name = Includes;
 			sourceTree = "<group>";
@@ -349,6 +354,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				505146A51EA3AE7000776CF4 /* MovementFunctions.cpp in Sources */,
 				5031ED3C1E5C850A00B65702 /* ShaderProgram.cpp in Sources */,
 				5031ED3B1E5C850A00B65702 /* Matrix.cpp in Sources */,
 				505146861EA16F2200776CF4 /* Utils.cpp in Sources */,

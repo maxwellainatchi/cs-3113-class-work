@@ -20,6 +20,10 @@
 
 class Game: public EventFramework {
 private:
+    // MARK: - Config
+    
+    Vec2 aspectRatio = {16.0f, 9.0f};
+    
     // MARK: - Private
     struct Window {
         Rectangle uv;

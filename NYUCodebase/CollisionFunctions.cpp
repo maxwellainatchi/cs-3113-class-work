@@ -6,13 +6,16 @@
 //  Copyright © 2017 Ivan Safrin. All rights reserved.
 //
 
+#ifndef collisionfunctions_hpp
+#define collisionfunctions_hpp
+
 #include "Game.hpp"
 
 namespace Collisions {
-    inline CollisionAction bounce(Entity* entity, Game* g) {
+    inline CollisionAction penCheck(Entity* entity, Game* g) {
         return [entity, g](Entity* otherEntity, float elapsed) {
-            weak_assert(entity && otherEntity);
-            SDL_assert(g);
+            SDL_assert_paranoid(g); // The game better exist
+            guard (entity && otherEntity) else { return; };
             
             var position = entity->projectedPosition(elapsed);
             // Only project the y-movement for now
@@ -20,7 +23,7 @@ namespace Collisions {
             
             // Check if y-movement causes a collision
             if (position.isWithin(otherEntity->bounds, false)) {
-                var penetration = position.penetration(entity->bounds);
+                var penetration = position.penetration(otherEntity->bounds);
                 var direction = entity->bounds.bottom > otherEntity->bounds.bottom ? 1 : -1;
                 let movement = (penetration.y + 0.001f) * direction;
                 
@@ -35,7 +38,7 @@ namespace Collisions {
             position = entity->projectedPosition(elapsed);
             
             // Check if x-movement causes a collision
-            if (position.isWithin(entity->bounds, false)) {
+            if (position.isWithin(otherEntity->bounds, false)) {
                 var penetration = position.penetration(otherEntity->bounds);
                 var direction = entity->bounds.left > otherEntity->bounds.left ? 1 : -1;
                 let movement = (penetration.x + 0.001f) * direction;
@@ -45,3 +48,5 @@ namespace Collisions {
         };
     }
 }
+
+#endif

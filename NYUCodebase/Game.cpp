@@ -70,6 +70,8 @@ void Game::loop() {
     }
 }
 
+
+// TODO: Collision checking should activate both collision responses.
 void Game::update(float elapsed) {
     var fixedElapsed = std::min(elapsed,MAX_TIMESTEPS*FIXED_TIMESTEP);
     while (fixedElapsed > 0) {
@@ -77,6 +79,7 @@ void Game::update(float elapsed) {
         for (var timer in timers[state]) {
             timer->increment(timestep);
         }
+        
         for (var entity in frames[state]) {
             for (var otherEntity in frames[state]) {
                 guard(entity->onCollide && entity->willCollideWith(otherEntity, elapsed)) else { continue; }
@@ -113,12 +116,11 @@ Game::Game(std::string name) {
     SDL_GetCurrentDisplayMode(0, &displayMode);
     
     // Set screen size
-    window.pixels = Rectangle({0, 0}, {static_cast<float>(displayMode.w), static_cast<float>(displayMode.h)});
-    window.pixels = Rectangle({0, 0}, {640 * 2, 360 * 2});
-    float ortho_width = 8.0f;
-    float ortho_height = 4.5f;
-    projection.setOrthoProjection(-ortho_width, ortho_width, -ortho_height, ortho_height, -1.0f, 1.0f);
-    window.uv = Rectangle({-ortho_width, -ortho_height}, 2*ortho_width, 2*ortho_height);
+//    window.pixels = Rectangle({0, 0}, {static_cast<float>(displayMode.w), static_cast<float>(displayMode.h)});
+    window.pixels = Rectangle({0, 0}, aspectRatio * 80);
+    var ortho = aspectRatio * 0.5f;
+    projection.setOrthoProjection(-ortho.x, ortho.x, -ortho.y, ortho.y, -1.0f, 1.0f);
+    window.uv = Rectangle({-ortho.x, -ortho.y}, aspectRatio.x, aspectRatio.y);
     
     // Creates the window
     displayWindow = SDL_CreateWindow(name.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, window.pixels.width(), window.pixels.height(), SDL_WINDOW_OPENGL);

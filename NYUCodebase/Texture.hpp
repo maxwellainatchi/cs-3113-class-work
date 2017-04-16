@@ -30,10 +30,7 @@ public:
     
     Texture(std::string imageName);
     
-    
     void draw(ShaderProgram* shader, Rectangle vertices);
-    
-    void rotate(float angle);
 };
 
 #endif /* Texture_hpp */

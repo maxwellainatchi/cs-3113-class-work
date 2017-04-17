@@ -25,35 +25,35 @@ Rectangle(bottomLeft.x, topRight.x, bottomLeft.y, topRight.y) {}
 Rectangle::Rectangle(Point bottomLeft, float w, float h):
 Rectangle(bottomLeft.x, bottomLeft.x + w, bottomLeft.y, bottomLeft.y + h) {}
 
-Point Rectangle::bottomLeft() {
+Point Rectangle::bottomLeft() const {
     return {left, bottom};
 }
-Point Rectangle::bottomRight() {
+Point Rectangle::bottomRight() const {
     return {right, bottom};
 }
-Point Rectangle::topLeft() {
+Point Rectangle::topLeft() const {
     return {left, top};
 }
-Point Rectangle::topRight() {
+Point Rectangle::topRight() const {
     return {right, top};
 }
 
-Point Rectangle::center() {
+Point Rectangle::center() const {
     return {
         left + width() / 2.0f,
         bottom + height() / 2.0f
     };
 }
 
-float Rectangle::width() {
+float Rectangle::width() const {
     return right - left;
 }
 
-float Rectangle::height() {
+float Rectangle::height() const {
     return top - bottom;
 }
 
-float* Rectangle::resolveCoords(bool asTexture) {
+float* Rectangle::resolveCoords(bool asTexture) const {
     return new float[12] {
         // Lower triangle
         // Bottom Left
@@ -83,7 +83,7 @@ float* Rectangle::resolveCoords(bool asTexture) {
     };
 }
 
-Vec2 Rectangle::withoutness(Rectangle pen, bool fully) {
+Vec2 Rectangle::withoutness(Rectangle pen, bool fully) const {
     Vec2 without = {0, 0};
     var max = fully ? left : right;
     var min = fully ? right : left;
@@ -103,7 +103,7 @@ Vec2 Rectangle::withoutness(Rectangle pen, bool fully) {
     return without;
 }
 
-Vec2 Rectangle::penetration(Rectangle other) {
+Vec2 Rectangle::penetration(Rectangle other) const {
     Vec2 dist = {
         (float) fabs(center().x - other.center().x),
         (float) fabs(center().y - other.center().y)
@@ -114,7 +114,7 @@ Vec2 Rectangle::penetration(Rectangle other) {
     };
 }
 
-bool Rectangle::isWithin(Rectangle pen, bool fully) {
+bool Rectangle::isWithin(Rectangle pen, bool fully) const {
     var max = fully ? right : left;
     var min = fully ? left : right;
     guard (max < pen.right && min > pen.left) else { return false; }
@@ -125,13 +125,13 @@ bool Rectangle::isWithin(Rectangle pen, bool fully) {
     return true;
 }
 
-Rectangle Rectangle::operator+(const Vec2& offset) {
+Rectangle Rectangle::operator+(const Vec2& offset) const {
     Rectangle retVal(this);
     retVal += offset;
     return retVal;
 }
 
-Rectangle Rectangle::operator*(const Vec2 &offset) {
+Rectangle Rectangle::operator*(const Vec2 &offset) const {
     return {
         bottomLeft(),
         width() * offset.x,

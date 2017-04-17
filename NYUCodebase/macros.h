@@ -24,5 +24,7 @@
 #define EmptyInstantAction λ(){}
 #define EmptyTimedAction λ(float elapsed){}
 #define EmptyShaderAction λ(ShaderProgram* shader){}
+#define EmptyCollisionAction λ(Entity* entity, float elapsed){}
+#define EmptyStateAction λ(std::string state){}
 
 #endif /* macros_h */

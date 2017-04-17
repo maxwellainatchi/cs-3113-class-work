@@ -31,7 +31,7 @@ public:
     std::map<std::string, std::map<SDL_Scancode, std::function<void()>>> keyDownHandlers;
     std::map<std::string, std::map<SDL_Scancode, std::function<void()>>> keyUpHandlers;
     
-    void registerKeyHandler(SDL_Scancode code, std::vector<std::string> states, std::function<void()> handler, bool keyUp = false);
+    void registerKeyHandler(SDL_Scancode code, std::vector<State> states, InstantAction handler, bool keyUp = false);
 };
 
 #endif /* EventFramework_hpp */

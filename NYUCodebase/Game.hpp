@@ -77,7 +77,7 @@ public:
     TimedAction willUpdate;
 //    TimedAction didUpdate;
     
-    InstantAction willChangeState;
+    StateAction willChangeState;
 //    InstantAction didChangeState;
     
     InstantAction willRender;

@@ -35,6 +35,7 @@
     typedef std::function<void(void)> InstantAction;
     typedef std::function<void(float)> TimedAction;
     typedef std::function<void(ShaderProgram*)> ShaderAction;
+    typedef std::function<void(std::string)> StateAction;
     typedef std::function<bool(void)> Validator;
 
 #endif /* libraries_h */

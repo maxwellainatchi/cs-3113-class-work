@@ -32,23 +32,23 @@ public:
     
     Rectangle(Point bottomLeft, float w, float h);
     
-    Point bottomLeft();
-    Point bottomRight();
-    Point topLeft();
-    Point topRight();
-    Point center();
+    Point bottomLeft() const;
+    Point bottomRight() const;
+    Point topLeft() const;
+    Point topRight() const;
+    Point center() const;
     
-    Vec2 withoutness(Rectangle pen, bool fully);
-    Vec2 penetration(Rectangle other);
-    bool isWithin(Rectangle pen, bool fully = true);
+    Vec2 withoutness(Rectangle pen, bool fully) const;
+    Vec2 penetration(Rectangle other) const;
+    bool isWithin(Rectangle pen, bool fully = true) const;
     
-    float width();
-    float height();
+    float width() const;
+    float height() const;
     
-    float* resolveCoords(bool asTexture = false);
+    float* resolveCoords(bool asTexture = false) const;
     
-    Rectangle operator+(const Vec2& offset);
-    Rectangle operator*(const Vec2& offset);
+    Rectangle operator+(const Vec2& offset) const;
+    Rectangle operator*(const Vec2& offset) const;
     
     void operator+=(const Vec2& offset);
 };

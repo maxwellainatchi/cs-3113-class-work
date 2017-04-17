@@ -13,35 +13,35 @@ Texture::Texture() {
 }
 
 Texture::Texture(std::string imageName) {
-    this->imageName = imageName;
-    this->imagePath = std::string(IMAGE_FOLDER) + imageName;
+    self->imageName = imageName;
+    self->imagePath = std::string(IMAGE_FOLDER) + imageName;
     
     // Load image
     unsigned char* image = stbi_load(imagePath.c_str(), &w, &h, &comp, STBI_rgb_alpha);
-    if(image == NULL) {
+    guard (image) else {
         std::cout << "Unable to load image. Make sure the path is correct\n";
         loaded = false;
-    } else {
-        loaded = true;
-        // Generate texture ID
-        glGenTextures(1, &textureID);
-        
-        // Bind texture
-        glBindTexture(GL_TEXTURE_2D, textureID);
-        
-        // Set texture params
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0, GL_RGBA, GL_UNSIGNED_BYTE, image);
-        
-        // Set interpolation to linear
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-        
-        // Free memory
-        stbi_image_free(image);
-        
-        // Assign texture coordinates
-        fullSize();
+        return;
     }
+    loaded = true;
+    // Generate texture ID
+    glGenTextures(1, &textureID);
+    
+    // Bind texture
+    glBindTexture(GL_TEXTURE_2D, textureID);
+    
+    // Set texture params
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0, GL_RGBA, GL_UNSIGNED_BYTE, image);
+    
+    // Set interpolation to linear
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    
+    // Free memory
+    stbi_image_free(image);
+    
+    // Assign texture coordinates
+    fullSize();
 }
 
 void Texture::fullSize() {

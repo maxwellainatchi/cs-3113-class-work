@@ -147,7 +147,7 @@ Game::Game(std::string name) {
     willConfigure = EmptyInstantAction;
     willStart = EmptyInstantAction;
     willUpdate = EmptyTimedAction;
-    willChangeState = EmptyInstantAction;
+    willChangeState = EmptyStateAction;
     willRender = EmptyInstantAction;
     willEnd = EmptyInstantAction;
 }
@@ -176,7 +176,7 @@ void Game::start() {
 }
 
 void Game::changeState(State state) {
-    willChangeState();
+    willChangeState(state);
     for (var timer in timers[this->state]) {
         timer->stop();
     }

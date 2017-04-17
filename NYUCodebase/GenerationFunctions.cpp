@@ -10,6 +10,7 @@
 
 inline var WALL_IDENTIFIER = "wall";
 inline var TEXT_IDENTIFIER = "text";
+inline var PLAYER_IDENTIFIER = "player";
 
 namespace Generation {
     inline std::set<Entity*> generateWalls(Game* g, State state, bool hidden) {
@@ -99,5 +100,42 @@ namespace Generation {
             offset.y -= height;
         }
         return letters;
+    }
+    
+    inline Entity* generatePlayer(Game* g, State state, Rectangle area, float speed, ControlScheme scheme, std::function<CollisionAction(Entity*, Game*)> collision) {
+        Entity* player = new Entity();
+        player->willSetup = [=](){
+            player->identifier = PLAYER_IDENTIFIER;
+            player->texture = new Texture("whiteLine.png");
+            player->bounds = area;
+            for (var control in scheme) {
+                g->registerKeyHandler(control.second, {state}, [=]() {
+                    player->velocity = Vec2::directionVector(control.first) * speed;
+                });
+                g->registerKeyHandler(control.second, {state}, [=]() {
+                    player->velocity = {};
+                }, true);
+            }
+            player->onCollide = collision(player, g);
+        };
+        g->frames[state].insert(player);
+        return player;
+    }
+    
+    inline SpriteSheet* loadFont(std::string fontName, int rows, int cols, float xSpacing, std::string alphabet) {
+        var font = new SpriteSheet();
+        font->sheetName = fontName;
+        font->xSpacing = xSpacing;
+        for (int row = 0; row < rows; ++row) {
+            for (int col = 0; col < cols; ++col) {
+                let index = row * cols + col;
+                guard (index < alphabet.length()) else { return font; }
+                font->atlas.insert({
+                    std::string(1, alphabet[index]),
+                    {{1.f/16 * col, 1.f/16 * row}, 1.f/cols, 1.f/rows}
+                });
+            }
+        }
+        return font;
     }
 }

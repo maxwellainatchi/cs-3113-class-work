@@ -16,6 +16,8 @@
 
 class Entity {
 public:
+    std::string identifier;
+    
     Texture* texture;
     Matrix model;
     
@@ -46,6 +48,13 @@ public:
     Rectangle projectedPosition(float elapsed);
     Vec2 projectedVelocity(float elapsed);
 };
+
 typedef std::function<void(Entity*, float elapsed)> CollisionAction;
+
+struct SpriteSheet {
+    std::string sheetName;
+    std::map<std::string, Rectangle> atlas;
+    float xSpacing;
+};
 
 #endif /* Entity_hpp */

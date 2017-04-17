@@ -11,5 +11,6 @@
 
 #include "CollisionFunctions.cpp"
 #include "MovementFunctions.cpp"
+#include "GenerationFunctions.cpp"
 
 #endif /* functionlibraries_h */

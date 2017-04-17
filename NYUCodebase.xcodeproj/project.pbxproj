@@ -25,6 +25,8 @@
 		5051469F1EA1736000776CF4 /* Entity.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5051469D1EA1736000776CF4 /* Entity.cpp */; };
 		505146A21EA2D38D00776CF4 /* CollisionFunctions.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 505146A11EA2D38D00776CF4 /* CollisionFunctions.cpp */; };
 		505146A51EA3AE7000776CF4 /* MovementFunctions.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 505146A41EA3AE7000776CF4 /* MovementFunctions.cpp */; };
+		505146A71EA3C9F100776CF4 /* Pong.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 505146A61EA3C9F100776CF4 /* Pong.cpp */; };
+		505146A91EA3CFE100776CF4 /* GenerationFunctions.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 505146A81EA3CFE100776CF4 /* GenerationFunctions.cpp */; };
 		6D5A86AE19AE5C710066C1FD /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D5A86AD19AE5C710066C1FD /* Cocoa.framework */; };
 		6D5A86B819AE5C710066C1FD /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6D5A86B619AE5C710066C1FD /* InfoPlist.strings */; };
 		6D5A86BA19AE5C710066C1FD /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6D5A86B919AE5C710066C1FD /* main.cpp */; };
@@ -69,6 +71,8 @@
 		505146A11EA2D38D00776CF4 /* CollisionFunctions.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CollisionFunctions.cpp; sourceTree = "<group>"; };
 		505146A31EA3AE1E00776CF4 /* functionlibraries.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = functionlibraries.h; sourceTree = "<group>"; };
 		505146A41EA3AE7000776CF4 /* MovementFunctions.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MovementFunctions.cpp; sourceTree = "<group>"; };
+		505146A61EA3C9F100776CF4 /* Pong.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Pong.cpp; sourceTree = "<group>"; };
+		505146A81EA3CFE100776CF4 /* GenerationFunctions.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GenerationFunctions.cpp; sourceTree = "<group>"; };
 		6D5A86AA19AE5C710066C1FD /* NYUCodebase.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NYUCodebase.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6D5A86AD19AE5C710066C1FD /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		6D5A86B019AE5C710066C1FD /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -106,6 +110,7 @@
 			children = (
 				505146A11EA2D38D00776CF4 /* CollisionFunctions.cpp */,
 				505146A41EA3AE7000776CF4 /* MovementFunctions.cpp */,
+				505146A81EA3CFE100776CF4 /* GenerationFunctions.cpp */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -150,6 +155,7 @@
 			isa = PBXGroup;
 			children = (
 				505146821EA1092100776CF4 /* Texturey2.cpp */,
+				505146A61EA3C9F100776CF4 /* Pong.cpp */,
 			);
 			name = Games;
 			sourceTree = "<group>";
@@ -363,9 +369,11 @@
 				505146A21EA2D38D00776CF4 /* CollisionFunctions.cpp in Sources */,
 				6D5A86BA19AE5C710066C1FD /* main.cpp in Sources */,
 				5051469C1EA1725800776CF4 /* Vector.cpp in Sources */,
+				505146A71EA3C9F100776CF4 /* Pong.cpp in Sources */,
 				505146831EA1092100776CF4 /* Texturey2.cpp in Sources */,
 				505146951EA1724300776CF4 /* Texture.cpp in Sources */,
 				505146961EA1724300776CF4 /* Timer.cpp in Sources */,
+				505146A91EA3CFE100776CF4 /* GenerationFunctions.cpp in Sources */,
 				505146931EA1724300776CF4 /* EventFramework.cpp in Sources */,
 				505146941EA1724300776CF4 /* Game.cpp in Sources */,
 			);

@@ -35,50 +35,13 @@ namespace Games { namespace Texturey {
         g->timers[state].insert(movementTimer);
         g->frames[state].insert(animal);
     }
-    
-    inline void generateWalls(Game* g, State state) {
-        let wallWidth = 0.01f;
-        for (var i = 0; i < 4; ++i) {
-            var wall = new Entity();
-            switch (static_cast<Vec2::Direction>(i + 1)) {
-                case Vec2::left:
-                    wall->bounds = {
-                        g->window.uv.bottomLeft(),
-                        wallWidth, g->window.uv.height()
-                    };
-                    break;
-                case Vec2::right:
-                    wall->bounds = {
-                        g->window.uv.bottomRight(),
-                        -wallWidth, g->window.uv.height()
-                    };
-                    break;
-                case Vec2::down:
-                    wall->bounds = {
-                        g->window.uv.bottomLeft(),
-                        g->window.uv.width(), wallWidth
-                    };
-                    break;
-                case Vec2::up:
-                    wall->bounds = {
-                        g->window.uv.topLeft(),
-                        g->window.uv.width(), -wallWidth
-                    };
-                    break;
-                default: SDL_assert(false);
-            }
-            wall->texture = new Texture("blueLine.png");
-            //wall->hidden = true;
-            g->frames[state].insert(wall);
-        }
-    }
-    
+
     inline void setupGame(Game* game) {
         game->createState(RUNNING);
         for (var i = 0; i < 10; ++i) {
             generateAnimal(game, RUNNING);
         }
-        generateWalls(game, RUNNING);
+        Generation::generateWalls(game, RUNNING, false);
         game->changeState(RUNNING);
     }
     

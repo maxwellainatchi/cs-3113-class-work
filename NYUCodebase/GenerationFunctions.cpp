@@ -14,7 +14,8 @@ inline var PLAYER_IDENTIFIER = "player";
 
 namespace Generation {
     inline std::set<Entity*> generateWalls(Game* g, State state, bool hidden) {
-        let wallWidth = 0.01f;
+        let visiblePortion = 0.01f;
+        let wallWidth = 1.f;
         std::set<Entity*> retVal;
         for (var i = 0; i < 4; ++i) {
             var wall = new Entity();
@@ -22,26 +23,26 @@ namespace Generation {
                 switch (static_cast<Vec2::Direction>(i + 1)) {
                     case Vec2::left:
                         wall->bounds = {
-                            g->window.uv.bottomLeft(),
-                            wallWidth, g->window.uv.height()
+                            g->window.uv.bottomLeft() + Vec2(visiblePortion, 0.f),
+                            -wallWidth, g->window.uv.height()
                         };
                         break;
                     case Vec2::right:
                         wall->bounds = {
-                            g->window.uv.bottomRight(),
-                            -wallWidth, g->window.uv.height()
+                            g->window.uv.bottomRight() + Vec2(-visiblePortion, 0.f),
+                            wallWidth, g->window.uv.height()
                         };
                         break;
                     case Vec2::down:
                         wall->bounds = {
-                            g->window.uv.bottomLeft(),
-                            g->window.uv.width(), wallWidth
+                            g->window.uv.bottomLeft() + Vec2(0.f, visiblePortion),
+                            g->window.uv.width(), -wallWidth
                         };
                         break;
                     case Vec2::up:
                         wall->bounds = {
-                            g->window.uv.topLeft(),
-                            g->window.uv.width(), -wallWidth
+                            g->window.uv.topLeft() + Vec2(0.f, -visiblePortion),
+                            g->window.uv.width(), wallWidth
                         };
                         break;
                     default: SDL_assert(false);

@@ -8,9 +8,9 @@
 
 #include "Entity.hpp"
     
-bool Entity::willCollideWith(Entity* entity, float elapsed) {
+bool Entity::willCollideWith(Entity* entity, float elapsed, bool yOnly) {
     guard (entity != self && !intangible && !entity->intangible) else { return false; }
-    return projectedPosition(elapsed).isWithin(entity->projectedPosition(elapsed), false);
+    return projectedPosition(elapsed, yOnly).isWithin(entity->projectedPosition(elapsed, yOnly), false);
 }
 
 void Entity::setup() {
@@ -20,8 +20,8 @@ void Entity::setup() {
 void Entity::update(float elapsed) {
     weak_assert(!paused);
     willUpdate(elapsed);
-    velocity = projectedVelocity(elapsed);
-    bounds = projectedPosition(elapsed);
+    velocity = projectedVelocity(elapsed, false);
+    bounds = projectedPosition(elapsed, false);
 }
 
 void Entity::render(ShaderProgram* shader) {
@@ -39,11 +39,13 @@ Vec2 Entity::lerp(Vec2 v0, Vec2 v1, Vec2 t) {
     };
 }
 
-Rectangle Entity::projectedPosition(float elapsed) {
-    return bounds + projectedVelocity(elapsed) * elapsed;
+Rectangle Entity::projectedPosition(float elapsed, bool yOnly) {
+    return bounds + projectedVelocity(elapsed, yOnly) * elapsed;
 }
 
-Vec2 Entity::projectedVelocity(float elapsed) {
-    return lerp(velocity, {0, 0}, friction * elapsed) + (acceleration + gravity) * elapsed;
+Vec2 Entity::projectedVelocity(float elapsed, bool yOnly) {
+    var projVel = lerp(velocity, {0, 0}, friction * elapsed) + (acceleration + gravity) * elapsed;
+    if (yOnly) { projVel.x = 0; }
+    return projVel;
 }
 

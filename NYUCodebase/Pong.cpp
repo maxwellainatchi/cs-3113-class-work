@@ -43,7 +43,7 @@ namespace Games { namespace Pong {
             ball->onCollide = [=](Entity* entity, float elapsed){
                 guard (!(entity->identifier == WALL_IDENTIFIER &&
                          entity->bounds.height() == g->window.uv.height())) else { g->changeState(LOSE); return; }
-                Collisions::penCheck(ball, g)(entity, elapsed);
+                Collisions::penCheck(ball, g, Collisions::uncollide, Collisions::bounce)(entity, elapsed);
             };
         };
         g->frames[state].insert(ball);
@@ -59,7 +59,7 @@ namespace Games { namespace Pong {
         var playerCollisionDetection = [](Entity* entity, Game* g) -> CollisionAction {
             return [entity, g](Entity* other, float elapsed) {
                 guard (other->identifier == WALL_IDENTIFIER) else { return; }
-                Collisions::penCheck(entity, g)(other, elapsed);
+                Collisions::penCheck(entity, g, Collisions::uncollide, Collisions::nonresponsive)(other, elapsed);
             };
         };
         
@@ -86,7 +86,7 @@ namespace Games { namespace Pong {
                                                  /* With Speed: */      PLAYER_SPEED,
                                                  /* Controlled with: */ EventFramework::ControlSchemes::ArrowKeys_UPDOWN,
                                                  /* On Collision: */    playerCollisionDetection);
-        generatePongBall(g, RUNNING);
+        var ball = generatePongBall(g, RUNNING);
         
         // MARK: Paused
         g->createState(PAUSED);

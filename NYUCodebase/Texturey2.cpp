@@ -30,7 +30,7 @@ namespace Games { namespace Texturey {
             };
             movementTimer->action = Movements::randomDirection(animal, g, directionChangeProbability);
         };
-        animal->onCollide = Collisions::penCheck(animal, g);
+        animal->onCollide = Collisions::penCheck(animal, g, Collisions::uncollide, Collisions::bounce);
         
         g->timers[state].insert(movementTimer);
         g->frames[state].insert(animal);

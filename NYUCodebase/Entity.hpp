@@ -36,7 +36,7 @@ public:
     
     bool hidden, intangible, paused;
     
-    bool willCollideWith(Entity* entity, float elapsed);
+    bool willCollideWith(Entity* entity, float elapsed, bool yOnly);
     
     void setup();
     void update(float elapsed);
@@ -45,8 +45,8 @@ public:
     // MARK: Utility
     
     Vec2 lerp(Vec2 v0, Vec2 v1, Vec2 t);
-    Rectangle projectedPosition(float elapsed);
-    Vec2 projectedVelocity(float elapsed);
+    Rectangle projectedPosition(float elapsed, bool yOnly);
+    Vec2 projectedVelocity(float elapsed, bool yOnly);
 };
 
 typedef std::function<void(Entity*, float elapsed)> CollisionAction;

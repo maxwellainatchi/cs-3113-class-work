@@ -82,8 +82,13 @@ void Game::update(float elapsed) {
         
         for (var entity in frames[state]) {
             for (var otherEntity in frames[state]) {
-                guard(entity->onCollide && entity->willCollideWith(otherEntity, elapsed)) else { continue; }
-                entity->onCollide(otherEntity, elapsed);
+                guard (entity->willCollideWith(otherEntity, elapsed, false)) else { continue; }
+                if (entity->onCollide) {
+                    entity->onCollide(otherEntity, elapsed);
+                }
+                if (otherEntity->onCollide) {
+                    otherEntity->onCollide(entity, elapsed);
+                }
             }
             entity->update(timestep);
         }

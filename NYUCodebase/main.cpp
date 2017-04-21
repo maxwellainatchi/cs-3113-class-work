@@ -5,12 +5,14 @@
 
 #include "Texturey2.cpp"
 #include "Pong.cpp"
+#include "SpaceInvaders.cpp"
 
 // Enum value corresponds to HW number
 enum GameType: int {
     Texturey = 1,
     Pong = 2,
-    SpaceInvaders = 3
+    SpaceInvaders = 3,
+    Platformer = 4
 };
 
 int main(int argc, char *argv[]) {
@@ -22,6 +24,9 @@ int main(int argc, char *argv[]) {
             break;
         case Pong:
             Games::Pong::play();
+            break;
+        case SpaceInvaders:
+            Games::SpaceInvaders::play();
             break;
         default: SDL_assert(false);
     }

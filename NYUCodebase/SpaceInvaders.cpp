@@ -17,7 +17,7 @@ namespace Games { namespace SpaceInvaders {
     inline void setupGame(Game* g) {
         var playerCollisionDetection = [](Entity* entity, Game* g) -> CollisionAction {
             return [entity, g](Entity* other, float elapsed) {
-                guard (other->identifier == WALL_IDENTIFIER) else { return; }
+                guard (other->identifier == WALL_INFO.identifier) else { return; }
                 Collisions::penCheck(entity, g, Collisions::nah, Collisions::nonresponsive)(other, elapsed);
             };
         };

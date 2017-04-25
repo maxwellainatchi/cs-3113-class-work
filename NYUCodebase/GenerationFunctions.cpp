@@ -8,11 +8,19 @@
 
 #include "Game.hpp"
 
-inline var WALL_IDENTIFIER = "wall";
-inline var TEXT_IDENTIFIER = "text";
-inline var PLAYER_IDENTIFIER = "player";
+struct EntityInfo {
+    std::string identifier;
+    std::string textureName;
+};
+
+inline const EntityInfo WALL_INFO = {"wall", "blueLine.png"};
+inline const EntityInfo TEXT_INFO = {"text", ""};
+inline const EntityInfo PLAYER_INFO = {"player", "whiteLine.png"};
+inline const EntityInfo BULLET_INFO = {"bullet", "whiteLine.png"};
 
 namespace Generation {
+    // MARK: - Static entities
+    
     inline std::set<Entity*> generateWalls(Game* g, State state, bool hidden) {
         let visiblePortion = 0.01f;
         let wallWidth = 1.f;
@@ -47,9 +55,9 @@ namespace Generation {
                         break;
                     default: SDL_assert(false);
                 }
-                wall->texture = new Texture("blueLine.png");
+                wall->texture = new Texture(WALL_INFO.textureName);
                 wall->hidden = hidden;
-                wall->identifier = WALL_IDENTIFIER;
+                wall->identifier = WALL_INFO.identifier;
             };
             g->frames[state].insert(wall);
             retVal.insert(wall);
@@ -61,7 +69,7 @@ namespace Generation {
         var letter = new Entity();
         letter->willSetup = [=]() {
             letter->texture = new Texture(font->sheetName);
-            letter->identifier = TEXT_IDENTIFIER;
+            letter->identifier = TEXT_INFO.identifier;
             letter->intangible = true;
             var coords = font->atlas.find(std::string(1,c));
             guard (coords != font->atlas.end()) else { letter->texture->loaded = false; return; }
@@ -103,11 +111,13 @@ namespace Generation {
         return letters;
     }
     
+    // MARK: - Dynamic Entities
+    
     inline Entity* generatePlayer(Game* g, State state, Rectangle area, float speed, ControlScheme scheme, std::function<CollisionAction(Entity*, Game*)> collision) {
         Entity* player = new Entity();
         player->willSetup = [=](){
-            player->identifier = PLAYER_IDENTIFIER;
-            player->texture = new Texture("whiteLine.png");
+            player->identifier = PLAYER_INFO.identifier;
+            player->texture = new Texture(PLAYER_INFO.textureName);
             player->bounds = area;
             for (var control in scheme) {
                 g->registerKeyHandler(control.second, {state}, [=]() {

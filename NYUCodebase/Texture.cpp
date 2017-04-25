@@ -13,8 +13,8 @@ Texture::Texture() {
 }
 
 Texture::Texture(std::string imageName) {
-    self->imageName = imageName;
-    self->imagePath = std::string(IMAGE_FOLDER) + imageName;
+    self.imageName = imageName;
+    self.imagePath = std::string(IMAGE_FOLDER) + imageName;
     
     // Load image
     unsigned char* image = stbi_load(imagePath.c_str(), &w, &h, &comp, STBI_rgb_alpha);

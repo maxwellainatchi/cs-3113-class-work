@@ -48,11 +48,11 @@ void Vec2::operator*=(const Vec2& rhs) {
 }
 
 Vec2 Vec2::operator*(float scalar) {
-    return *self * Vec2(scalar);
+    return self * Vec2(scalar);
 }
 
 void Vec2::operator*=(float scalar) {
-    *self *= Vec2(scalar);
+    self *= Vec2(scalar);
 }
 
 Vec2 Vec2::operator+(const Vec2& rhs) {

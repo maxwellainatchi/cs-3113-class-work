@@ -19,7 +19,7 @@
 #define cstatic constexpr static
 #define λ [&]
 #define selector(x) λ() {(x)();}
-#define self this
+#define self (*this)
 
 #define EmptyInstantAction λ(){}
 #define EmptyTimedAction λ(float elapsed){}

@@ -7,9 +7,12 @@
 //
 
 #include "Entity.hpp"
+
+Entity::Entity() {}
+Entity::Entity(Texture* texture, Rectangle bounds): texture(texture), bounds(bounds) {}
     
 bool Entity::willCollideWith(Entity* entity, float elapsed, bool yOnly) {
-    guard (entity != self && !intangible && !entity->intangible) else { return false; }
+    guard (entity != this && !intangible && !entity->intangible) else { return false; }
     return projectedPosition(elapsed, yOnly).isWithin(entity->projectedPosition(elapsed, yOnly), false);
 }
 

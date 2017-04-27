@@ -35,8 +35,11 @@ public:
     void operator*=(float scalar);
     Vec2 operator+(const Vec2& rhs);
     void operator+=(const Vec2& rhs);
+    Vec2 operator+(float scalar);
+    void operator+=(float scalar);
     Vec2 operator-(const Vec2& rhs);
     void operator-=(const Vec2& rhs);
+    Vec2 operator-(float scalar);
 };
 typedef Vec2 Point;
 

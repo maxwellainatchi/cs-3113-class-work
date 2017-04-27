@@ -33,7 +33,7 @@ namespace Games { namespace Pong {
         Entity* ball = new Entity();
         ball->willSetup = [=]() {
             ball->texture = new Texture("whiteLine.png");
-            ball->identifier = BALL_IDENTIFIER;
+            ball->category = BALL_IDENTIFIER;
             ball->bounds = {
                 g->window.uv.center() - BALL_SIZE * 0.5f,
                 BALL_SIZE.x,
@@ -41,12 +41,12 @@ namespace Games { namespace Pong {
             };
             ball->velocity = {BALL_SPEED};
             ball->onCollide = [=](Entity* entity, float elapsed){
-                guard (!(entity->identifier == WALL_INFO.identifier &&
+                guard (!(entity->category == WALL_INFO.category &&
                          entity->bounds.height() == g->window.uv.height())) else { g->changeState(LOSE); return; }
                 Collisions::penCheck(ball, g, Collisions::uncollide, Collisions::bounce)(entity, elapsed);
             };
         };
-        g->frames[state].insert(ball);
+        g->frames[state].push_back(ball);
         return ball;
     }
     
@@ -58,7 +58,7 @@ namespace Games { namespace Pong {
                                         /* Using String: */         alphabet);
         var playerCollisionDetection = [](Entity* entity, Game* g) -> CollisionAction {
             return [entity, g](Entity* other, float elapsed) {
-                guard (other->identifier == WALL_INFO.identifier) else { return; }
+                guard (other->category == WALL_INFO.category) else { return; }
                 Collisions::penCheck(entity, g, Collisions::uncollide, Collisions::nonresponsive)(other, elapsed);
             };
         };

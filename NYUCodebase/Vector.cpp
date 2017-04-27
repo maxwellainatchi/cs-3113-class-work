@@ -67,6 +67,17 @@ void Vec2::operator+=(const Vec2& rhs) {
     y += rhs.y;
 }
 
+Vec2 Vec2::operator+(float scalar) {
+    Vec2 retVal(self);
+    retVal += scalar;
+    return retVal;
+}
+
+void Vec2::operator+=(float scalar) {
+    self.x += cosf(self.angle()) * scalar;
+    self.y += sinf(self.angle()) * scalar;
+}
+
 Vec2 Vec2::operator-(const Vec2& rhs) {
     return {
         x - rhs.x,

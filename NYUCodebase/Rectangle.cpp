@@ -8,6 +8,16 @@
 
 #include "Rectangle.hpp"
 
+std::vector<Rectangle*> Rectangle::generateGrid(int rows, int cols) {
+    std::vector<Rectangle*> retVal;
+    repeat (row, rows) {
+        repeat (col, cols) {
+            retVal.push_back(new Rectangle({col/float(cols), 1 - row/float(rows)}, 1.f/cols, -1.f/rows));
+        }
+    }
+    return retVal;
+}
+
 Rectangle::Rectangle(): Rectangle(-0.5f, 0.5f, -0.5f, 0.5f) {}
 
 Rectangle::Rectangle(const Rectangle* r): Rectangle(r->left, r->right, r->bottom, r->top) {}
@@ -131,6 +141,13 @@ Rectangle Rectangle::operator+(const Vec2& offset) const {
     return retVal;
 }
 
+void Rectangle::operator+=(const Vec2 &offset) {
+    left += offset.x;
+    right += offset.x;
+    bottom += offset.y;
+    top += offset.y;
+}
+
 Rectangle Rectangle::operator*(const Vec2 &offset) const {
     return {
         bottomLeft(),
@@ -139,9 +156,8 @@ Rectangle Rectangle::operator*(const Vec2 &offset) const {
     };
 }
 
-void Rectangle::operator+=(const Vec2 &offset) {
-    left += offset.x;
-    right += offset.x;
-    bottom += offset.y;
-    top += offset.y;
+cstr Rectangle::debugDescription() {
+    cstr retVal = new char;
+    sprintf(retVal, "(x: (%f, %f), y: (%f, %f), size: (%f, %f))", left, right, bottom, top, width(), height());
+    return retVal;
 }

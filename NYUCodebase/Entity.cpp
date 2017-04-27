@@ -34,6 +34,17 @@ void Entity::render(ShaderProgram* shader) {
     texture->draw(shader, bounds);
 }
 
+std::string Entity::identifierForSimilarityLevel(SimilarityLevel level) {
+    switch (level) {
+        case ::category:
+            return self.category;
+        case ::type:
+            return self.type;
+        case ::name:
+            return self.name;
+    }
+}
+
 Vec2 Entity::lerp(Vec2 v0, Vec2 v1, Vec2 t) {
     return {
         // I hate this syntax but I have no choice

@@ -9,7 +9,7 @@
 #include "Game.hpp"
 
 struct EntityInfo {
-    std::string identifier;
+    std::string category;
     std::string textureName;
 };
 
@@ -17,6 +17,7 @@ inline const EntityInfo WALL_INFO = {"wall", "blueLine.png"};
 inline const EntityInfo TEXT_INFO = {"text", ""};
 inline const EntityInfo PLAYER_INFO = {"player", "whiteLine.png"};
 inline const EntityInfo BULLET_INFO = {"bullet", "whiteLine.png"};
+inline const EntityInfo ENEMY_INFO = {"enemy", "blueLine.png"};
 
 namespace Generation {
     // MARK: - Static entities
@@ -57,9 +58,9 @@ namespace Generation {
                 }
                 wall->texture = new Texture(WALL_INFO.textureName);
                 wall->hidden = hidden;
-                wall->identifier = WALL_INFO.identifier;
+                wall->category = WALL_INFO.category;
             };
-            g->frames[state].insert(wall);
+            g->frames[state].push_back(wall);
             retVal.insert(wall);
         }
         return retVal;
@@ -69,7 +70,7 @@ namespace Generation {
         var letter = new Entity();
         letter->willSetup = [=]() {
             letter->texture = new Texture(font->sheetName);
-            letter->identifier = TEXT_INFO.identifier;
+            letter->category = TEXT_INFO.category;
             letter->intangible = true;
             var coords = font->atlas.find(std::string(1,c));
             guard (coords != font->atlas.end()) else { letter->texture->loaded = false; return; }
@@ -77,7 +78,7 @@ namespace Generation {
             letter->bounds = {pen.topLeft() + offset, height, -height};
             guard(letter->bounds.bottom > pen.bottom) else { letter->hidden = true; }
         };
-        g->frames[state].insert(letter);
+        g->frames[state].push_back(letter);
         return letter;
     }
     
@@ -115,23 +116,46 @@ namespace Generation {
     
     inline Entity* generatePlayer(Game* g, State state, Rectangle area, float speed, ControlScheme scheme, std::function<CollisionAction(Entity*, Game*)> collision) {
         Entity* player = new Entity();
-        player->willSetup = [=](){
-            player->identifier = PLAYER_INFO.identifier;
-            player->texture = new Texture(PLAYER_INFO.textureName);
-            player->bounds = area;
-            for (var control in scheme) {
-                g->registerKeyHandler(control.second, {state}, [=]() {
-                    player->velocity = Vec2::directionVector(control.first) * speed;
-                });
-                g->registerKeyHandler(control.second, {state}, [=]() {
-                    player->velocity = {};
-                }, true);
-            }
-            player->onCollide = collision(player, g);
-        };
-        g->frames[state].insert(player);
+        player->category = PLAYER_INFO.category;
+        player->texture = new Texture(PLAYER_INFO.textureName);
+        player->bounds = area;
+        for (var control in scheme) {
+            g->registerKeyHandler(control.second, {state}, [=]() {
+                player->velocity = Vec2::directionVector(control.first) * speed;
+            });
+            g->registerKeyHandler(control.second, {state}, [=]() {
+                player->velocity = {};
+            }, true);
+        }
+        player->onCollide = collision(player, g);
+        g->frames[state].push_back(player);
         return player;
     }
+    
+    inline Entity* configureAndInsertBullet(Game* g, State state, Entity* bullet, Entity* from, SimilarityLevel level, Vec2::Direction d, float speed, std::function<CollisionAction(Entity*, Game*)> collision) {
+        bullet->category = BULLET_INFO.category;
+        bullet->texture = new Texture(BULLET_INFO.textureName);
+        bullet->velocity = Vec2::directionVector(d) * speed;
+        bullet->bounds = {
+            {from->bounds.center().x, from->bounds.top + SMALL_AMOUNT},
+            0.05f,
+            0.25f
+        };
+        bullet->onCollide = [=](Entity* other, float elapsed) {
+            guard (other->category != WALL_INFO.category) else {
+                bullet->hidden = true;
+                bullet->intangible = true;
+                bullet->paused = true;
+                return;
+            }
+            guard ( other->identifierForSimilarityLevel(level) != from->identifierForSimilarityLevel(level)) else { return; }
+            collision(bullet, g)(other, elapsed);
+        };
+        g->frames[RUNNING].push_back(bullet);
+        return bullet;
+    }
+    
+    // MARK: - Helper functions
     
     inline SpriteSheet* loadFont(std::string fontName, int rows, int cols, float xSpacing, std::string alphabet) {
         var font = new SpriteSheet();

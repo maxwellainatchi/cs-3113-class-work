@@ -14,9 +14,13 @@
 #include "Texture.hpp"
 #include "Matrix.h"
 
+enum SimilarityLevel { category, type, name };
+
 class Entity {
 public:
-    std::string identifier;
+    std::string category;
+    std::string type;
+    std::string name;
     
     Texture* texture;
     Matrix model;
@@ -36,6 +40,9 @@ public:
     
     bool hidden, intangible, paused;
     
+    Entity();
+    Entity(Texture* texture, Rectangle bounds);
+    
     bool willCollideWith(Entity* entity, float elapsed, bool yOnly);
     
     void setup();
@@ -44,6 +51,7 @@ public:
     
     // MARK: Utility
     
+    std::string identifierForSimilarityLevel(SimilarityLevel level);
     Vec2 lerp(Vec2 v0, Vec2 v1, Vec2 t);
     Rectangle projectedPosition(float elapsed, bool yOnly);
     Vec2 projectedVelocity(float elapsed, bool yOnly);

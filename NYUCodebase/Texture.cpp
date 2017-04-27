@@ -44,6 +44,10 @@ Texture::Texture(std::string imageName) {
     fullSize();
 }
 
+Texture::Texture(std::string imageName, Rectangle coords): Texture(imageName) {
+    self.coords = coords;
+}
+
 void Texture::fullSize() {
     coords = Rectangle({{0.0f, 0.0f}, 1.0f, 1.0f});
 }

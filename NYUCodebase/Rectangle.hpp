@@ -17,6 +17,8 @@
 //TODO: Use matrices bc efficiency
 class Rectangle {
 public:
+    static std::vector<Rectangle*> generateGrid(int rows, int cols);
+    
     float left;
     float right;
     float bottom;
@@ -48,9 +50,10 @@ public:
     float* resolveCoords(bool asTexture = false) const;
     
     Rectangle operator+(const Vec2& offset) const;
+    void operator+=(const Vec2& offset);
     Rectangle operator*(const Vec2& offset) const;
     
-    void operator+=(const Vec2& offset);
+    cstr debugDescription();
 };
 
 #endif /* Coordinates_hpp */

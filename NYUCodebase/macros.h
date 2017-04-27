@@ -16,10 +16,12 @@
 #define var auto
 #define let const auto
 #define in :
+#define repeat(varName, x) for (int varName = 0; varName < (x); ++varName)
 #define cstatic constexpr static
 #define λ [&]
 #define selector(x) λ() {(x)();}
 #define self (*this)
+#define cstr char*
 
 #define EmptyInstantAction λ(){}
 #define EmptyTimedAction λ(float elapsed){}

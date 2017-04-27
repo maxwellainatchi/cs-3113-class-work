@@ -37,5 +37,6 @@
     typedef std::function<void(ShaderProgram*)> ShaderAction;
     typedef std::function<void(std::string)> StateAction;
     typedef std::function<bool(void)> Validator;
+    inline float SMALL_AMOUNT = 0.001f;
 
 #endif /* libraries_h */

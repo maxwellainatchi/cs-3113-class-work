@@ -27,8 +27,8 @@ public:
     bool loaded;
     
     Texture();
-    
     Texture(std::string imageName);
+    Texture(std::string imageName, Rectangle coords);
     
     void draw(ShaderProgram* shader, Rectangle vertices);
 };

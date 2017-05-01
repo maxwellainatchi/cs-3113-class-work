@@ -193,5 +193,5 @@ void Game::changeState(State state) {
 }
 
 void Game::createState(State name) {
-    frames[name] = std::vector<Entity*>();
+    frames[name] = std::set<Entity*>();
 }

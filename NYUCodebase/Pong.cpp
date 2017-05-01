@@ -46,7 +46,7 @@ namespace Games { namespace Pong {
                 Collisions::penCheck(ball, g, Collisions::uncollide, Collisions::bounce)(entity, elapsed);
             };
         };
-        g->frames[state].push_back(ball);
+        g->frames[state].insert(ball);
         return ball;
     }
     

@@ -32,8 +32,8 @@ namespace Games { namespace Texturey {
         };
         animal->onCollide = Collisions::penCheck(animal, g, Collisions::uncollide, Collisions::bounce);
         
-        g->timers[state].push_back(movementTimer);
-        g->frames[state].push_back(animal);
+        g->timers[state].insert(movementTimer);
+        g->frames[state].insert(animal);
     }
 
     inline void setupGame(Game* game) {

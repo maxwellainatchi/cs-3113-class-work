@@ -60,7 +60,7 @@ namespace Generation {
                 wall->hidden = hidden;
                 wall->category = WALL_INFO.category;
             };
-            g->frames[state].push_back(wall);
+            g->frames[state].insert(wall);
             retVal.insert(wall);
         }
         return retVal;
@@ -78,7 +78,7 @@ namespace Generation {
             letter->bounds = {pen.topLeft() + offset, height, -height};
             guard(letter->bounds.bottom > pen.bottom) else { letter->hidden = true; }
         };
-        g->frames[state].push_back(letter);
+        g->frames[state].insert(letter);
         return letter;
     }
     
@@ -128,7 +128,7 @@ namespace Generation {
             }, true);
         }
         player->onCollide = collision(player, g);
-        g->frames[state].push_back(player);
+        g->frames[state].insert(player);
         return player;
     }
     
@@ -151,7 +151,7 @@ namespace Generation {
             guard ( other->identifierForSimilarityLevel(level) != from->identifierForSimilarityLevel(level)) else { return; }
             collision(bullet, g)(other, elapsed);
         };
-        g->frames[RUNNING].push_back(bullet);
+        g->frames[RUNNING].insert(bullet);
         return bullet;
     }
     

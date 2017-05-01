@@ -53,8 +53,8 @@ private:
     void render();
 public:
     // MARK: - Public
-    std::map<std::string, std::vector<Entity*>> frames;
-    std::map<std::string, std::vector<Timer*>> timers;
+    std::map<std::string, std::set<Entity*>> frames;
+    std::map<std::string, std::set<Timer*>> timers;
     
     Matrix model;
     Matrix projection;

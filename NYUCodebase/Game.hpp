@@ -61,6 +61,7 @@ public:
     Matrix view;
     
     Window window;
+    Rectangle innerBounds;
     std::string state;
     
     Game(std::string name);

@@ -8,7 +8,7 @@
 
 #include "Timer.hpp"
 
-Timer::Timer(float interval): interval(interval) {}
+Timer::Timer(float interval, InstantAction action): interval(interval), action(action) {}
 
 void Timer::start() {
     state = Timer::STARTED;

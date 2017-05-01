@@ -16,7 +16,9 @@ namespace Games { namespace SpaceInvaders {
     
     inline void setupGame(Game* g) {
         var spriteSheet = Rectangle::generateGrid(1, 3);
-        var enemyGrid = Rectangle::generateGrid(5, 8, {3, -3}, {.5f, .2f});
+        var numRows = 5, numCols = 8;
+        Vec2 enemySize = {3,-3}, enemyPadding = {.5f, .2f};
+        var enemyGrid = Rectangle::generateGrid(numRows, numCols, enemySize, enemyPadding);
         
         var playerCollisionDetection = [](Entity* entity, Game* g) -> CollisionAction {
             return [entity, g](Entity* other, float elapsed) {
@@ -40,6 +42,8 @@ namespace Games { namespace SpaceInvaders {
                                                  /* On Collision: */    playerCollisionDetection);
         player1->texture = new Texture("invaderssheetnew.png", spriteSheet[0][2]);
         
+        var queueEnemyDownwardMovement = new bool(false);
+        var queueEnemyReverseVelocity = new bool(false);
         std::vector<Entity*> enemies;
         for (int row = 0; row < enemyGrid.size(); ++row) {
             for (int col = 0; col < enemyGrid[row].size(); ++col) {
@@ -47,12 +51,40 @@ namespace Games { namespace SpaceInvaders {
                 enemy->category = "enemy";
                 enemy->name = "("+std::to_string(row)+","+std::to_string(col)+")";
                 enemy->bounds = enemyGrid[row][col];
-                enemy->bounds += {-g->window.uv.width()/2.f + 0.1f, g->window.uv.height()/2.f - 0.2f};
+                enemy->bounds += {-g->window.uv.width()/2.f + 0.5f, g->window.uv.height()/2.f - 0.5f};
+                enemy->paused = true;
+                enemy->velocity = {20.f, 0.f};
                 enemy->texture = new Texture("invaderssheetnew.png", spriteSheet[0][1]);
+                enemy->willUpdate = [=](float elapsed) {
+                    if (!enemy->paused) {
+                        enemy->paused = true;
+                    }
+                    if (*queueEnemyReverseVelocity) {
+                        enemy->velocity.x *= -1;
+                        enemy->bounds = enemy->projectedPosition(ℹ︎(elapsed:) elapsed, ℹ︎(yOnly:) false);
+                    }
+                    if (*queueEnemyDownwardMovement) enemy->velocity.y = (enemySize.y + enemyPadding.y) * 5;
+                    else enemy->velocity.y = 0;
+                };
+                enemy->onCollide = [=](Entity* other, float elapsed) {
+                    guard (other->category == WALL_INFO.category) else { return; }
+                    *queueEnemyReverseVelocity = true;
+                    *queueEnemyDownwardMovement = true;
+                };
                 g->frames[RUNNING].insert(enemy);
                 enemies.push_back(enemy);
             }
         }
+        
+        var enemyMovementTimer = new Timer(.05f, [=]() {
+            for (var enemy in enemies) {
+                enemy->paused = false;
+            }
+            // Timer happens before collision detection, so this will be triggered next cycle
+            if (*queueEnemyDownwardMovement) *queueEnemyDownwardMovement = false;
+            if (*queueEnemyReverseVelocity) *queueEnemyReverseVelocity = false;
+        });
+        g->timers[RUNNING].insert(enemyMovementTimer);
         
         g->registerKeyHandler(SDL_SCANCODE_SPACE, {RUNNING}, [=]() {
             var bullet = new Entity();

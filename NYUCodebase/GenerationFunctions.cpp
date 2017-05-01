@@ -35,24 +35,28 @@ namespace Generation {
                             g->window.uv.bottomLeft() + Vec2(visiblePortion, 0.f),
                             -wallWidth, g->window.uv.height()
                         };
+                        g->innerBounds.left += visiblePortion;
                         break;
                     case Vec2::right:
                         wall->bounds = {
                             g->window.uv.bottomRight() + Vec2(-visiblePortion, 0.f),
                             wallWidth, g->window.uv.height()
                         };
+                        g->innerBounds.right -= visiblePortion;
                         break;
                     case Vec2::down:
                         wall->bounds = {
                             g->window.uv.bottomLeft() + Vec2(0.f, visiblePortion),
                             g->window.uv.width(), -wallWidth
                         };
+                        g->innerBounds.bottom += visiblePortion;
                         break;
                     case Vec2::up:
                         wall->bounds = {
                             g->window.uv.topLeft() + Vec2(0.f, -visiblePortion),
                             g->window.uv.width(), wallWidth
                         };
+                        g->innerBounds.top -= visiblePortion;
                         break;
                     default: SDL_assert(false);
                 }

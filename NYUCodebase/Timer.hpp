@@ -22,7 +22,7 @@ public:
     float elapsed;
     InstantAction action;
     
-    Timer(float interval);
+    Timer(float interval, InstantAction action = [](){});
     
     void start();
     void pause();

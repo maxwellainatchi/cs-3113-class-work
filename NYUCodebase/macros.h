@@ -22,6 +22,7 @@
 #define selector(x) λ() {(x)();}
 #define self (*this)
 #define cstr char*
+#define ℹ︎(varname)
 
 #define EmptyInstantAction λ(){}
 #define EmptyTimedAction λ(float elapsed){}

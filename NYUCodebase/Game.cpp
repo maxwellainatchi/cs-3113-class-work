@@ -126,6 +126,7 @@ Game::Game(std::string name) {
     var ortho = aspectRatio * 0.5f;
     projection.setOrthoProjection(-ortho.x, ortho.x, -ortho.y, ortho.y, -1.0f, 1.0f);
     window.uv = Rectangle({-ortho.x, -ortho.y}, aspectRatio.x, aspectRatio.y);
+    innerBounds = window.uv;
     
     // Creates the window
     displayWindow = SDL_CreateWindow(name.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, window.pixels.width(), window.pixels.height(), SDL_WINDOW_OPENGL);

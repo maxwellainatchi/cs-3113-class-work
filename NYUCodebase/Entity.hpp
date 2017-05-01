@@ -38,7 +38,7 @@ public:
     Vec2 friction;
     Vec2 gravity;
     
-    bool hidden, intangible, paused;
+    bool hidden = false, intangible = false, paused = false;
     
     Entity();
     Entity(Texture* texture, Rectangle bounds);

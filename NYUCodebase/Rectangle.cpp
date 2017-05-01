@@ -8,11 +8,15 @@
 
 #include "Rectangle.hpp"
 
-std::vector<Rectangle*> Rectangle::generateGrid(int rows, int cols) {
-    std::vector<Rectangle*> retVal;
+std::vector<std::vector<Rectangle*>> Rectangle::generateGrid(int rows, int cols, const Vec2& gridSize, const Vec2& padding) {
+    std::vector<std::vector<Rectangle*>> retVal;
     repeat (row, rows) {
+        retVal.push_back(std::vector<Rectangle*>());
         repeat (col, cols) {
-            retVal.push_back(new Rectangle({col/float(cols), 1 - row/float(rows)}, 1.f/cols, -1.f/rows));
+            retVal[row].push_back(new Rectangle({
+                (gridSize.x/float(cols) + padding.x) * col,
+                (1.f - row/float(rows)) * gridSize.y + padding.y * row
+            }, gridSize.x/cols, gridSize.y/rows));
         }
     }
     return retVal;

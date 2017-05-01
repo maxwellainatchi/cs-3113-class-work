@@ -16,6 +16,7 @@ namespace Games { namespace SpaceInvaders {
     
     inline void setupGame(Game* g) {
         var spriteSheet = Rectangle::generateGrid(1, 3);
+        var enemyGrid = Rectangle::generateGrid(5, 8, {3, -3}, {.5f, .2f});
         
         var playerCollisionDetection = [](Entity* entity, Game* g) -> CollisionAction {
             return [entity, g](Entity* other, float elapsed) {
@@ -37,7 +38,22 @@ namespace Games { namespace SpaceInvaders {
                                                  /* With Speed: */      PLAYER_SPEED,
                                                  /* Controlled with: */ EventFramework::ControlSchemes::ArrowKeys_LEFTRIGHT,
                                                  /* On Collision: */    playerCollisionDetection);
-        player1->texture = new Texture("invaderssheetnew.png", spriteSheet[2]);
+        player1->texture = new Texture("invaderssheetnew.png", spriteSheet[0][2]);
+        
+        std::vector<Entity*> enemies;
+        for (int row = 0; row < enemyGrid.size(); ++row) {
+            for (int col = 0; col < enemyGrid[row].size(); ++col) {
+                var enemy = new Entity();
+                enemy->category = "enemy";
+                enemy->name = "("+std::to_string(row)+","+std::to_string(col)+")";
+                enemy->bounds = enemyGrid[row][col];
+                enemy->bounds += {-g->window.uv.width()/2.f + 0.1f, g->window.uv.height()/2.f - 0.2f};
+                enemy->texture = new Texture("invaderssheetnew.png", spriteSheet[0][1]);
+                g->frames[RUNNING].insert(enemy);
+                enemies.push_back(enemy);
+            }
+        }
+        
         g->registerKeyHandler(SDL_SCANCODE_SPACE, {RUNNING}, [=]() {
             var bullet = new Entity();
             Generation::configureAndInsertBullet(g, RUNNING, bullet, player1, category, Vec2::Direction::up, 10.f, [](Entity* bullet, Game* g) {

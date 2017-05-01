@@ -17,7 +17,7 @@
 //TODO: Use matrices bc efficiency
 class Rectangle {
 public:
-    static std::vector<Rectangle*> generateGrid(int rows, int cols);
+    static std::vector<std::vector<Rectangle*>> generateGrid(int rows, int cols, const Vec2& gridSize = {1,1}, const Vec2& padding = {0,0});
     
     float left;
     float right;

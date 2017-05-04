@@ -2,34 +2,40 @@
 //  Texturey.cpp
 //  NYUCodebase
 //
-//  Created by Max Ainatchi on 2/16/17.
+//  Created by Max Ainatchi on 4/14/17.
 //  Copyright © 2017 Ivan Safrin. All rights reserved.
 //
 
-#include "Texturey.hpp"
+#include <stdio.h>
+
+#include "Game.hpp"
 
 namespace Games {
-    Texturey::Texturey() : Graphics::Game("Texturey") {}
-    
-    void Texturey::setup() {
-        //NOTE: Taz isn't working right now due to rotation being broken
+    namespace Texturey {
+        Entity* animal(Game* g) {
+            var animal = new Entity();
+            animal->setup = λ() {
+                animal->texture = Texture("picture.png");
+                animal->bounds = {{
+                    arc4random() * g->window.uv.width() + g->window.uv.left, arc4random() * g->window.uv.height() + g->window.uv.bottom
+                },  1, 1
+                };
+            };
+            //            animal->update = λ(float elapsed) {
+            //
+            //            };
+            return animal;
+        }
         
-        std::set<Entities::Entity*> frame;
+        Game* createGame() {
+            var game = new Game("Texturey");
+            game->frames[RUNNING].insert(animal(game));
+            return game;
+        }
         
-        // Add Entities to frame
-        frame.insert(new Entities::Sheep("thirdpicture.png", window.uv));
-        auto sheep = new Entities::Sheep("picture.png", window.uv);
-        frame.insert(sheep);
-        frame.insert(new Entities::Magician("otherpicture.png", window.uv));
-        
-        // Assign initial positions
-        Position::Vector2D size = {1,1};
-        sheep->setCoordinates({window.uv.bottomLeft(), size.x, size.y});
-        
-        frames[RUNNING] = frame;
-    }
-    
-    void Texturey::update(float elapsed) {
-        Game::update(elapsed);
+        void play() {
+            var game = createGame();
+            game->start();
+        }
     }
 }

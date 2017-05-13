@@ -8,23 +8,44 @@
 
 #include "Rectangle.hpp"
 
-std::vector<std::vector<Rectangle*>> Rectangle::generateGrid(int rows, int cols, const Vec2& gridSize, const Vec2& padding) {
-    std::vector<std::vector<Rectangle*>> retVal;
-    repeat (row, rows) {
-        retVal.push_back(std::vector<Rectangle*>());
-        repeat (col, cols) {
-            retVal[row].push_back(new Rectangle({
-                (gridSize.x/float(cols) + padding.x) * col,
-                (1.f - row/float(rows)) * gridSize.y + padding.y * row
-            }, gridSize.x/cols, gridSize.y/rows));
+// MARK: - Grid
+
+Grid::Grid(IntPair rowCol, IntPair pages, Size cellSize, Size offset, Size padding): rowCol(rowCol), pages(pages), cellSize(cellSize), offset(offset), padding(padding) {
+    Vector size = {
+        cellSize.x - padding.x,
+        cellSize.y - padding.y
+    };
+    repeat (row, rows()) {
+        repeat (col, cols()) {
+            Vector outerFrame = Vector(col, row) * cellSize;
+            Vector innerFrame = outerFrame + padding * 0.5f;
+            Vector origin = innerFrame + offset;
+            value.push_back(new Rectangle(origin, size.x, size.y));
         }
     }
-    return retVal;
 }
 
+Rectangle* Grid::operator[](const IntPair& position) const {
+    IntPair IJ(position - startIndex);
+    IJ.x %= rows();
+    IJ.y %= cols();
+    if (IJ.x < 0) { IJ.x += rows(); }
+    if (IJ.y < 0) { IJ.y += cols(); }
+    return value[IJ.x * cols() + IJ.y];
+}
+
+void Grid::addCol() {
+    repeat(row, rows()) {
+        *(self[{row, 0}]) += Vector(cols() * cellSize.x, 0);
+    }
+    self.startIndex.x += 1;
+}
+
+// TODO: Fix padding to fit in grid size
+// TODO: Add margins
 Rectangle::Rectangle(): Rectangle(-0.5f, 0.5f, -0.5f, 0.5f) {}
 
-Rectangle::Rectangle(const Rectangle* r): Rectangle(r->left, r->right, r->bottom, r->top) {}
+//Rectangle::Rectangle(const Rectangle* r): Rectangle(r->left, r->right, r->bottom, r->top) {}
 
 Rectangle::Rectangle(float left, float right, float bottom, float top) {
     this->left = std::min(left, right);
@@ -67,6 +88,10 @@ float Rectangle::height() const {
     return top - bottom;
 }
 
+float Rectangle::ratio() const {
+    return width()/height();
+}
+
 float* Rectangle::resolveCoords(bool asTexture) const {
     return new float[12] {
         // Lower triangle
@@ -97,8 +122,8 @@ float* Rectangle::resolveCoords(bool asTexture) const {
     };
 }
 
-Vec2 Rectangle::withoutness(Rectangle pen, bool fully) const {
-    Vec2 without = {0, 0};
+Vector Rectangle::withoutness(Rectangle pen, bool fully) const {
+    Vector without = {0, 0};
     var max = fully ? left : right;
     var min = fully ? right : left;
     if (max > pen.right) {
@@ -117,8 +142,8 @@ Vec2 Rectangle::withoutness(Rectangle pen, bool fully) const {
     return without;
 }
 
-Vec2 Rectangle::penetration(Rectangle other) const {
-    Vec2 dist = {
+Vector Rectangle::penetration(Rectangle other) const {
+    Vector dist = {
         (float) fabs(center().x - other.center().x),
         (float) fabs(center().y - other.center().y)
     };
@@ -139,20 +164,20 @@ bool Rectangle::isWithin(Rectangle pen, bool fully) const {
     return true;
 }
 
-Rectangle Rectangle::operator+(const Vec2& offset) const {
-    Rectangle retVal(this);
+Rectangle Rectangle::operator+(const Vector& offset) const {
+    Rectangle retVal(self);
     retVal += offset;
     return retVal;
 }
 
-void Rectangle::operator+=(const Vec2 &offset) {
+void Rectangle::operator+=(const Vector &offset) {
     left += offset.x;
     right += offset.x;
     bottom += offset.y;
     top += offset.y;
 }
 
-Rectangle Rectangle::operator*(const Vec2 &offset) const {
+Rectangle Rectangle::operator*(const Vector &offset) const {
     return {
         bottomLeft(),
         width() * offset.x,
@@ -160,8 +185,12 @@ Rectangle Rectangle::operator*(const Vec2 &offset) const {
     };
 }
 
-cstr Rectangle::debugDescription() {
-    cstr retVal = new char;
-    sprintf(retVal, "(x: (%f, %f), y: (%f, %f), size: (%f, %f))", left, right, bottom, top, width(), height());
-    return retVal;
+std::string Rectangle::debugDescription() {
+    return "(x: (" +
+    std::to_string(left) + ", " +
+    std::to_string(right) + "), y: (" +
+    std::to_string(bottom) + ", " +
+    std::to_string(top) + "), size: (" +
+    std::to_string(width()) + ", " +
+    std::to_string(height()) + "))";
 }

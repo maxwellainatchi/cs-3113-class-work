@@ -22,7 +22,10 @@ public:
     std::string type;
     std::string name;
     
+    IntPair rowCol = {0, 0};
+    
     Texture* texture;
+    Rectangle* coords;
     Matrix model;
     
     InstantAction willSetup = EmptyInstantAction;
@@ -33,15 +36,26 @@ public:
     
     Rectangle bounds;
     
-    Vec2 velocity;
-    Vec2 acceleration;
-    Vec2 friction;
-    Vec2 gravity;
+    Vector velocity;
+    Vector acceleration;
+    Vector friction;
+    Vector gravity;
+    
+    Vector oneOffVelocity;
+    Vector oneOffAcceleration;
+    Vector oneOffFriction;
+    Vector oneOffGravity;
+    
+    Vector direction; // TODO: move this somewhere, anywhere, else
     
     bool hidden = false, intangible = false, paused = false;
+    uint zOrder = 1;
     
     Entity();
     Entity(Texture* texture, Rectangle bounds);
+    Entity(SpriteSheet sheet, std::string name);
+    
+    void configureWithSpriteSheet(SpriteSheet sheet, std::string name);
     
     bool willCollideWith(Entity* entity, float elapsed, bool yOnly);
     
@@ -52,17 +66,12 @@ public:
     // MARK: Utility
     
     std::string identifierForSimilarityLevel(SimilarityLevel level);
-    Vec2 lerp(Vec2 v0, Vec2 v1, Vec2 t);
+    Vector lerp(Vector v0, Vector v1, Vector t);
     Rectangle projectedPosition(float elapsed, bool yOnly);
-    Vec2 projectedVelocity(float elapsed, bool yOnly);
+    Vector projectedVelocity(float elapsed, bool yOnly);
+    std::string debugDescription();
 };
 
 typedef std::function<void(Entity*, float elapsed)> CollisionAction;
-
-struct SpriteSheet {
-    std::string sheetName;
-    std::map<std::string, Rectangle> atlas;
-    float xSpacing;
-};
 
 #endif /* Entity_hpp */

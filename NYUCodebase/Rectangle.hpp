@@ -13,11 +13,43 @@
 #include "macros.h"
 #include "Vector.hpp"
 
+class Rectangle;
+
+// Todo: make generic
+class Grid {
+private:
+    // Underlying grid structure
+    typedef std::vector<Rectangle*> _Grid;
+    
+    // Defines the variable with private member access and a public getter
+    // Easy access control! (Again, Swift inspired).
+    getOnly(IntPair, rowCol);
+    getOnly(IntPair, pages);
+    getOnly(Size, cellSize);
+    getOnly(Size, offset);
+    getOnly(Size, padding);
+    getOnly(_Grid, value);
+public:
+    IntPair startIndex;
+    
+    Grid() {}
+    Grid(IntPair rowCol,
+         IntPair pages = {1},
+         Size cellSize = {1},
+         Size offset = {0},
+         Size padding = {0});
+    
+    int rows() const { return rowCol.x * pages.x; }
+    int cols() const { return rowCol.y * pages.y; }
+    Rectangle* operator[](const IntPair& position) const;
+    void operator[](int row) { SDL_assert(false); };
+    void addCol();
+};
+
 //TODO: Make coordinates contain both UV and XY
 //TODO: Use matrices bc efficiency
 class Rectangle {
 public:
-    static std::vector<std::vector<Rectangle*>> generateGrid(int rows, int cols, const Vec2& gridSize = {1,1}, const Vec2& padding = {0,0});
     
     float left;
     float right;
@@ -26,7 +58,7 @@ public:
     
     Rectangle();
     
-    Rectangle(const Rectangle* r);
+//    Rectangle(const Rectangle* r);
     
     Rectangle(float left, float right, float bottom, float top);
     
@@ -40,20 +72,21 @@ public:
     Point topRight() const;
     Point center() const;
     
-    Vec2 withoutness(Rectangle pen, bool fully) const;
-    Vec2 penetration(Rectangle other) const;
+    Vector withoutness(Rectangle pen, bool fully) const;
+    Vector penetration(Rectangle other) const;
     bool isWithin(Rectangle pen, bool fully = true) const;
     
     float width() const;
     float height() const;
+    float ratio() const;
     
     float* resolveCoords(bool asTexture = false) const;
     
-    Rectangle operator+(const Vec2& offset) const;
-    void operator+=(const Vec2& offset);
-    Rectangle operator*(const Vec2& offset) const;
+    Rectangle operator+(const Vector& offset) const;
+    void operator+=(const Vector& offset);
+    Rectangle operator*(const Vector& offset) const;
     
-    cstr debugDescription();
+    std::string debugDescription();
 };
 
 #endif /* Coordinates_hpp */

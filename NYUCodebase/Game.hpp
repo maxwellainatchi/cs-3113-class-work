@@ -11,6 +11,7 @@
 
 #define RUNNING "running"
 #define PAUSED "paused"
+#define LOADING "loading"
 #define FIXED_TIMESTEP 0.0166666f
 #define MAX_TIMESTEPS 6
 
@@ -18,11 +19,29 @@
 #include "resources.h"
 #include "objects.h"
 
+#include <pthread.h> // To be used with care...
+
+struct Frame {
+    std::set<Entity*> backgrounds;
+    std::set<Entity*> statics;
+    std::set<Entity*> dynamics;
+    // MARK: Combinations
+    std::set<Entity*> renderable;
+    std::set<Entity*> updateable;
+    std::set<Entity*> collideable;
+    std::set<Entity*> all;
+    // MARK: Setters
+    void insertBackground(Entity* entity);
+    void insertStatic(Entity* entity);
+    void insertDynamic(Entity* entity);
+    void clear();
+};
+
 class Game: public EventFramework {
 private:
     // MARK: - Config
     
-    Vec2 aspectRatio = {16.0f, 9.0f};
+    Vector aspectRatio = {16.0f, 9.0f};
     
     // MARK: - Private
     struct Window {
@@ -53,7 +72,9 @@ private:
     void render();
 public:
     // MARK: - Public
-    std::map<std::string, std::set<Entity*>> frames;
+    bool done = false;
+    
+    std::map<std::string, Frame> frames;
     std::map<std::string, std::set<Timer*>> timers;
     
     Matrix model;
@@ -90,6 +111,7 @@ public:
     
     // MARK: Utility methods
     
+    void showLoading(bool firstRun);
     void start();
     void changeState(State state);
     void createState(State name);

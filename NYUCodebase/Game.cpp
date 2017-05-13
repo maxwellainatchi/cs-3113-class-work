@@ -8,59 +8,105 @@
 
 #include "Game.hpp"
 
+// MARK: - Frame
+
+void Frame::insertBackground(Entity *entity) {
+    backgrounds.insert(entity);
+    renderable.insert(entity);
+    all.insert(entity);
+}
+
+void Frame::insertStatic(Entity *entity) {
+    statics.insert(entity);
+    renderable.insert(entity);
+    collideable.insert(entity);
+    all.insert(entity);
+}
+
+void Frame::insertDynamic(Entity *entity) {
+    dynamics.insert(entity);
+    renderable.insert(entity);
+    collideable.insert(entity);
+    updateable.insert(entity);
+    all.insert(entity);
+}
+
+void Frame::clear() {
+    backgrounds.clear();
+    statics.clear();
+    dynamics.clear();
+    renderable.clear();
+    updateable.clear();
+    collideable.clear();
+    all.clear();
+}
+
+// MARK: - Game
 // MARK: - Private
 
 // MARK: Stages of the game
 
 void Game::configure() {
     for (var frame in frames) {
-        for (var entity in frame.second) {
+        for (var entity in frame.second.all) {
             entity->setup();
         }
     }
 }
 
 void Game::loop() {
+    LOG("Game loop is beginning", INFO);
     SDL_Event event;
-    bool done = false;//, firstLoop = true;
+    done = false;//, firstLoop = true;
     lastFrameTicks = (float)SDL_GetTicks()/1000.0f;
     while (!done) {
+        LOG("Loop cycle", DBG);
 //        if (firstLoop) {didStart(); firstLoop = false;}
         
+        LOG("Checking event handlers", DBG);
+        DEBUG_TIME(true, "Event Handler Checking");
         while (SDL_PollEvent(&event)) {
-            switch (event.type) {
-                case SDL_QUIT: case SDL_WINDOWEVENT_CLOSE:
-                    done = true;
-                    willEnd();
-                    break;
-                case SDL_KEYDOWN: {
-                    var keycode = event.key.keysym.scancode;
-                    if (keyDownHandlers[state].count(keycode)) {
-                        keyDownHandlers[state][keycode]();
-                    }
-                    break;
+            if (event.type == SDL_QUIT || event.type == SDL_WINDOWEVENT_CLOSE) {
+                done = true;
+                willEnd();
+            } else if (event.type == SDL_KEYDOWN) {
+                var keycode = event.key.keysym.scancode;
+                if (keyDownHandlers[state].count(keycode)) {
+                    keyDownHandlers[state][keycode]();
                 }
-                case SDL_KEYUP: {
-                    var keycode = event.key.keysym.scancode;
-                    if (keyUpHandlers[state].count(keycode)) {
-                        keyUpHandlers[state][keycode]();
-                    }
-                    break;
+            } else if (event.type == SDL_KEYUP) {
+                var keycode = event.key.keysym.scancode;
+                if (keyUpHandlers[state].count(keycode)) {
+                    keyUpHandlers[state][keycode]();
                 }
             }
         }
+        const Uint8* keys = SDL_GetKeyboardState(NULL);
+        
+        for (var keyCode in continuousKeyPressHandlers[state]) {
+            if (keys[keyCode.first]) { keyCode.second(); }
+        }
+        
+        for (var keyCode in continuousKeyUnpressHandlers[state]) {
+            if (!keys[keyCode.first]) { keyCode.second(); }
+        }
+        
+        DEBUG_TIME(false, "Event Handler Checking", DBG);
         
         guard(!done) else { break; }
         
         thisFrameTicks = (float)SDL_GetTicks()/1000.0f;
-        let elapsed = thisFrameTicks - lastFrameTicks;
-        
+        var elapsed = thisFrameTicks - lastFrameTicks;
+        elapsed *= 2;
+        LOG("Elapsed", elapsed, DBG);
+        LOG("Updating", DBG);
         willUpdate(elapsed);
         update(elapsed);
 //        didUpdate(elapsed);
         
         lastFrameTicks = thisFrameTicks;
         
+        LOG("Rendering", DBG);
         willRender();
         render();
 //        didRender();
@@ -73,6 +119,7 @@ void Game::loop() {
 
 // TODO: Collision checking should activate both collision responses.
 void Game::update(float elapsed) {
+    DEBUG_TIME(true, "Update");
     var fixedElapsed = std::min(elapsed,MAX_TIMESTEPS*FIXED_TIMESTEP);
     while (fixedElapsed > 0) {
         let timestep = std::min(fixedElapsed, FIXED_TIMESTEP);
@@ -80,8 +127,10 @@ void Game::update(float elapsed) {
             timer->increment(timestep);
         }
         
-        for (var entity in frames[state]) {
-            for (var otherEntity in frames[state]) {
+        LOG("Checking collisions", DBG);
+        DEBUG_TIME(true, "Collision Detection");
+        for (var entity in frames[state].collideable) {
+            for (var otherEntity in frames[state].collideable) {
                 guard (entity->willCollideWith(otherEntity, elapsed, false)) else { continue; }
                 if (entity->onCollide) {
                     entity->onCollide(otherEntity, elapsed);
@@ -90,13 +139,19 @@ void Game::update(float elapsed) {
                     otherEntity->onCollide(entity, elapsed);
                 }
             }
+        }
+        DEBUG_TIME(false, "Collision Detection", DBG);
+        LOG("Enacting update", DBG);
+        for (var entity in frames[state].updateable) {
             entity->update(timestep);
         }
         fixedElapsed -= timestep;
     }
+    DEBUG_TIME(false, "Update", DBG);
 }
 
 void Game::render() {
+    DEBUG_TIME(true, "Render");
     willRender();
     shader->setProjectionMatrix(projection);
     shader->setViewMatrix(view);
@@ -105,15 +160,25 @@ void Game::render() {
     glClear(GL_COLOR_BUFFER_BIT);
     
     // Render all the things!
-    for (var entity in frames[state]) {
-        shader->setModelMatrix(entity->model);
+    LOG("Rendering background entities", NOID);
+    for (var entity in frames[state].backgrounds) {
         entity->render(shader);
     }
+    LOG("Rendering dynamic entities", NOID);
+    for (var entity in frames[state].dynamics) {
+        entity->render(shader);
+    }
+    LOG("Rendering static entities", NOID);
+    for (var entity in frames[state].statics) {
+        entity->render(shader);
+    }
+    DEBUG_TIME(false, "Render", DBG);
 }
 
 // MARK: - Public
 
 Game::Game(std::string name) {
+    DEBUG_TIME(true, "Init");
     // Initializes video display
     SDL_Init(SDL_INIT_VIDEO);
     
@@ -156,11 +221,13 @@ Game::Game(std::string name) {
     willChangeState = EmptyStateAction;
     willRender = EmptyInstantAction;
     willEnd = EmptyInstantAction;
+    
+    DEBUG_TIME(false, "Init", INFO);
 }
 
 Game::~Game() {
     for (var frame in frames) {
-        for (var entity in frame.second) {
+        for (var entity in frame.second.all) {
             delete entity;
         }
         frame.second.clear();
@@ -171,10 +238,20 @@ Game::~Game() {
 
 // MARK: Utility Methods
 
+void Game::showLoading(bool firstRun) {
+    this->state = LOADING;
+    for (var entity in frames[LOADING].all) {
+        entity->setup();
+    }
+}
+
 void Game::start() {
+    LOG("Game is starting", INFO);
+    DEBUG_TIME(true, "Entity Configuration");
     willConfigure();
     configure();
 //    didConfigure();
+    DEBUG_TIME(false, "Entity Configuration", INFO);
     
     willStart();
     loop();
@@ -182,6 +259,8 @@ void Game::start() {
 }
 
 void Game::changeState(State state) {
+    LOG("Changing state from " + self.state + " to " + state);
+    DEBUG_TIME(true, "State Change");
     willChangeState(state);
     for (var timer in timers[this->state]) {
         timer->stop();
@@ -191,8 +270,9 @@ void Game::changeState(State state) {
         timer->start();
     }
 //    didChangeState();
+    DEBUG_TIME(false, "State Change", DBG);
 }
 
 void Game::createState(State name) {
-    frames[name] = std::set<Entity*>();
+    frames[name] = Frame();
 }

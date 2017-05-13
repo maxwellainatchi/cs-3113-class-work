@@ -12,10 +12,10 @@
 #define LOSE "lose"
 
 namespace Games { namespace Pong {
-    inline Vec2 PLAYER_SIZE = {0.1f, 1.0f};
-    inline Vec2 PLAYER_PADDING = {0.2f, 0.1f};
+    inline Vector PLAYER_SIZE = {0.1f, 1.0f};
+    inline Vector PLAYER_PADDING = {0.2f, 0.1f};
     inline float PLAYER_SPEED = 3.f;
-    inline Vec2 BALL_SIZE = {0.1f};
+    inline Vector BALL_SIZE = {0.1f};
     inline float BALL_SPEED = 4.f;
     inline var BALL_IDENTIFIER = "ball";
 
@@ -46,7 +46,7 @@ namespace Games { namespace Pong {
                 Collisions::penCheck(ball, g, Collisions::uncollide, Collisions::bounce)(entity, elapsed);
             };
         };
-        g->frames[state].insert(ball);
+        g->frames[state].insertDynamic(ball);
         return ball;
     }
     
@@ -71,7 +71,7 @@ namespace Games { namespace Pong {
         
         var player1 = Generation::generatePlayer(/* With Game: */       g,
                                                  /* For State: */       RUNNING,
-                                                 /* In Area: */         {g->window.uv.topLeft() + Vec2(PLAYER_PADDING.x, -PLAYER_PADDING.y),
+                                                 /* In Area: */         {g->window.uv.topLeft() + Vector(PLAYER_PADDING.x, -PLAYER_PADDING.y),
                                                                         PLAYER_SIZE.x,
                                                                         -PLAYER_SIZE.y},
                                                  /* With Speed: */      PLAYER_SPEED,
@@ -80,7 +80,7 @@ namespace Games { namespace Pong {
         
         var player2 = Generation::generatePlayer(/* With Game: */       g,
                                                  /* For State: */       RUNNING,
-                                                 /* In Area: */         {g->window.uv.bottomRight() + Vec2(-PLAYER_PADDING.x, PLAYER_PADDING.y),
+                                                 /* In Area: */         {g->window.uv.bottomRight() + Vector(-PLAYER_PADDING.x, PLAYER_PADDING.y),
                                                                         -PLAYER_SIZE.x,
                                                                         PLAYER_SIZE.y},
                                                  /* With Speed: */      PLAYER_SPEED,

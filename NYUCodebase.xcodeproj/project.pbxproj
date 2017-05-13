@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		500A41F81EB8001100C9B56A /* Platformer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 500A41F71EB8001100C9B56A /* Platformer.cpp */; };
 		5031ED2F1E5C84E400B65702 /* Images in Resources */ = {isa = PBXBuildFile; fileRef = 5031ED2E1E5C84E400B65702 /* Images */; };
 		5031ED391E5C850A00B65702 /* fragment_textured.glsl in Resources */ = {isa = PBXBuildFile; fileRef = 5031ED301E5C850A00B65702 /* fragment_textured.glsl */; };
 		5031ED3A1E5C850A00B65702 /* fragment.glsl in Resources */ = {isa = PBXBuildFile; fileRef = 5031ED311E5C850A00B65702 /* fragment.glsl */; };
@@ -39,8 +40,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		500A41F71EB8001100C9B56A /* Platformer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = Platformer.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		5031ED2E1E5C84E400B65702 /* Images */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Images; sourceTree = "<group>"; };
-		5031ED301E5C850A00B65702 /* fragment_textured.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = fragment_textured.glsl; path = "Not Mine/fragment_textured.glsl"; sourceTree = "<group>"; };
+		5031ED301E5C850A00B65702 /* fragment_textured.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; lineEnding = 0; name = fragment_textured.glsl; path = "Not Mine/fragment_textured.glsl"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.glsl; };
 		5031ED311E5C850A00B65702 /* fragment.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = fragment.glsl; path = "Not Mine/fragment.glsl"; sourceTree = "<group>"; };
 		5031ED321E5C850A00B65702 /* Matrix.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Matrix.cpp; path = "Not Mine/Matrix.cpp"; sourceTree = "<group>"; };
 		5031ED331E5C850A00B65702 /* Matrix.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Matrix.h; path = "Not Mine/Matrix.h"; sourceTree = "<group>"; };
@@ -58,22 +60,22 @@
 		5051468B1EA1724300776CF4 /* EventFramework.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventFramework.cpp; sourceTree = "<group>"; };
 		5051468C1EA1724300776CF4 /* EventFramework.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = EventFramework.hpp; sourceTree = "<group>"; };
 		5051468D1EA1724300776CF4 /* Game.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Game.cpp; sourceTree = "<group>"; };
-		5051468E1EA1724300776CF4 /* Game.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Game.hpp; sourceTree = "<group>"; };
+		5051468E1EA1724300776CF4 /* Game.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; lineEnding = 0; path = Game.hpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		5051468F1EA1724300776CF4 /* Texture.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Texture.cpp; sourceTree = "<group>"; };
 		505146901EA1724300776CF4 /* Texture.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Texture.hpp; sourceTree = "<group>"; };
 		505146911EA1724300776CF4 /* Timer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Timer.cpp; sourceTree = "<group>"; };
 		505146921EA1724300776CF4 /* Timer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Timer.hpp; sourceTree = "<group>"; };
 		505146971EA1725800776CF4 /* Rectangle.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Rectangle.cpp; sourceTree = "<group>"; };
 		505146981EA1725800776CF4 /* Rectangle.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Rectangle.hpp; sourceTree = "<group>"; };
-		505146991EA1725800776CF4 /* Vector.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Vector.cpp; sourceTree = "<group>"; };
+		505146991EA1725800776CF4 /* Vector.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = Vector.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		5051469A1EA1725800776CF4 /* Vector.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Vector.hpp; sourceTree = "<group>"; };
-		5051469D1EA1736000776CF4 /* Entity.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Entity.cpp; sourceTree = "<group>"; };
-		5051469E1EA1736000776CF4 /* Entity.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Entity.hpp; sourceTree = "<group>"; };
-		505146A11EA2D38D00776CF4 /* CollisionFunctions.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CollisionFunctions.cpp; sourceTree = "<group>"; };
+		5051469D1EA1736000776CF4 /* Entity.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = Entity.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		5051469E1EA1736000776CF4 /* Entity.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; lineEnding = 0; path = Entity.hpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		505146A11EA2D38D00776CF4 /* CollisionFunctions.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = CollisionFunctions.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		505146A31EA3AE1E00776CF4 /* functionlibraries.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = functionlibraries.h; sourceTree = "<group>"; };
-		505146A41EA3AE7000776CF4 /* MovementFunctions.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MovementFunctions.cpp; sourceTree = "<group>"; };
+		505146A41EA3AE7000776CF4 /* MovementFunctions.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = MovementFunctions.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		505146A61EA3C9F100776CF4 /* Pong.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Pong.cpp; sourceTree = "<group>"; };
-		505146A81EA3CFE100776CF4 /* GenerationFunctions.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GenerationFunctions.cpp; sourceTree = "<group>"; };
+		505146A81EA3CFE100776CF4 /* GenerationFunctions.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = GenerationFunctions.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		505146AA1EA582ED00776CF4 /* SpaceInvaders.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SpaceInvaders.cpp; sourceTree = "<group>"; };
 		6D5A86AA19AE5C710066C1FD /* NYUCodebase.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NYUCodebase.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6D5A86AD19AE5C710066C1FD /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
@@ -159,6 +161,7 @@
 				505146821EA1092100776CF4 /* Texturey2.cpp */,
 				505146A61EA3C9F100776CF4 /* Pong.cpp */,
 				505146AA1EA582ED00776CF4 /* SpaceInvaders.cpp */,
+				500A41F71EB8001100C9B56A /* Platformer.cpp */,
 			);
 			name = Games;
 			sourceTree = "<group>";
@@ -378,6 +381,7 @@
 				505146961EA1724300776CF4 /* Timer.cpp in Sources */,
 				505146A91EA3CFE100776CF4 /* GenerationFunctions.cpp in Sources */,
 				505146931EA1724300776CF4 /* EventFramework.cpp in Sources */,
+				500A41F81EB8001100C9B56A /* Platformer.cpp in Sources */,
 				505146AB1EA582ED00776CF4 /* SpaceInvaders.cpp in Sources */,
 				505146941EA1724300776CF4 /* Game.cpp in Sources */,
 			);

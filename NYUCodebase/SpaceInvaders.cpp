@@ -10,20 +10,20 @@
 #include "functionlibraries.h"
 
 namespace Games { namespace SpaceInvaders {
-    inline Vec2 PLAYER_SIZE = {1.f, 1.f};
-    inline Vec2 PLAYER_PADDING = {0.2f, 0.1f};
+    inline Vector PLAYER_SIZE = {1.f, 1.f};
+    inline Vector PLAYER_PADDING = {0.2f, 0.1f};
     inline float PLAYER_SPEED = 3.f;
     
     inline void setupGame(Game* g) {
-        var spriteSheet = Rectangle::generateGrid(1, 3);
-        var numRows = 5, numCols = 8;
-        Vec2 enemySize = {3,-3}, enemyPadding = {.5f, .2f};
-        var enemyGrid = Rectangle::generateGrid(numRows, numCols, enemySize, enemyPadding);
+        var spriteSheet = Grid(IntPair(1,3));
+        IntPair enemyGridSize = {5, 8};
+        Vector enemySize = {3,-3}, enemyPadding = {.5f, .2f};
+        var enemyGrid = Grid(enemyGridSize, {1}, enemySize, enemyPadding);
         
         var playerCollisionDetection = [](Entity* entity, Game* g) -> CollisionAction {
             return [entity, g](Entity* other, float elapsed) {
                 guard (other->category == WALL_INFO.category) else { return; }
-                Collisions::penCheck(entity, g, Collisions::nah, Collisions::nonresponsive)(other, elapsed);
+                Collisions::penCheck(entity, g, Collisions::moveWithout, Collisions::stopDead)(other, elapsed);
             };
         };
         
@@ -40,28 +40,28 @@ namespace Games { namespace SpaceInvaders {
                                                  /* With Speed: */      PLAYER_SPEED,
                                                  /* Controlled with: */ EventFramework::ControlSchemes::ArrowKeys_LEFTRIGHT,
                                                  /* On Collision: */    playerCollisionDetection);
-        player1->texture = new Texture("invaderssheetnew.png", spriteSheet[0][2]);
+        player1->texture = new Texture("invaderssheetnew.png", *spriteSheet[{0, 2}]);
         
         var queueEnemyDownwardMovement = new bool(false);
         var queueEnemyReverseVelocity = new bool(false);
         std::vector<Entity*> enemies;
-        for (int row = 0; row < enemyGrid.size(); ++row) {
-            for (int col = 0; col < enemyGrid[row].size(); ++col) {
+        for (int row = 0; row < enemyGrid.rows(); ++row) {
+            for (int col = 0; col < enemyGrid.cols(); ++col) {
                 var enemy = new Entity();
                 enemy->category = "enemy";
                 enemy->name = "("+std::to_string(row)+","+std::to_string(col)+")";
-                enemy->bounds = enemyGrid[row][col];
+                enemy->bounds = *enemyGrid[{row, col}];
                 enemy->bounds += {-g->window.uv.width()/2.f + 0.5f, g->window.uv.height()/2.f - 0.5f};
                 enemy->paused = true;
                 enemy->velocity = {20.f, 0.f};
-                enemy->texture = new Texture("invaderssheetnew.png", spriteSheet[0][1]);
+                enemy->texture = new Texture("invaderssheetnew.png", *spriteSheet[{0, 1}]);
                 enemy->willUpdate = [=](float elapsed) {
                     if (!enemy->paused) {
                         enemy->paused = true;
                     }
                     if (*queueEnemyReverseVelocity) {
                         enemy->velocity.x *= -1;
-                        enemy->bounds = enemy->projectedPosition(ℹ︎(elapsed:) elapsed, ℹ︎(yOnly:) false);
+                        enemy->bounds = enemy->projectedPosition(elapsed, false);
                     }
                     if (*queueEnemyDownwardMovement) enemy->velocity.y = (enemySize.y + enemyPadding.y) * 5;
                     else enemy->velocity.y = 0;
@@ -71,7 +71,7 @@ namespace Games { namespace SpaceInvaders {
                     *queueEnemyReverseVelocity = true;
                     *queueEnemyDownwardMovement = true;
                 };
-                g->frames[RUNNING].insert(enemy);
+                g->frames[RUNNING].insertDynamic(enemy);
                 enemies.push_back(enemy);
             }
         }
@@ -88,7 +88,7 @@ namespace Games { namespace SpaceInvaders {
         
         g->registerKeyHandler(SDL_SCANCODE_SPACE, {RUNNING}, [=]() {
             var bullet = new Entity();
-            Generation::configureAndInsertBullet(g, RUNNING, bullet, player1, category, Vec2::Direction::up, 10.f, [](Entity* bullet, Game* g) {
+            Generation::configureAndInsertBullet(g, RUNNING, bullet, player1, category, Direction::up, 10.f, [](Entity* bullet, Game* g) {
                 return Collisions::penCheck(bullet, g, Collisions::uncollide, Collisions::bounce);
             });
         });

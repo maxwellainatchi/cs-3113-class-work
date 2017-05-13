@@ -33,4 +33,10 @@ public:
     void draw(ShaderProgram* shader, Rectangle vertices);
 };
 
+struct SpriteSheet {
+    Texture* sheet;
+    std::map<std::string, Rectangle> atlas;
+    float xSpacing;
+};
+
 #endif /* Texture_hpp */

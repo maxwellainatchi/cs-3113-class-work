@@ -18,41 +18,46 @@ namespace Collisions {
     // MARK: Preventions
     
     inline void uncollide(Entity* entity, Rectangle bounds, Rectangle otherBounds, bool y) {
-        let smallAmount = 0.0001f;
         var penetration = bounds.penetration(otherBounds);
-        var movement = Vec2();
+        var movement = Vector();
         float direction;
         if (y) {
             direction = -2 * (bounds.bottom < otherBounds.bottom) + 1;
-            movement.y = penetration.y + smallAmount;
+            movement.y = penetration.y + SMALL_AMOUNT;
         } else {
             direction = -2 * (bounds.left < otherBounds.left) + 1;
-            movement.x = penetration.x + smallAmount;
+            movement.x = penetration.x + SMALL_AMOUNT;
         }
         
         // Move the entity just outside the other entity
         entity->bounds += movement * direction;
     }
     
-    inline void nah(Entity* entity, Rectangle bounds, Rectangle otherBounds, bool y) {
-        let smallAmount = 0.0001f;
+    inline void moveWithout(Entity* entity, Rectangle bounds, Rectangle otherBounds, bool y) {
         var without = bounds.withoutness(otherBounds, true);
-        var movement = Vec2();
+        var movement = Vector();
         float direction;
         if (y) {
             direction = bounds.bottom > otherBounds.bottom ? 1 : -1;
-            movement.x = without.x + smallAmount * direction;
+            movement.x = without.x + SMALL_AMOUNT * direction;
         } else {
             direction = bounds.left > otherBounds.left ? 1 : -1;
-            movement.y = without.y + smallAmount * direction;
+            movement.y = without.y + SMALL_AMOUNT * direction;
         }
         entity->bounds += movement;
-        entity->velocity *= {(float)(!y), (float) y};
     }
     
     // MARK: Responses
     
     inline void nonresponsive(Entity* entity, bool y) {}
+    
+    inline void stopDead(Entity* entity, bool y) {
+        Vector neg = Vector((float)(!y), (float) (y)) * -1;
+        entity->oneOffVelocity = entity->velocity * neg;
+        entity->oneOffAcceleration = entity->acceleration * neg;
+        entity->oneOffFriction = entity->friction * neg;
+        entity->oneOffGravity = entity->gravity * neg;
+    }
     
     inline void bounce(Entity* entity, bool y) {
         entity->velocity *= {!y ? -1.f : 1.f, y ? -1.f : 1.f};

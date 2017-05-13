@@ -28,6 +28,7 @@
     #include <set>
     #include <algorithm>
     #include "Utils.cpp"
+    #include "TypeWrapper.cpp"
 
     #include "macros.h"
     typedef std::string State;

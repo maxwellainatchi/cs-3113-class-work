@@ -13,9 +13,11 @@
 #include "Rectangle.hpp"
 
 
-typedef std::map<Vec2::Direction, SDL_Scancode> ControlScheme;
+typedef std::map<Direction, SDL_Scancode> ControlScheme;
 
 class EventFramework {
+private:
+    typedef std::map<State, std::map<SDL_Scancode, InstantAction>> _keyHandlerRegistry;
 public:
     class ControlSchemes {
     public:
@@ -28,10 +30,14 @@ public:
         static const ControlScheme ArrowKeys_LEFTRIGHT;
     };
     
-    std::map<std::string, std::map<SDL_Scancode, std::function<void()>>> keyDownHandlers;
-    std::map<std::string, std::map<SDL_Scancode, std::function<void()>>> keyUpHandlers;
+    _keyHandlerRegistry keyDownHandlers;
+    _keyHandlerRegistry keyUpHandlers;
+    _keyHandlerRegistry continuousKeyPressHandlers;
+    _keyHandlerRegistry continuousKeyUnpressHandlers;
     
     void registerKeyHandler(SDL_Scancode code, std::vector<State> states, InstantAction handler, bool keyUp = false);
+    
+    void registerContinuousKeyHandler(SDL_Scancode code, std::vector<State> states, InstantAction handler, bool unpress = false);
 };
 
 #endif /* EventFramework_hpp */

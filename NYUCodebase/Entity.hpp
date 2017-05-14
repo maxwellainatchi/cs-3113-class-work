@@ -21,6 +21,7 @@ public:
     std::string category;
     std::string type;
     std::string name;
+    std::string animationState;
     
     IntPair rowCol = {0, 0};
     

@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		500548541EC79C0F0041EC5B /* SDL2_mixer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 500548531EC79C0F0041EC5B /* SDL2_mixer.framework */; };
+		500548561EC7B7BE0041EC5B /* Sound in Resources */ = {isa = PBXBuildFile; fileRef = 500548551EC7B7BE0041EC5B /* Sound */; };
 		500A41F81EB8001100C9B56A /* Platformer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 500A41F71EB8001100C9B56A /* Platformer.cpp */; };
 		5031ED2F1E5C84E400B65702 /* Images in Resources */ = {isa = PBXBuildFile; fileRef = 5031ED2E1E5C84E400B65702 /* Images */; };
 		5031ED391E5C850A00B65702 /* fragment_textured.glsl in Resources */ = {isa = PBXBuildFile; fileRef = 5031ED301E5C850A00B65702 /* fragment_textured.glsl */; };
@@ -40,6 +42,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		500548531EC79C0F0041EC5B /* SDL2_mixer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SDL2_mixer.framework; sourceTree = "<group>"; };
+		500548551EC7B7BE0041EC5B /* Sound */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Sound; sourceTree = "<group>"; };
 		500A41F71EB8001100C9B56A /* Platformer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = Platformer.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		5031ED2E1E5C84E400B65702 /* Images */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Images; sourceTree = "<group>"; };
 		5031ED301E5C850A00B65702 /* fragment_textured.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; lineEnding = 0; name = fragment_textured.glsl; path = "Not Mine/fragment_textured.glsl"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.glsl; };
@@ -100,6 +104,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6D5AC2D019AE6280004CB1BF /* OpenGL.framework in Frameworks */,
+				500548541EC79C0F0041EC5B /* SDL2_mixer.framework in Frameworks */,
 				6D5A86AE19AE5C710066C1FD /* Cocoa.framework in Frameworks */,
 				6D5A86E319AE5CD10066C1FD /* SDL2.framework in Frameworks */,
 				6D5AC2D219AE6A1E004CB1BF /* SDL2_image.framework in Frameworks */,
@@ -227,6 +232,7 @@
 		6D5A86AC19AE5C710066C1FD /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				500548531EC79C0F0041EC5B /* SDL2_mixer.framework */,
 				6D5AC2D119AE6A1E004CB1BF /* SDL2_image.framework */,
 				6D5AC2CF19AE6280004CB1BF /* OpenGL.framework */,
 				6D5A86E219AE5CD10066C1FD /* SDL2.framework */,
@@ -259,6 +265,7 @@
 		6D5A86B419AE5C710066C1FD /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				500548551EC7B7BE0041EC5B /* Sound */,
 				5031ED2E1E5C84E400B65702 /* Images */,
 				6D5A86C519AE5C710066C1FD /* Images.xcassets */,
 				6D5A86B519AE5C710066C1FD /* NYUCodebase-Info.plist */,
@@ -354,6 +361,7 @@
 				5031ED3A1E5C850A00B65702 /* fragment.glsl in Resources */,
 				6D5A86BE19AE5C710066C1FD /* Credits.rtf in Resources */,
 				5031ED3D1E5C850A00B65702 /* vertex_textured.glsl in Resources */,
+				500548561EC7B7BE0041EC5B /* Sound in Resources */,
 				5031ED3E1E5C850A00B65702 /* vertex.glsl in Resources */,
 				5031ED391E5C850A00B65702 /* fragment_textured.glsl in Resources */,
 			);
@@ -507,6 +515,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(LOCAL_LIBRARY_DIR)/Frameworks",
+					"$(PROJECT_DIR)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "";
@@ -532,6 +541,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(LOCAL_LIBRARY_DIR)/Frameworks",
+					"$(PROJECT_DIR)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "";

@@ -18,6 +18,7 @@
 #include "libraries.h"
 #include "resources.h"
 #include "objects.h"
+#include <SDL2_mixer/SDL_mixer.h>
 
 #include <pthread.h> // To be used with care...
 

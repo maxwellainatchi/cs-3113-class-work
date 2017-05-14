@@ -20,7 +20,7 @@ enum class GameType: int {
 
 int main(int argc, char *argv[]) {
     LOG("Starting Logger", INFO);
-    GameType current = GameType::Texturey;
+    GameType current = GameType::Platformer;
     if (argc > 1) current = static_cast<GameType>(atoi(argv[1]));
     switch (current) {
         case GameType::Texturey:
@@ -35,7 +35,7 @@ int main(int argc, char *argv[]) {
         case GameType::Platformer:
             Games::Platformer::play();
             break;
-        default: SDL_assert(false);
+        default: Games::Platformer::play();
     }
     return 0;
 }

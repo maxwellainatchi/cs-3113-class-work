@@ -96,8 +96,7 @@ void Game::loop() {
         guard(!done) else { break; }
         
         thisFrameTicks = (float)SDL_GetTicks()/1000.0f;
-        var elapsed = thisFrameTicks - lastFrameTicks;
-        elapsed *= 2;
+        let elapsed = thisFrameTicks - lastFrameTicks;
         LOG("Elapsed", elapsed, DBG);
         LOG("Updating", DBG);
         willUpdate(elapsed);
@@ -130,7 +129,7 @@ void Game::update(float elapsed) {
         LOG("Checking collisions", DBG);
         DEBUG_TIME(true, "Collision Detection");
         for (var entity in frames[state].collideable) {
-            for (var otherEntity in frames[state].collideable) {
+            for (var otherEntity in frames[state].dynamics) {
                 guard (entity->willCollideWith(otherEntity, elapsed, false)) else { continue; }
                 if (entity->onCollide) {
                     entity->onCollide(otherEntity, elapsed);
@@ -213,6 +212,10 @@ Game::Game(std::string name) {
     // Enable blending
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    
+    // Initialize audio
+    
+    Mix_OpenAudio( 44100, MIX_DEFAULT_FORMAT, 2, 4096 );
     
     // Setup default event listeners (doing nothing)
     willConfigure = EmptyInstantAction;
